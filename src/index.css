@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-scale: 1;
+    --color-bg-app: #f7f9f8;
+    --color-surface: #ffffff;
+    --color-text-main: #1e293b;
+    --color-text-muted: #64748b;
+    --color-border: #e2e8f0;
+  }
+
+  /* Accessible text scaling */
+  html.text-size-normal {
+    font-size: 16px;
+  }
+  html.text-size-large {
+    font-size: 18px;
+  }
+  html.text-size-xl {
+    font-size: 20px;
+  }
+
+  /* High contrast mode */
+  html.high-contrast {
+    --color-bg-app: #000000;
+    --color-surface: #121212;
+    --color-text-main: #ffffff;
+    --color-text-muted: #e2e8f0;
+    --color-border: #ffffff;
+    filter: contrast(1.25);
+  }
+
+  html.high-contrast body {
+    background-color: #050505;
+    color: #ffffff;
+  }
+
+  html.high-contrast .bg-white {
+    background-color: #121212 !important;
+    border-color: #ffffff !important;
+    color: #ffffff !important;
+  }
+
+  html.high-contrast .text-slate-600,
+  html.high-contrast .text-slate-500 {
+    color: #e2e8f0 !important;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001s !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001s !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  body {
+    background-color: var(--color-bg-app);
+    color: var(--color-text-main);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+  }
+
+  /* Accessible focus indicators */
+  :focus-visible {
+    outline: 3px solid #5a8270;
+    outline-offset: 2px;
+  }
+}
+
+/* Custom accessible utility classes */
+@layer components {
+  .btn-base {
+    @apply inline-flex items-center justify-center font-medium rounded-lg transition-colors min-h-[44px] min-w-[44px] px-4 py-2.5 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+  
+  .card-calm {
+    @apply bg-white rounded-xl border border-slate-200/90 shadow-soft p-5 transition-shadow;
+  }
+}
