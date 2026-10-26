@@ -6,7 +6,7 @@ Repositorio oficial: [https://github.com/FRQ23/neuropark](https://github.com/FRQ
 
 ---
 
-## ⚡ Ejecución Rápida en Windows (1 Clic)
+## Ejecución Rápida en Windows (1 Clic)
 
 Para correr el proyecto en cualquier computadora con Windows:
 
@@ -25,7 +25,7 @@ También puedes ejecutarlo mediante PowerShell con:
 
 ---
 
-## 💻 Ejecución Manual por Consola
+## Ejecución Manual por Consola
 
 Si prefieres usar la terminal de comandos:
 
@@ -44,7 +44,7 @@ La aplicación estará disponible en: **`http://localhost:3000/`**.
 
 ---
 
-## 🔑 Credenciales de Prueba (Demo por Rol)
+## Credenciales de Prueba (Demo por Rol)
 
 En la pantalla de inicio de sesión o utilizando la **barra de cambio rápido de rol** en la parte superior, puedes alternar entre cualquiera de los perfiles:
 
@@ -62,17 +62,17 @@ En la pantalla de inicio de sesión o utilizando la **barra de cambio rápido de
 
 ---
 
-## 🎨 Diseño y Arquitectura
+## Diseño y Arquitectura
 
 - **Framework:** React 18 + Vite + TypeScript.
 - **Estilos:** W3.CSS oficial, diseño completamente plano (sin tarjetas flotantes artificiales), bordes limpios de 1px (`#e5e7eb`), tipografía Raleway y biblioteca de iconos Font Awesome 4.7.
 - **Tablas:** Estructura oficial W3Schools (`w3-table-all`, `w3-striped`, `w3-hoverable`) con celdas alineadas y centradas.
 - **Persistencia:** Capa de datos mock desacoplada con persistencia en `localStorage` y botón de restauración a semilla inicial en *Mi Perfil*.
-- **Navegación:** Barra superior responsiva con logo protegido anti-colisión, menú agrupado de Fases (`FASES ▾`) y botón de perfil anclado a la derecha.
+- **Navegación:** Barra superior responsiva con logo protegido anti-colisión, menú agrupado de Fases (`FASES`) y botón de perfil anclado a la derecha.
 
 ---
 
-## 📁 Estructura del Código
+## Estructura del Código
 
 ```text
 software/
