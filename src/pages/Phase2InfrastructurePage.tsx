@@ -33,7 +33,7 @@ export const Phase2InfrastructurePage: React.FC = () => {
   const [categories, setCategories] = useState<NeurodivergenceCategory[]>([]);
   const [infrastructures, setInfrastructures] = useState<Infrastructure[]>([]);
   const [matrixItems, setMatrixItems] = useState<AreaCategoryInfrastructure[]>([]);
-  const [viewMode, setViewMode] = useState<'matrix' | 'list'>('matrix');
+  const [viewMode, setViewMode] = useState<'matrix' | 'list'>('list');
   const [isLoading, setIsLoading] = useState(true);
 
   // Modals state
@@ -199,17 +199,17 @@ export const Phase2InfrastructurePage: React.FC = () => {
             <div className="w3-bar w3-border">
               <button
                 type="button"
-                onClick={() => setViewMode('matrix')}
-                className={`w3-bar-item w3-button w3-small ${viewMode === 'matrix' ? 'w3-black' : 'w3-white'}`}
-              >
-                <i className="fa fa-th w3-margin-right"></i>Matriz (Áreas x Categorías)
-              </button>
-              <button
-                type="button"
                 onClick={() => setViewMode('list')}
                 className={`w3-bar-item w3-button w3-small ${viewMode === 'list' ? 'w3-black' : 'w3-white'}`}
               >
-                <i className="fa fa-list w3-margin-right"></i>Lista con Filtros
+                <i className="fa fa-table w3-margin-right"></i>Tabla de Equipamiento
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode('matrix')}
+                className={`w3-bar-item w3-button w3-small ${viewMode === 'matrix' ? 'w3-black' : 'w3-white'}`}
+              >
+                <i className="fa fa-th w3-margin-right"></i>Matriz Cruzada
               </button>
             </div>
           </div>

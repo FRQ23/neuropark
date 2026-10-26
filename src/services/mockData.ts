@@ -135,102 +135,91 @@ export const SEED_PARKS: Park[] = [
   },
 ];
 
-// Placeholder requirements (client did not define exact texts)
 export const SEED_REQUIREMENTS: Requirement[] = [
   // Phase 1 - Permits
   {
     id: 'req-101',
     phaseCode: 'phase-1',
-    title: 'Requisito de ejemplo 1.1: Permiso de uso de suelo y regularización municipal',
+    title: 'Permiso de uso de suelo y regularización municipal',
     description: 'Documentación que avala el predio y la modificación de espacio recreativo emitida por el Ayuntamiento.',
     specialty: 'general',
     categoryType: 'permits',
-    isExample: true,
   },
   {
     id: 'req-102',
     phaseCode: 'phase-1',
-    title: 'Requisito de ejemplo 1.2: Dictamen de Protección Civil y protocolo de evacuación sensorial',
+    title: 'Dictamen de Protección Civil y protocolo de evacuación sensorial',
     description: 'Inspección oficial de rutas de evacuación libres de obstáculos y zonas de repliegue seguras.',
     specialty: 'education',
     categoryType: 'permits',
-    isExample: true,
   },
   {
     id: 'req-103',
     phaseCode: 'phase-1',
-    title: 'Requisito de ejemplo 1.3: Validación de presupuesto y partida financiera para adecuación',
+    title: 'Validación de presupuesto y partida financiera para adecuación',
     description: 'Revisión y dictamen de asignación presupuestal para el mantenimiento y compra de insumos de inclusión.',
     specialty: 'finance',
     categoryType: 'permits',
-    isExample: true,
   },
   {
     id: 'req-104',
     phaseCode: 'phase-1',
-    title: 'Requisito de ejemplo 1.4: Licencia sanitaria y de accesibilidad universal estatal',
+    title: 'Licencia sanitaria y de accesibilidad universal estatal',
     description: 'Revisión de apego a la Ley de Inclusión y Desarrollo de Personas con Discapacidad del Estado.',
     specialty: 'psychology',
     categoryType: 'permits',
-    isExample: true,
   },
 
   // Phase 2 - General Phase 2 Requirements
   {
     id: 'req-201',
     phaseCode: 'phase-2',
-    title: 'Requisito de ejemplo 2.1: Certificación de colores mate no saturados en juegos',
+    title: 'Certificación de colores mate no saturados en juegos',
     description: 'Verificación fotográfica y física de que toda la estructura de juegos fue repintada con la paleta suave aprobada.',
     specialty: 'psychology',
     categoryType: 'infrastructure',
-    isExample: true,
   },
   {
     id: 'req-202',
     phaseCode: 'phase-2',
-    title: 'Requisito de ejemplo 2.2: Instalación de columpios y módulos de contención y equilibrio',
+    title: 'Instalación de columpios y módulos de contención y equilibrio',
     description: 'Instalación de aparatos biomecánicos con certificación de seguridad para estimulación vestibular controlada.',
     specialty: 'education',
     categoryType: 'infrastructure',
-    isExample: true,
   },
   {
     id: 'req-203',
     phaseCode: 'phase-2',
-    title: 'Requisito de ejemplo 2.3: Supervisión financiera de obra y compras de equipamiento',
+    title: 'Supervisión financiera de obra y compras de equipamiento',
     description: 'Comprobación de erogación de recursos y facturas cotejadas contra los aparatos instalados en campo.',
     specialty: 'finance',
     categoryType: 'infrastructure',
-    isExample: true,
   },
 
   // Phase 3 - Signage & Community
   {
     id: 'req-301',
     phaseCode: 'phase-3',
-    title: 'Requisito de ejemplo 3.1: Señalética de emergencia adaptada para neurodivergencias',
+    title: 'Señalética de emergencia adaptada para neurodivergencias',
     description: 'Instalación de letreros luminiscentes suaves con pictogramas validados que guían a la zona de calma en crisis.',
     specialty: 'psychology',
     categoryType: 'signage',
-    isExample: true,
   },
   {
     id: 'req-302',
     phaseCode: 'phase-3',
-    title: 'Requisito de ejemplo 3.2: Mapa táctil y paneles de anticipación en el acceso principal',
+    title: 'Mapa táctil y paneles de anticipación en el acceso principal',
     description: 'Tableros físicos al inicio del parque con el mapa del recorrido e identificación visual de niveles de estímulo.',
     specialty: 'education',
     categoryType: 'signage',
-    isExample: true,
   },
   {
     id: 'req-303',
     phaseCode: 'phase-3',
-    title: 'Requisito de ejemplo 3.3: Acuerdos comunitarios y validación con asociaciones locales',
+    title: 'Acuerdos comunitarios y validación con asociaciones locales',
     description: 'Minutas de asamblea con vecinos y fundaciones que aprueban los horarios especiales y normas de convivencia.',
     specialty: 'general',
     categoryType: 'signage',
-    isExample: true,
   },
 ];
 
@@ -378,25 +367,21 @@ export const SEED_AREAS: Area[] = [
   },
 ];
 
-// Placeholder neurodivergence categories (clearly labeled placeholders per seed data rules)
 export const SEED_CATEGORIES: NeurodivergenceCategory[] = [
   {
     id: 'cat-1',
-    name: 'Categoría de ejemplo 1 (Sensibilidad vestibular y cinestésica)',
+    name: 'Sensibilidad Vestibular y Cinestésica',
     description: 'Requisitos de movimiento controlado, balanceo suave y seguridad física para balance.',
-    isExample: true,
   },
   {
     id: 'cat-2',
-    name: 'Categoría de ejemplo 2 (Híper-reactividad auditiva y visual)',
+    name: 'Híper-reactividad Auditiva y Visual',
     description: 'Requisitos de absorción sonora, iluminación cálida difusa y colores mate desaturados.',
-    isExample: true,
   },
   {
     id: 'cat-3',
-    name: 'Categoría de ejemplo 3 (Orientación espacial y anticipación)',
+    name: 'Orientación Espacial y Anticipación',
     description: 'Requisitos de señalización con pictogramas unificados, trayectorias continuas y zonas delimitadas.',
-    isExample: true,
   },
 ];
 

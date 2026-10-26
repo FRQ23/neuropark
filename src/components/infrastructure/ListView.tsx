@@ -102,112 +102,104 @@ export const ListView: React.FC<ListViewProps> = ({
         </div>
       </div>
 
-      {/* Items List */}
-      <div>
-        {filteredItems.map((item) => {
-          const area = getArea(item.areaId);
-          const category = getCategory(item.categoryId);
-          const inf = getInfrastructure(item.infrastructureId);
-          if (!inf) return null;
+      {/* Data Table View */}
+      <div className="w3-responsive" style={{ border: '1px solid #d1d5db', marginBottom: '24px' }}>
+        <table className="w3-table-all w3-hoverable">
+          <thead>
+            <tr>
+              <th style={{ width: '180px' }}>Área del Parque</th>
+              <th style={{ width: '220px' }}>Categoría Neurodivergente</th>
+              <th>Elemento / Adecuación</th>
+              <th style={{ width: '110px' }}>Tipo</th>
+              <th style={{ width: '160px' }}>Obra Física</th>
+              <th style={{ width: '140px' }}>Dictamen</th>
+              {isAdmin && <th style={{ width: '70px', textAlign: 'right' }}>Acción</th>}
+            </tr>
+          </thead>
+          <tbody>
+            {filteredItems.map((item) => {
+              const area = getArea(item.areaId);
+              const category = getCategory(item.categoryId);
+              const inf = getInfrastructure(item.infrastructureId);
+              if (!inf) return null;
 
-          const borderClass = item.isValidated
-            ? 'w3-border-green'
-            : item.isCompleted
-            ? 'w3-border-blue'
-            : 'w3-border-khaki';
-
-          return (
-            <div
-              key={item.id}
-              className="w3-padding-16"
-              style={{ borderBottom: '1px solid #e5e7eb' }}
-            >
-              <div className="w3-row">
-                <div className="w3-col l8 m8 s12">
-                  <div style={{ marginBottom: '6px' }}>
-                    <span className="w3-tag w3-black w3-small" style={{ marginRight: '6px' }}>
-                      {area?.name || 'Área'}
-                    </span>
-                    <span className="w3-tag w3-dark-grey w3-small" style={{ marginRight: '6px' }}>
+              return (
+                <tr key={item.id}>
+                  <td>
+                    <b>{area?.name || 'Área'}</b>
+                  </td>
+                  <td>
+                    <span className="w3-tag w3-light-grey w3-border w3-small">
                       {category?.name || 'Categoría'}
                     </span>
-                    <span className="w3-tag w3-light-grey w3-border w3-small">
-                      {inf.type === 'color_spec'
-                        ? 'Color / Pintura'
-                        : inf.type === 'equipment'
-                        ? 'Aparato / Equipo'
-                        : 'Infraestructura'}
+                  </td>
+                  <td>
+                    <b>{inf.name}</b>
+                    <div className="w3-small w3-text-grey" style={{ marginTop: '2px' }}>
+                      {inf.colorOrSpec}
+                    </div>
+                    {item.notes && (
+                      <div className="w3-tiny w3-text-grey" style={{ fontStyle: 'italic', marginTop: '2px' }}>
+                        Nota: "{item.notes}"
+                      </div>
+                    )}
+                  </td>
+                  <td>
+                    <span className="w3-tag w3-black w3-tiny">
+                      {inf.type === 'color_spec' ? 'Color' : inf.type === 'equipment' ? 'Equipo' : 'Obra'}
                     </span>
-                  </div>
-
-                  <h3 style={{ margin: '6px 0' }}>{inf.name}</h3>
-
-                  <div className="w3-panel w3-light-grey w3-small" style={{ padding: '8px', margin: '6px 0', fontFamily: 'monospace' }}>
-                    <span className="w3-text-grey" style={{ display: 'block', fontFamily: 'inherit', fontWeight: 'bold' }}>
-                      ESPECIFICACIÓN TÉCNICA:
-                    </span>
-                    {inf.colorOrSpec}
-                  </div>
-
-                  {item.notes && (
-                    <p className="w3-small w3-text-grey" style={{ fontStyle: 'italic', margin: '4px 0' }}>
-                      Nota: "{item.notes}"
-                    </p>
-                  )}
-
-                  {item.validatedBy && (
-                    <p className="w3-small w3-text-green font-bold" style={{ margin: '6px 0 0 0' }}>
-                      <i className="fa fa-shield w3-margin-right"></i>
-                      Validado por {item.validatedByName || item.validatedBy}
-                      {item.validatedAt ? ` el ${new Date(item.validatedAt).toLocaleDateString('es-MX')}` : ''}
-                    </p>
-                  )}
-                </div>
-
-                {/* Right controls */}
-                <div className="w3-col l4 m4 s12 w3-right-align w3-margin-top-small">
-                  <div style={{ marginBottom: '10px' }}>
-                    <label className="w3-small" style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  </td>
+                  <td>
+                    <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
                       <input
                         type="checkbox"
-                        className="w3-check"
                         checked={item.isCompleted}
                         onChange={() => onToggleCompleted(item.id, item.isCompleted)}
                         disabled={!isAdmin && !isCommittee}
                       />
-                      <b>¿Cambio físico hecho?</b>
+                      <span className={item.isCompleted ? 'w3-text-green font-bold w3-small' : 'w3-text-grey w3-small'}>
+                        {item.isCompleted ? 'Realizado' : 'Pendiente'}
+                      </span>
                     </label>
-                  </div>
-
-                  <Button
-                    size="sm"
-                    variant={item.isValidated ? 'outline' : 'primary'}
-                    onClick={() => onValidateItem(item.id, item.isValidated)}
-                    disabled={!isAdmin && !isCommittee}
-                    leftIcon={<i className="fa fa-shield"></i>}
-                  >
-                    {item.isValidated ? 'Validado' : 'Validar Cambio'}
-                  </Button>
-
-                  {isAdmin && (
+                  </td>
+                  <td>
                     <button
                       type="button"
-                      onClick={() => onDeleteItem(item.id)}
-                      className="w3-button w3-hover-red w3-light-grey w3-small"
-                      title="Eliminar registro"
-                      style={{ marginLeft: '6px' }}
+                      onClick={() => onValidateItem(item.id, item.isValidated)}
+                      disabled={!isAdmin && !isCommittee}
+                      className={`w3-button w3-small ${item.isValidated ? 'w3-green' : 'w3-light-grey w3-border'}`}
+                      style={{ padding: '3px 8px' }}
+                      title={
+                        item.isValidated
+                          ? `Validado por ${item.validatedByName || item.validatedBy}`
+                          : 'Validar como comité'
+                      }
                     >
-                      <i className="fa fa-trash"></i>
+                      <i className="fa fa-shield w3-margin-right"></i>
+                      {item.isValidated ? 'Validado' : 'Validar'}
                     </button>
+                  </td>
+                  {isAdmin && (
+                    <td style={{ textAlign: 'right' }}>
+                      <button
+                        type="button"
+                        onClick={() => onDeleteItem(item.id)}
+                        className="w3-button w3-hover-red w3-light-grey w3-small"
+                        title="Eliminar registro"
+                        style={{ padding: '3px 8px' }}
+                      >
+                        <i className="fa fa-trash"></i>
+                      </button>
+                    </td>
                   )}
-                </div>
-              </div>
-            </div>
-          );
-        })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
 
         {filteredItems.length === 0 && (
-          <div className="w3-container w3-white w3-card w3-padding-32 w3-center w3-text-grey">
+          <div className="w3-padding-32 w3-center w3-text-grey" style={{ backgroundColor: '#ffffff' }}>
             No se encontraron elementos de infraestructura con los filtros seleccionados.
           </div>
         )}

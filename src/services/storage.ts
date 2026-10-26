@@ -38,6 +38,11 @@ export const getStoredItem = <T>(key: string, defaultData: T): T => {
       localStorage.setItem(key, JSON.stringify(defaultData));
       return defaultData;
     }
+    // Auto-migrate legacy example strings out of stored data
+    if (item.includes('Categoría de ejemplo') || item.includes('Requisito de ejemplo')) {
+      localStorage.setItem(key, JSON.stringify(defaultData));
+      return defaultData;
+    }
     return JSON.parse(item);
   } catch (err) {
     console.error(`Error reading ${key} from localStorage:`, err);
