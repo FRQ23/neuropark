@@ -17,17 +17,12 @@ export const AssociationCard: React.FC<AssociationCardProps> = ({
   const { isAdmin } = useAuth();
 
   return (
-    <div className="w3-card w3-white w3-container w3-padding-16 w3-margin-bottom" style={{ minHeight: '260px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+    <div className="w3-border w3-white w3-container w3-padding-16 w3-margin-bottom" style={{ borderColor: '#e5e7eb', minHeight: '260px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
           <div>
             <Badge scope={association.scope} size="sm" />
-            {association.isExample && (
-              <span className="w3-tag w3-khaki w3-small" style={{ marginLeft: '6px' }}>
-                Ejemplo
-              </span>
-            )}
-            <h3 className="w3-large w3-wide" style={{ margin: '8px 0 4px 0' }}>{association.name}</h3>
+            <h3 className="w3-large w3-wide" style={{ margin: '8px 0 4px 0', fontWeight: 'bold' }}>{association.name}</h3>
           </div>
 
           {isAdmin && (

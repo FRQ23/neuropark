@@ -74,8 +74,8 @@ export const DashboardPage: React.FC = () => {
 
   return (
     <div className="w3-container" style={{ padding: 0 }}>
-      {/* Hero Header */}
-      <div className="w3-container w3-white w3-card w3-padding-24 w3-margin-bottom w3-leftbar w3-border-black">
+      {/* Hero Header (flat) */}
+      <div className="w3-padding-24" style={{ borderBottom: '1px solid #e5e7eb', marginBottom: '24px' }}>
         <div className="w3-row">
           <div className="w3-col l9 m8 s12">
             <div style={{ marginBottom: '8px' }}>
@@ -87,7 +87,7 @@ export const DashboardPage: React.FC = () => {
               </span>
             </div>
 
-            <h1 className="w3-xxlarge w3-wide" style={{ margin: '8px 0' }}>
+            <h1 className="w3-xxlarge w3-wide" style={{ margin: '8px 0', fontWeight: 'bold' }}>
               {activePark?.name || 'Parque Cooper'}
             </h1>
             <p className="w3-text-grey" style={{ margin: '4px 0' }}>
@@ -121,39 +121,40 @@ export const DashboardPage: React.FC = () => {
         </div>
       </div>
 
-      {/* W3.CSS Statistics Bar (Promo Section style from W3.CSS Startup Template) */}
-      <div className="w3-row w3-center w3-dark-grey w3-padding-32 w3-margin-bottom">
+      {/* Statistics Bar (flat) */}
+      <div className="w3-row w3-center w3-light-grey w3-padding-24 w3-margin-bottom w3-border" style={{ borderColor: '#e5e7eb' }}>
         <div className="w3-quarter w3-section">
-          <span className="w3-xxlarge">
+          <span className="w3-xxlarge font-bold">
             {totalReqCount > 0 ? Math.round((validatedCount / totalReqCount) * 100) : 0}%
           </span>
           <br />
           <span className="w3-small w3-wide">AVANCE GLOBAL</span>
         </div>
         <div className="w3-quarter w3-section">
-          <span className="w3-xxlarge">{validatedCount} / {totalReqCount}</span>
+          <span className="w3-xxlarge font-bold">{validatedCount} / {totalReqCount}</span>
           <br />
           <span className="w3-small w3-wide">REQUISITOS VALIDADOS</span>
         </div>
         <div className="w3-quarter w3-section">
-          <span className="w3-xxlarge">{schedules.length}</span>
+          <span className="w3-xxlarge font-bold">{schedules.length}</span>
           <br />
           <span className="w3-small w3-wide">HORARIOS ESPECIALES</span>
         </div>
         <div className="w3-quarter w3-section">
-          <span className="w3-xxlarge">{associations.length}</span>
+          <span className="w3-xxlarge font-bold">{associations.length}</span>
           <br />
           <span className="w3-small w3-wide">FUNDACIONES ALIADAS</span>
         </div>
       </div>
 
-      {/* "Listo para abrir" Status Hero Card */}
+      {/* "Listo para abrir" Status Hero (flat) */}
       <div
-        className={`w3-container w3-card w3-padding-24 w3-margin-bottom w3-leftbar ${
+        className={`w3-container w3-padding-24 w3-margin-bottom w3-border ${
           isReadyToOpen
-            ? 'w3-pale-green w3-border-green'
-            : 'w3-white w3-border-black'
+            ? 'w3-pale-green'
+            : 'w3-white'
         }`}
+        style={{ borderColor: '#e5e7eb' }}
       >
         <div className="w3-row">
           <div className="w3-col l9 m8 s12">
@@ -200,11 +201,8 @@ export const DashboardPage: React.FC = () => {
                   : 'HABILITAR APERTURA OFICIAL'}
               </button>
             ) : (
-              <div className="w3-panel w3-light-grey w3-border w3-padding-16 w3-small w3-left-align">
-                <b>REGLA DE APERTURA:</b>
-                <p style={{ margin: '4px 0 0 0' }}>
-                  El candado permanecerá activo hasta completar la validación técnica en campo.
-                </p>
+              <div className="w3-small w3-text-grey w3-padding-small w3-left-align">
+                Apertura sujeta a validación técnica de comités.
               </div>
             )}
           </div>
@@ -221,9 +219,9 @@ export const DashboardPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Phases Section */}
+      {/* Phases Section (flat) */}
       <div className="w3-margin-bottom">
-        <h2 className="w3-wide w3-margin-bottom">FASES DE ADECUACIÓN</h2>
+        <h2 className="w3-wide w3-margin-bottom" style={{ fontWeight: 'bold' }}>FASES DE ADECUACIÓN</h2>
 
         <div className="w3-row-padding" style={{ margin: '0 -8px' }}>
           {phases.map((phase) => {
@@ -241,13 +239,13 @@ export const DashboardPage: React.FC = () => {
 
             return (
               <div key={phase.id} className="w3-col l4 m12 s12 w3-margin-bottom">
-                <div className="w3-card w3-white w3-container w3-padding-16">
+                <div className="w3-border w3-white w3-container w3-padding-16" style={{ borderColor: '#e5e7eb' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span className="w3-tag w3-black w3-small">FASE {phase.order}</span>
+                    <span className="w3-tag w3-black w3-small" style={{ fontWeight: 'bold' }}>FASE {phase.order}</span>
                     <span className="w3-small font-bold">{percent}% validado</span>
                   </div>
 
-                  <h3 className="w3-large w3-wide" style={{ margin: '12px 0 6px 0' }}>{phase.name}</h3>
+                  <h3 className="w3-large w3-wide" style={{ margin: '12px 0 6px 0', fontWeight: 'bold' }}>{phase.name}</h3>
                   <p className="w3-small w3-text-grey" style={{ minHeight: '40px', lineHeight: '1.5' }}>
                     {phase.description}
                   </p>
@@ -286,7 +284,7 @@ export const DashboardPage: React.FC = () => {
       <div className="w3-row-padding" style={{ margin: '0 -8px' }}>
         {/* Pending checks list (8 cols) */}
         <div className="w3-col l8 m12 s12 w3-margin-bottom">
-          <div className="w3-card w3-white w3-container w3-padding-16">
+          <div className="w3-border w3-white w3-container w3-padding-16" style={{ borderColor: '#e5e7eb' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #ddd', paddingBottom: '12px', marginBottom: '12px' }}>
               <div>
                 <h3 className="w3-large w3-wide" style={{ margin: 0 }}>REQUISITOS PENDIENTES DE DICTAMEN</h3>
@@ -350,7 +348,7 @@ export const DashboardPage: React.FC = () => {
 
         {/* Schedules quick widget (4 cols) */}
         <div className="w3-col l4 m12 s12 w3-margin-bottom">
-          <div className="w3-card w3-white w3-container w3-padding-16">
+          <div className="w3-border w3-white w3-container w3-padding-16" style={{ borderColor: '#e5e7eb' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #ddd', paddingBottom: '12px', marginBottom: '12px' }}>
               <h3 className="w3-large w3-wide" style={{ margin: 0 }}>HORARIOS</h3>
               <Link

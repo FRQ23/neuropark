@@ -87,10 +87,10 @@ export const AssociationsPage: React.FC = () => {
     <div>
       <Breadcrumbs items={[{ label: 'Asociaciones y Fundaciones Aliadas' }]} />
 
-      <div className="w3-container w3-white w3-card w3-padding-24 w3-margin-bottom">
+      <div className="w3-padding-24" style={{ borderBottom: '1px solid #e5e7eb', marginBottom: '20px' }}>
         <div className="w3-row">
           <div className="w3-col l8 m8 s12">
-            <h1 className="w3-xxlarge w3-wide" style={{ margin: '4px 0' }}>
+            <h1 className="w3-xxlarge w3-wide" style={{ margin: '4px 0', fontWeight: 'bold' }}>
               <i className="fa fa-handshake-o w3-margin-right"></i>
               ASOCIACIONES Y FUNDACIONES
             </h1>
@@ -116,18 +116,8 @@ export const AssociationsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Transcript contextual quote */}
-      <div className="w3-panel w3-light-grey w3-border w3-padding-16 w3-small w3-margin-bottom">
-        <p style={{ margin: 0 }}>
-          <i className="fa fa-info-circle w3-margin-right w3-large"></i>
-          <b>Vínculo estratégico (Reunión con cliente):</b> En la minuta se enfatizó contar con un
-          módulo de <em>"altas, bajas, cambios y edición de asociaciones o fundaciones (como las de apoyo a la inclusión)
-          para que sirvan de base para replicarlo en otros estados"</em>.
-        </p>
-      </div>
-
-      {/* Search and Filters Bar */}
-      <div className="w3-container w3-white w3-card w3-padding-16 w3-margin-bottom">
+      {/* Search and Filters Bar (flat) */}
+      <div className="w3-padding-16" style={{ borderBottom: '1px solid #e5e7eb', marginBottom: '16px' }}>
         <div className="w3-row-padding" style={{ margin: '0 -8px' }}>
           <div className="w3-col l8 m7 s12 w3-margin-bottom">
             <input
@@ -176,7 +166,7 @@ export const AssociationsPage: React.FC = () => {
 
         {filteredAssociations.length === 0 && (
           <div className="w3-col s12">
-            <div className="w3-container w3-white w3-card w3-padding-32 w3-center w3-text-grey">
+            <div className="w3-container w3-white w3-border w3-padding-32 w3-center w3-text-grey" style={{ borderColor: '#e5e7eb' }}>
               No se encontraron asociaciones con los filtros de búsqueda aplicados.
             </div>
           </div>

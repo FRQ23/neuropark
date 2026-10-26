@@ -57,10 +57,10 @@ export const TemplatesPage: React.FC = () => {
     <div>
       <Breadcrumbs items={[{ label: 'Red y Expansión' }, { label: 'Plantillas de Replicabilidad' }]} />
 
-      <div className="w3-container w3-white w3-card w3-padding-24 w3-margin-bottom">
+      <div className="w3-padding-24" style={{ borderBottom: '1px solid #e5e7eb', marginBottom: '20px' }}>
         <div className="w3-row">
           <div className="w3-col l8 m8 s12">
-            <h1 className="w3-xxlarge w3-wide" style={{ margin: '4px 0' }}>
+            <h1 className="w3-xxlarge w3-wide" style={{ margin: '4px 0', fontWeight: 'bold' }}>
               <i className="fa fa-clone w3-margin-right"></i>
               PLANTILLAS DE REPLICABILIDAD
             </h1>
@@ -87,17 +87,6 @@ export const TemplatesPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Transcript note about Sonora / Hermosillo & Baja California */}
-      <div className="w3-panel w3-light-grey w3-border w3-padding-16 w3-small w3-margin-bottom">
-        <p style={{ margin: 0 }}>
-          <i className="fa fa-info-circle w3-margin-right w3-large"></i>
-          <b>Contexto de Replicabilidad (Minuta de reunión):</b> <em>"El primero en el estado que se
-          va a abrir es Ensenada (parque preexistente adaptado), pero el primero desde cero va a estar en
-          Hermosillo, Sonora. Al ser otro estado cambian los permisos y regulaciones."</em> Las plantillas permiten
-          precargar los requisitos según la legislación estatal aplicable.
-        </p>
-      </div>
-
       {/* Templates List */}
       <div>
         {templates.map((tpl) => {
@@ -106,7 +95,8 @@ export const TemplatesPage: React.FC = () => {
           return (
             <div
               key={tpl.id}
-              className="w3-card w3-white w3-container w3-padding-24 w3-margin-bottom w3-leftbar w3-border-black"
+              className="w3-border w3-white w3-container w3-padding-24 w3-margin-bottom"
+              style={{ borderColor: '#e5e7eb' }}
             >
               <div className="w3-row">
                 <div className="w3-col l8 m8 s12">

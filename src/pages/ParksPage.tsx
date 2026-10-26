@@ -92,10 +92,10 @@ export const ParksPage: React.FC = () => {
     <div>
       <Breadcrumbs items={[{ label: 'Directorio de Parques Inclusivos' }]} />
 
-      <div className="w3-container w3-white w3-card w3-padding-24 w3-margin-bottom">
+      <div className="w3-padding-24" style={{ borderBottom: '1px solid #e5e7eb', marginBottom: '20px' }}>
         <div className="w3-row">
           <div className="w3-col l8 m12 s12">
-            <h1 className="w3-xxlarge w3-wide" style={{ margin: '4px 0' }}>
+            <h1 className="w3-xxlarge w3-wide" style={{ margin: '4px 0', fontWeight: 'bold' }}>
               <i className="fa fa-tree w3-margin-right"></i>
               PARQUES INCLUSIVOS
             </h1>
@@ -130,7 +130,7 @@ export const ParksPage: React.FC = () => {
       <div className="w3-row-padding" style={{ margin: '0 -8px' }}>
         {parks.map((park) => (
           <div key={park.id} className="w3-col l4 m6 s12 w3-margin-bottom">
-            <div className="w3-card w3-white w3-container w3-padding-16" style={{ minHeight: '270px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div className="w3-border w3-white w3-container w3-padding-16" style={{ borderColor: '#e5e7eb', minHeight: '270px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                   <span className="w3-tag w3-black w3-small">{park.state}</span>

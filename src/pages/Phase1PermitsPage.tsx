@@ -184,20 +184,10 @@ export const Phase1PermitsPage: React.FC = () => {
         validatedRequirements={validated}
       />
 
-      {/* Info note about client seed data rules */}
-      <div className="w3-panel w3-light-grey w3-border w3-padding-16 w3-small w3-margin-bottom">
-        <p style={{ margin: 0 }}>
-          <i className="fa fa-info-circle w3-margin-right w3-large"></i>
-          <b>Regla de requerimientos:</b> Los requisitos que llevan el distintivo de{' '}
-          <span className="w3-tag w3-khaki w3-small">Placeholder de ejemplo</span>{' '}
-          pueden ser modificados o ampliados por el Administrador con la redacción y leyes reales de cada municipio.
-        </p>
-      </div>
-
-      {/* Filters and Actions Bar */}
-      <div className="w3-container w3-white w3-card w3-padding-16 w3-margin-bottom">
-        <div className="w3-row">
-          <div className="w3-col l8 m8 s12" style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+      {/* Filters and Actions Bar (flat) */}
+      <div className="w3-padding-16" style={{ borderBottom: '1px solid #e5e7eb', marginBottom: '12px' }}>
+        <div className="w3-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
             <span className="w3-small font-bold">
               <i className="fa fa-filter w3-margin-right"></i>FILTROS:
             </span>
@@ -232,7 +222,7 @@ export const Phase1PermitsPage: React.FC = () => {
           </div>
 
           {isAdmin && (
-            <div className="w3-col l4 m4 s12 w3-right-align">
+            <div>
               <Button
                 size="sm"
                 onClick={() => {
@@ -277,7 +267,7 @@ export const Phase1PermitsPage: React.FC = () => {
         })}
 
         {filteredRequirements.length === 0 && (
-          <div className="w3-container w3-white w3-card w3-padding-32 w3-center w3-text-grey">
+          <div className="w3-container w3-white w3-border w3-padding-32 w3-center w3-text-grey" style={{ borderColor: '#e5e7eb' }}>
             No se encontraron requisitos que coincidan con los filtros aplicados.
           </div>
         )}

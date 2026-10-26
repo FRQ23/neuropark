@@ -14,12 +14,12 @@ export const AppLayout: React.FC = () => {
     }`;
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-white flex flex-col font-sans">
       {/* Top Demo Banner for easy role switching */}
       <RoleSwitcherBanner />
 
       {/* Main W3.CSS Navbar on top */}
-      <div className="w3-white w3-card">
+      <div className="w3-white w3-border-bottom" style={{ borderColor: '#e5e7eb' }}>
         <div className="w3-bar max-w-7xl mx-auto flex items-center justify-between" id="myNavbar">
           <Link to="/" className="w3-button w3-wide font-extrabold flex items-center gap-2">
             <i className="fa fa-tree w3-margin-right text-lg"></i>

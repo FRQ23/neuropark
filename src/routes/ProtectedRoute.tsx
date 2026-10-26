@@ -24,7 +24,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   if (requireAdmin && currentUser.role !== 'admin') {
     return (
-      <div className="w3-container w3-white w3-card w3-padding-32 w3-center w3-margin-top" style={{ maxWidth: '600px', margin: '48px auto' }}>
+      <div className="w3-container w3-white w3-border w3-padding-32 w3-center w3-margin-top" style={{ borderColor: '#e5e7eb', maxWidth: '600px', margin: '48px auto' }}>
         <p>
           <i className="fa fa-shield w3-xxxlarge w3-text-dark-grey" aria-hidden="true"></i>
         </p>

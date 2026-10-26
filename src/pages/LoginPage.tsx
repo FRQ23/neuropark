@@ -46,7 +46,7 @@ export const LoginPage: React.FC = () => {
         </p>
       </div>
 
-      <div className="w3-card w3-white w3-container w3-padding-32 w3-margin-bottom">
+      <div className="w3-border w3-white w3-container w3-padding-32 w3-margin-bottom" style={{ borderColor: '#e5e7eb' }}>
         <form onSubmit={handleLogin}>
           <Input
             label="Correo electrónico"

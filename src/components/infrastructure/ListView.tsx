@@ -42,8 +42,8 @@ export const ListView: React.FC<ListViewProps> = ({
 
   return (
     <div>
-      {/* Filters Bar */}
-      <div className="w3-container w3-white w3-card w3-padding-16 w3-margin-bottom">
+      {/* Filters Bar (flat) */}
+      <div className="w3-padding-16" style={{ borderBottom: '1px solid #e5e7eb', marginBottom: '16px' }}>
         <div className="w3-row-padding" style={{ margin: '0 -8px' }}>
           <div className="w3-col l4 m4 s12 w3-margin-bottom">
             <label htmlFor="filter-area" className="w3-text-dark-grey" style={{ display: 'block', marginBottom: '4px' }}>
@@ -119,7 +119,8 @@ export const ListView: React.FC<ListViewProps> = ({
           return (
             <div
               key={item.id}
-              className={`w3-card w3-white w3-container w3-padding-16 w3-margin-bottom w3-leftbar ${borderClass}`}
+              className="w3-padding-16"
+              style={{ borderBottom: '1px solid #e5e7eb' }}
             >
               <div className="w3-row">
                 <div className="w3-col l8 m8 s12">

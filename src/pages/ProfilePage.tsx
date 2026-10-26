@@ -32,7 +32,7 @@ export const ProfilePage: React.FC = () => {
 
   return (
     <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-      <div className="w3-card w3-white w3-container w3-padding-24 w3-margin-bottom">
+      <div className="w3-border w3-white w3-container w3-padding-24 w3-margin-bottom" style={{ borderColor: '#e5e7eb' }}>
         <div className="w3-row">
           <div className="w3-col l8 m8 s12">
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
@@ -66,7 +66,7 @@ export const ProfilePage: React.FC = () => {
       </div>
 
       {/* Permissions matrix for current role */}
-      <div className="w3-card w3-white w3-container w3-padding-24 w3-margin-bottom">
+      <div className="w3-border w3-white w3-container w3-padding-24 w3-margin-bottom" style={{ borderColor: '#e5e7eb' }}>
         <h3 className="w3-medium w3-wide" style={{ margin: '0 0 16px 0' }}>
           <i className="fa fa-shield w3-margin-right"></i>
           MATRIZ DE PRIVILEGIOS: {currentUser.role.toUpperCase()}

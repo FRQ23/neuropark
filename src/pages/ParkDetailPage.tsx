@@ -77,7 +77,7 @@ export const ParkDetailPage: React.FC = () => {
       />
 
       {/* Park Info Hero */}
-      <div className="w3-container w3-white w3-card w3-padding-24 w3-margin-bottom w3-leftbar w3-border-black">
+      <div className="w3-padding-24" style={{ borderBottom: '1px solid #e5e7eb', marginBottom: '20px' }}>
         <div className="w3-row">
           <div className="w3-col l8 m12 s12">
             <div style={{ marginBottom: '8px' }}>
@@ -93,7 +93,7 @@ export const ParkDetailPage: React.FC = () => {
               </span>
             </div>
 
-            <h1 className="w3-xxlarge w3-wide" style={{ margin: '8px 0' }}>{park.name}</h1>
+            <h1 className="w3-xxlarge w3-wide" style={{ margin: '8px 0', fontWeight: 'bold' }}>{park.name}</h1>
             <p className="w3-text-grey" style={{ margin: '4px 0' }}>
               <i className="fa fa-map-marker w3-margin-right"></i>
               {park.location}
@@ -104,7 +104,7 @@ export const ParkDetailPage: React.FC = () => {
           </div>
 
           <div className="w3-col l4 m12 s12 w3-margin-top">
-            <div className="w3-container w3-light-grey w3-border w3-padding-16">
+            <div style={{ padding: '8px 0' }}>
               <ProgressBar
                 value={overallPercentage}
                 label="Validación General"
@@ -145,7 +145,8 @@ export const ParkDetailPage: React.FC = () => {
               return (
                 <div
                   key={phase.id}
-                  className="w3-card w3-white w3-container w3-padding-16 w3-margin-bottom"
+                  className="w3-border w3-white w3-container w3-padding-16 w3-margin-bottom"
+                  style={{ borderColor: '#e5e7eb' }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -190,7 +191,7 @@ export const ParkDetailPage: React.FC = () => {
 
         {/* Responsible People / Committee Members (4 columns) */}
         <div className="w3-col l4 m12 s12 w3-margin-bottom">
-          <div className="w3-card w3-white w3-container w3-padding-16">
+          <div className="w3-border w3-white w3-container w3-padding-16" style={{ borderColor: '#e5e7eb' }}>
             <h3 className="w3-medium w3-wide" style={{ margin: '0 0 4px 0' }}>
               <i className="fa fa-users w3-margin-right"></i>
               COMITÉ RESPONSABLE

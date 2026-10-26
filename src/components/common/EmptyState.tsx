@@ -19,7 +19,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`w3-container w3-white w3-card w3-padding-32 w3-center w3-margin-bottom ${className}`}>
+    <div className={`w3-container w3-white w3-border w3-padding-32 w3-center w3-margin-bottom ${className}`} style={{ borderColor: '#e5e7eb' }}>
       <p>
         {icon || <i className="fa fa-folder-open-o w3-xxxlarge w3-text-grey" aria-hidden="true"></i>}
       </p>

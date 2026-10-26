@@ -27,7 +27,7 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
   const getInfrastructureById = (id: string) => infrastructures.find((i) => i.id === id);
 
   return (
-    <div className="w3-card w3-white w3-margin-bottom">
+    <div className="w3-border w3-white w3-margin-bottom">
       <div className="w3-container w3-light-grey w3-padding-16" style={{ borderBottom: '1px solid #ddd', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
         <div>
           <h3 className="w3-large w3-wide" style={{ margin: 0 }}>

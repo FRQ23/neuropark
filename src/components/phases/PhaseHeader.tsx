@@ -20,34 +20,32 @@ export const PhaseHeader: React.FC<PhaseHeaderProps> = ({
   const percentage = totalRequirements > 0 ? (validatedRequirements / totalRequirements) * 100 : 0;
 
   return (
-    <div className="w3-container w3-white w3-card w3-padding-24 w3-margin-bottom">
-      <div className="w3-row">
-        <div className="w3-col l8 m12 s12">
-          <div style={{ marginBottom: '8px' }}>
-            <span className="w3-tag w3-black w3-small" style={{ marginRight: '8px' }}>
+    <div className="w3-padding-24" style={{ borderBottom: '1px solid #e5e7eb', marginBottom: '20px' }}>
+      <div className="w3-row" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
+        <div className="w3-col l8 m7 s12">
+          <div style={{ marginBottom: '6px' }}>
+            <span className="w3-tag w3-black w3-small" style={{ marginRight: '8px', fontWeight: 'bold' }}>
               FASE {order}
             </span>
             <span className="w3-small w3-text-grey">
-              {validatedRequirements} de {totalRequirements} requisitos validados oficialmente
+              {validatedRequirements} de {totalRequirements} validados
             </span>
           </div>
-          <h2 style={{ margin: '6px 0' }} className="w3-wide">{name}</h2>
+          <h2 style={{ margin: '4px 0', fontWeight: 'bold' }}>{name}</h2>
           {description && (
-            <p className="w3-text-grey" style={{ margin: '6px 0 0 0', lineHeight: '1.6' }}>
+            <p className="w3-text-grey" style={{ margin: '4px 0 0 0', lineHeight: '1.5' }}>
               {description}
             </p>
           )}
         </div>
 
-        <div className="w3-col l4 m12 s12 w3-margin-top">
-          <div className="w3-container w3-light-grey w3-border w3-padding-16">
-            <ProgressBar
-              value={percentage}
-              label="Avance de Validación"
-              subLabel={`${validatedRequirements}/${totalRequirements}`}
-              colorScheme={percentage === 100 ? 'emerald' : 'calm'}
-            />
-          </div>
+        <div className="w3-col l4 m5 s12" style={{ minWidth: '220px' }}>
+          <ProgressBar
+            value={percentage}
+            label="Avance de Validación"
+            subLabel={`${validatedRequirements}/${totalRequirements}`}
+            colorScheme={percentage === 100 ? 'emerald' : 'calm'}
+          />
         </div>
       </div>
     </div>

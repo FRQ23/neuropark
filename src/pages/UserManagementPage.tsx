@@ -118,10 +118,10 @@ export const UserManagementPage: React.FC = () => {
     <div>
       <Breadcrumbs items={[{ label: 'Administración' }, { label: 'Gestión de Usuarios' }]} />
 
-      <div className="w3-container w3-white w3-card w3-padding-24 w3-margin-bottom">
+      <div className="w3-padding-24" style={{ borderBottom: '1px solid #e5e7eb', marginBottom: '20px' }}>
         <div className="w3-row">
           <div className="w3-col l8 m8 s12">
-            <h1 className="w3-xxlarge w3-wide" style={{ margin: '4px 0' }}>
+            <h1 className="w3-xxlarge w3-wide" style={{ margin: '4px 0', fontWeight: 'bold' }}>
               <i className="fa fa-users w3-margin-right"></i>
               GESTIÓN DE USUARIOS Y COMITÉS
             </h1>
@@ -138,7 +138,7 @@ export const UserManagementPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="w3-card w3-white w3-responsive w3-margin-bottom">
+      <div className="w3-border w3-white w3-responsive w3-margin-bottom" style={{ borderColor: '#e5e7eb' }}>
         <table className="w3-table w3-striped w3-bordered">
           <thead>
             <tr className="w3-dark-grey">

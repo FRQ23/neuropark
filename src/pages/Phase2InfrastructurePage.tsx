@@ -190,17 +190,8 @@ export const Phase2InfrastructurePage: React.FC = () => {
         validatedRequirements={validatedPhysical}
       />
 
-      {/* Info note */}
-      <div className="w3-panel w3-light-grey w3-border w3-padding-16 w3-small w3-margin-bottom">
-        <p style={{ margin: 0 }}>
-          <i className="fa fa-info-circle w3-margin-right w3-large"></i>
-          <b>Validación de campo:</b> El cliente estipuló que toda adecuación física o cambio de pintura
-          debe ser validado con confirmación física (check "¿Cambio físico hecho?") y con dictamen de especialistas antes de autorizar la apertura.
-        </p>
-      </div>
-
-      {/* Controls & Catalog Toolbar */}
-      <div className="w3-container w3-white w3-card w3-padding-16 w3-margin-bottom">
+      {/* Controls & Catalog Toolbar (flat) */}
+      <div className="w3-padding-16" style={{ borderBottom: '1px solid #e5e7eb', marginBottom: '16px' }}>
         <div className="w3-row">
           {/* View Mode Toggle */}
           <div className="w3-col l6 m12 s12" style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>

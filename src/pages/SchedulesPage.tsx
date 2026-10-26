@@ -100,19 +100,17 @@ export const SchedulesPage: React.FC = () => {
       />
 
       {/* Explanatory banner based on client transcript */}
-      <div className="w3-container w3-white w3-card w3-padding-24 w3-margin-bottom w3-leftbar w3-border-black">
+      <div className="w3-padding-24" style={{ borderBottom: '1px solid #e5e7eb', marginBottom: '20px' }}>
         <div className="w3-row">
           <div className="w3-col l8 m8 s12">
-            <span className="w3-tag w3-black w3-small" style={{ marginBottom: '6px' }}>
+            <span className="w3-tag w3-black w3-small" style={{ marginBottom: '6px', fontWeight: 'bold' }}>
               AMBIENTE REGULADO
             </span>
-            <h1 className="w3-xxlarge w3-wide" style={{ margin: '6px 0' }}>
+            <h1 className="w3-xxlarge w3-wide" style={{ margin: '6px 0', fontWeight: 'bold' }}>
               HORARIOS EXCLUSIVOS
             </h1>
-            <p className="w3-text-grey" style={{ lineHeight: '1.6', margin: '4px 0 0 0' }}>
-              En las palabras del cliente en la reunión: <em>"Como es un parque regular ahorita, se cambia
-              el horario y hay un horario que es específico para neurodivergencias: es otro tipo de ambiente,
-              los colores, no va a haber perros, no va a haber gente ruidosa ni maquinaria."</em>
+            <p className="w3-text-grey" style={{ margin: '4px 0 0 0' }}>
+              Programación de horarios protegidos con ambiente sensorial controlado: sin ruidos fuertes, sin mascotas y con estímulos moderados.
             </p>
           </div>
 
@@ -137,8 +135,9 @@ export const SchedulesPage: React.FC = () => {
         {schedules.map((schedule) => (
           <div key={schedule.id} className="w3-col l6 m12 s12 w3-margin-bottom">
             <div
-              className="w3-card w3-white w3-container w3-padding-16"
+              className="w3-border w3-white w3-container w3-padding-16"
               style={{
+                borderColor: '#e5e7eb',
                 opacity: schedule.active ? 1 : 0.7,
                 borderLeft: schedule.active ? '4px solid #000' : '4px solid #ccc',
               }}

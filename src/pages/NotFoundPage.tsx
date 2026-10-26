@@ -4,7 +4,7 @@ import { Button } from '../components/common/Button';
 
 export const NotFoundPage: React.FC = () => {
   return (
-    <div className="w3-container w3-white w3-card w3-padding-48 w3-center w3-margin-top" style={{ maxWidth: '600px', margin: '48px auto' }}>
+    <div className="w3-container w3-white w3-border w3-padding-48 w3-center w3-margin-top" style={{ borderColor: '#e5e7eb', maxWidth: '600px', margin: '48px auto' }}>
       <p>
         <i className="fa fa-compass w3-xxxlarge w3-text-dark-grey"></i>
       </p>

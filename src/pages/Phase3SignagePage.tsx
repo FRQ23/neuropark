@@ -168,23 +168,10 @@ export const Phase3SignagePage: React.FC = () => {
         validatedRequirements={validated}
       />
 
-      {/* Emergency Signage Highlight Box from client transcript */}
-      <div className="w3-panel w3-pale-yellow w3-leftbar w3-border-yellow w3-padding-16 w3-margin-bottom">
-        <p style={{ margin: '0 0 6px 0', fontWeight: 'bold' }}>
-          <i className="fa fa-exclamation-circle w3-large w3-margin-right"></i>
-          MÓDULO CLAVE: SEÑALÉTICA DE EMERGENCIA PARA NEURODIVERGENCIAS
-        </p>
-        <p className="w3-small" style={{ margin: 0, lineHeight: '1.6' }}>
-          Conforme al diálogo con el cliente, las personas neurodivergentes requieren señalización
-          distintiva que no cause alarma auditiva agresiva (sin sirenas estridentes) y que indique
-          rutas inmediatas hacia la <b>Zona de Calma y Descompresión Sensorial</b> ante una crisis de sobrecarga.
-        </p>
-      </div>
-
-      {/* Action Bar */}
-      <div className="w3-container w3-white w3-card w3-padding-16 w3-margin-bottom">
-        <div className="w3-row">
-          <div className="w3-col l8 m8 s12">
+      {/* Action Bar (flat) */}
+      <div className="w3-padding-16" style={{ borderBottom: '1px solid #e5e7eb', marginBottom: '12px' }}>
+        <div className="w3-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+          <div>
             <h3 className="w3-medium w3-wide" style={{ margin: 0 }}>CHECKLIST DE SEÑALÉTICA</h3>
             <p className="w3-small w3-text-grey" style={{ margin: '2px 0 0 0' }}>
               Verifica el diseño con pictogramas y la instalación física de cada letrero en el parque
@@ -192,7 +179,7 @@ export const Phase3SignagePage: React.FC = () => {
           </div>
 
           {isAdmin && (
-            <div className="w3-col l4 m4 s12 w3-right-align">
+            <div>
               <Button
                 size="sm"
                 onClick={() => {

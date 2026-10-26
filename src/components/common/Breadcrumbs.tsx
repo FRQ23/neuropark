@@ -13,21 +13,21 @@ interface BreadcrumbsProps {
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className = '' }) => {
   return (
-    <nav aria-label="Migas de pan" className={`w3-bar w3-light-grey w3-small w3-padding-small w3-margin-bottom ${className}`}>
-      <Link to="/" className="w3-bar-item w3-button" style={{ padding: '4px 8px' }}>
+    <nav aria-label="Migas de pan" className={`w3-small w3-margin-bottom ${className}`} style={{ padding: '8px 0', borderBottom: '1px solid #f0f0f0' }}>
+      <Link to="/" className="w3-hover-text-black w3-text-grey" style={{ textDecoration: 'none', marginRight: '6px' }}>
         <i className="fa fa-home" aria-hidden="true"></i> Inicio
       </Link>
       {items.map((item, index) => {
         const isLast = index === items.length - 1;
         return (
           <React.Fragment key={item.label + index}>
-            <span className="w3-bar-item w3-text-grey" style={{ padding: '4px 2px' }}>/</span>
+            <span className="w3-text-grey" style={{ margin: '0 6px' }}>/</span>
             {isLast || !item.path ? (
-              <span className="w3-bar-item font-bold" aria-current="page" style={{ padding: '4px 8px' }}>
+              <span className="font-bold text-black" aria-current="page">
                 {item.label}
               </span>
             ) : (
-              <Link to={item.path} className="w3-bar-item w3-button" style={{ padding: '4px 8px' }}>
+              <Link to={item.path} className="w3-hover-text-black w3-text-grey" style={{ textDecoration: 'none' }}>
                 {item.label}
               </Link>
             )}
