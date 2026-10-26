@@ -1,152 +1,116 @@
-# NeuroParque: Sistema de Gestión y Seguimiento de Adecuación de Parques Inclusivos para Personas Neurodivergentes
+# NeuroParque: Sistema de Gestión y Adecuación de Parques Inclusivos
 
-Prototipo Frontend de alta fidelidad basado en el caso de estudio del **Parque Cooper (Ensenada, Baja California)** y su modelo replicable para otros estados de la República Mexicana (por ejemplo, Sonora/Hermosillo).
+Prototipo Frontend de alta fidelidad para la gestión y seguimiento del proceso de adecuación de parques públicos para personas neurodivergentes. Basado en el caso piloto del **Parque Cooper (Ensenada, Baja California)** y su modelo replicable para otros municipios y estados.
 
-El sistema integra de forma nativa la **plantilla de accesibilidad cognitiva (NeuroUX y W3C COGA)**, soporte para **dislexia (OpenDyslexic)**, **TDAH (regla de lectura visual y máscara de enfoque)**, y **sensibilidad sensorial (paleta de baja fatiga visual y reducción de estímulos)**.
+Repositorio oficial: [https://github.com/FRQ23/neuropark](https://github.com/FRQ23/neuropark)
 
 ---
 
-## 🚀 Instrucciones de Ejecución Local
+## ⚡ Ejecución Rápida en Windows (1 Clic)
 
-### Prerrequisitos
-- Node.js (v18 o superior)
-- npm (v9 o superior)
+Para correr el proyecto en cualquier computadora con Windows:
 
-### Pasos para ejecutar:
+1. **Doble clic en el archivo:**
+   ```text
+   iniciar.bat
+   ```
+2. El script detecta automáticamente Node.js, instala las dependencias de `npm` si es la primera vez que se ejecuta, abre tu navegador web predeterminado en **`http://localhost:3000`** e inicia el servidor de desarrollo Vite.
+
+> **Requisito previo:** Tener instalado [Node.js](https://nodejs.org/) (versión 18 o superior). Si no lo tienes instalado, el script te avisará y te proporcionará el enlace de descarga gratuita.
+
+También puedes ejecutarlo mediante PowerShell con:
+```powershell
+.\iniciar.ps1
+```
+
+---
+
+## 💻 Ejecución Manual por Consola
+
+Si prefieres usar la terminal de comandos:
+
 ```bash
 # 1. Instalar dependencias
 npm install
 
-# 2. Iniciar el servidor de desarrollo Vite
+# 2. Iniciar el servidor local
 npm run dev
 
-# 3. Compilación para producción (validación TypeScript y CSS)
+# 3. Compilar y verificar TypeScript para producción
 npm run build
 ```
 
-La aplicación se ejecuta localmente en **`http://localhost:3000/`**.
+La aplicación estará disponible en: **`http://localhost:3000/`**.
 
 ---
 
-## 🧠 Integración de Accesibilidad Cognitiva y NeuroUX (W3C COGA)
+## 🔑 Credenciales de Prueba (Demo por Rol)
 
-La interfaz cuenta con una implementación exhaustiva de directrices de accesibilidad cognitiva y del toolkit **NeuroUX**:
+En la pantalla de inicio de sesión o utilizando la **barra de cambio rápido de rol** en la parte superior, puedes alternar entre cualquiera de los perfiles:
 
-1. **Paleta Cromática de Baja Fatiga Visual:**
-   - Evita el blanco puro (`#FFF`) y negro puro (`#000`) para mitigar el deslumbramiento y destellos.
-   - Fondo en tono papel cálido (`--color-bg: #f8f7f4`), contenedores suaves (`#ffffff`), texto en grafito oscuro de alto contraste pero no agresivo (`--color-text: #22252a`) y acento azul accesible (`--color-accent: #1d6a96`).
-   - Modo Oscuro Suave (`--color-bg: #181a1b`, `--color-surface: #222527`, `--color-text: #e1e3e6`).
-   - Modo de Alto Contraste con refuerzo visual para baja visión.
-
-2. **Soporte para Dislexia (OpenDyslexic):**
-   - Integración de la tipografía **OpenDyslexic** con la base de las letras más pesada para evitar rotaciones y confusión en caracteres espejo (`b`, `d`, `p`, `q`).
-   - Activación inmediata desde el botón en la barra superior o desde el panel NeuroAssist.
-
-3. **Herramientas de Enfoque para TDAH y Dificultad de Seguimiento:**
-   - **Regla de Lectura Visual (Reading Ruler):** Franja guía que acompaña suavemente la posición vertical del cursor del usuario para facilitar la lectura renglón por renglón sin perder la línea.
-   - **Máscara de Enfoque (Focus Mask):** Atenúa las zonas superior e inferior de la pantalla, dejando una ventana nítida sobre el contenido de lectura activo.
-   - **Chunking W3C COGA (Límite 65ch):** Control de amplitud que evita saltos de línea largos que desorientan al usuario.
-   - **Texto Nunca Justificado:** Todo el texto está alineado a la izquierda (`text-align: left !important`) para prevenir los "ríos blancos" que confunden a personas con dislexia.
-
-4. **Espaciado y Reducción Sensorial:**
-   - Altura de línea generosa (`line-height: 1.7` base y `1.9` ampliada).
-   - Separación entre letras (`letter-spacing: 0.03em` base / `0.06em` ampliada) y entre palabras (`word-spacing: 0.08em` base / `0.14em` ampliada).
-   - Pausa total de animaciones y transiciones (`0.001ms`) respetando `prefers-reduced-motion` y con interruptor manual de bajo estímulo.
-   - Foco visible reforzado con contorno evidente (`3px solid var(--color-focus)` con `offset: 3px`).
-
-5. **Widget Interactivo NeuroAssist:**
-   - Botón flotante accesible en la esquina inferior izquierda (`🧠 NeuroAssist (COGA)`) que despliega el panel de control con todos los interruptores adaptativos.
-
----
-
-## 🔑 Credenciales de Acceso para Pruebas (Demo por Rol)
-
-En la pantalla de login o en la **barra superior interactiva** puedes alternar entre cualquiera de estos usuarios con un solo clic:
-
-| Rol | Usuario Demo | Correo | Especialidad / Alcance | Privilegios |
+| Rol | Usuario Demo | Correo | Especialidad / Comité | Privilegios |
 | :--- | :--- | :--- | :--- | :--- |
-| **Administrador** | Ing. Laura Valenzuela | `admin@neuroparque.org` | Dirección de Obras | Control total: Crear/editar parques, áreas, categorías, requisitos, plantillas y usuarios. |
-| **Administrador** | Arq. Roberto Méndez | `gestor@neuroparque.org` | Infraestructura Urbana | Control total de catálogos y vinculación en matriz. |
-| **Comité (Educación)** | Mtra. Elena Gómez | `educacion@neuroparque.org` | Educación Especial (UABC) | Dictamen y validación de requisitos pedagógicos, motricidad y anticipación. |
-| **Comité (Psicología)** | Dra. Carmen Solís | `psicologia@neuroparque.org` | Psicología Sensorial | Dictamen y validación de bienestar emocional, descompresión y señalética de crisis. |
-| **Comité (Finanzas)** | Lic. Manuel Estrada | `finanzas@neuroparque.org` | Tesorería y Fondos | Dictamen y validación de presupuestos, compras de equipo y auditoría de egresos. |
-| **Observador (Viewer)** | Sofía Navarro | `observador1@neuroparque.org` | Familias Neurodiversas | Solo lectura: Consulta de avances, tableros, fotos y horarios especiales. |
-| **Observador (Viewer)** | Carlos Morales | `observador2@neuroparque.org` | Transparencia Ciudadana | Solo lectura: Supervisión de cumplimiento público. |
+| **Administrador** | Ing. Laura Valenzuela | `admin@neuroparque.org` | Obras y Parques Públicos | Control total: Crear/editar parques, requisitos, catálogo de infraestructura y usuarios. |
+| **Administrador** | Arq. Roberto Méndez | `gestor@neuroparque.org` | Infraestructura Urbana | Gestión de catálogos y vinculación de matriz. |
+| **Comité (Educación)** | Mtra. Elena Gómez | `educacion@neuroparque.org` | Educación Especial (UABC) | Dictamen y validación de requisitos pedagógicos y motricidad. |
+| **Comité (Psicología)** | Dra. Carmen Solís | `psicologia@neuroparque.org` | Psicología Sensorial | Dictamen y validación de bienestar emocional y señalética de crisis. |
+| **Comité (Finanzas)** | Lic. Manuel Estrada | `finanzas@neuroparque.org` | Tesorería Municipal | Dictamen y validación de viabilidad presupuestal. |
+| **Observador** | Sofía Navarro | `observador1@neuroparque.org` | Familias Neurodiversas | Solo lectura: Consulta de avances, tableros y horarios especiales. |
+| **Observador** | Carlos Morales | `observador2@neuroparque.org` | Transparencia Ciudadana | Solo lectura: Supervisión ciudadana del cumplimiento. |
 
 *Contraseña para todos los usuarios:* `password123` (o selecciona el usuario directamente en el banner superior).
 
 ---
 
-## 📁 Estructura del Proyecto
+## 🎨 Diseño y Arquitectura
 
-```text
-software/
-├── index.html                           # Entrada HTML con fuentes Inter y OpenDyslexic (CDN)
-├── package.json                         # Dependencias del proyecto
-├── tsconfig.json                        # Configuración TypeScript estricta con alias @/
-├── tailwind.config.js                   # Tokens de diseño y colores calmantes
-├── postcss.config.js                    # PostCSS con Tailwind y Autoprefixer
-├── src/
-│   ├── types/
-│   │   └── index.ts                     # Modelos TypeScript: User, Park, Phase, Requirement, etc.
-│   ├── services/
-│   │   ├── mockData.ts                  # Semilla de datos (Parque Cooper Ensenada, 3 fases, placeholders)
-│   │   ├── storage.ts                   # Persistencia en localStorage y botón de reinicio
-│   │   └── api.ts                       # Capa de servicio simulada con interfaces asíncronas
-│   ├── context/
-│   │   ├── AuthContext.tsx              # Autenticación, roles y validación por especialidad
-│   │   ├── AccessibilityContext.tsx     # Contexto NeuroUX: OpenDyslexic, Reading Ruler, Focus Mask, Temas
-│   │   └── ToastContext.tsx             # Feedback accesible (ARIA live regions)
-│   ├── components/
-│   │   ├── accessibility/
-│   │   │   ├── ReadingRuler.tsx         # Regla visual que sigue el cursor para TDAH
-│   │   │   ├── FocusMask.tsx            # Máscara atenuadora para evitar distracciones
-│   │   │   └── NeuroAssistWidget.tsx    # Widget interactivo flotante de accesibilidad cognitiva
-│   │   ├── common/                      # Button, Badge, Modal, ConfirmDialog, Input, Select, etc.
-│   │   ├── layout/                      # AppLayout, Navbar, Sidebar responsivo, RoleSwitcherBanner
-│   │   ├── phases/                      # RequirementItem, PhaseHeader, PhaseNavTabs, EvidenceGallery
-│   │   ├── infrastructure/              # MatrixView (Áreas x Categorías), ListView filtrable, Modals
-│   │   ├── schedules/                   # ScheduleModal con reglas y restricciones ambientales
-│   │   ├── associations/                # AssociationCard, AssociationFormModal con filtros
-│   │   └── parks/                       # CloneTemplateModal para replicar modelo a nuevos estados
-│   ├── pages/
-│   │   ├── LoginPage.tsx                # Inicio de sesión con acceso rápido para evaluadores
-│   │   ├── ProfilePage.tsx              # Perfil de usuario y matriz de permisos por rol
-│   │   ├── UserManagementPage.tsx       # Gestión y CRUD de usuarios y comités (Admin)
-│   │   ├── DashboardPage.tsx            # Tablero: Estatus "Listo para abrir" bloqueado hasta el 100%
-│   │   ├── ParksPage.tsx                # Directorio multi-parque y clonación desde plantilla
-│   │   ├── ParkDetailPage.tsx           # Fases secuenciales y comités responsables asignados
-│   │   ├── Phase1PermitsPage.tsx        # Fase 1: Checklist de permisos y licencias gubernamentales
-│   │   ├── Phase2InfrastructurePage.tsx # Fase 2: Matriz (Áreas x Categorías x Color) y verificación física
-│   │   ├── Phase3SignagePage.tsx        # Fase 3: Señalética inclusiva y señalética de emergencia
-│   │   ├── SchedulesPage.tsx            # Horarios especiales (sin perros, sin ruido, colores mate)
-│   │   ├── AssociationsPage.tsx         # CRUD de fundaciones aliadas con búsqueda y filtros
-│   │   ├── TemplatesPage.tsx            # Biblioteca de plantillas estatales (B.C. vs. Sonora)
-│   │   └── NotFoundPage.tsx             # Pantalla 404
-│   ├── routes/
-│   │   ├── AppRoutes.tsx                # Rutas y navegación protegida
-│   │   └── ProtectedRoute.tsx           # Guardianes de ruta basados en roles
-│   ├── App.tsx                          # Integración de Providers (QueryClient, Auth, Accessibility, Toast)
-│   ├── main.tsx                         # Entrada React
-│   └── index.css                        # CSS Boilerplate Neuroinclusivo COGA y NeuroUX
-```
+- **Framework:** React 18 + Vite + TypeScript.
+- **Estilos:** W3.CSS oficial, diseño completamente plano (sin tarjetas flotantes artificiales), bordes limpios de 1px (`#e5e7eb`), tipografía Raleway y biblioteca de iconos Font Awesome 4.7.
+- **Tablas:** Estructura oficial W3Schools (`w3-table-all`, `w3-striped`, `w3-hoverable`) con celdas alineadas y centradas.
+- **Persistencia:** Capa de datos mock desacoplada con persistencia en `localStorage` y botón de restauración a semilla inicial en *Mi Perfil*.
+- **Navegación:** Barra superior responsiva con logo protegido anti-colisión, menú agrupado de Fases (`FASES ▾`) y botón de perfil anclado a la derecha.
 
 ---
 
-## ❓ Preguntas Abiertas para el Cliente
+## 📁 Estructura del Código
 
-1. **Nombres oficiales de las Categorías de Neurodivergencia:**
-   - *Situación actual:* En la reunión se mencionó que *"debe haber categorías para saber qué aparato o qué color se necesita"*, pero no se especificó la taxonomía técnica que adoptará el Comité (ej. TEA Grado 1/2/3, TDAH, Sensibilidad Vestibular, Híper/Hipo-reactividad sensorial).
-   - *Solución en prototipo:* Se dejaron placeholders claramente etiquetados como *"Categoría de ejemplo"* y se habilitó la creación y edición libre por parte del Administrador. ¿Cuál es el catálogo oficial que adoptará el parque?
-
-2. **Catálogo real de requisitos normativos por fase:**
-   - *Situación actual:* Ni en la reunión ni en el documento se proporcionaron las fracciones arancelarias, normas oficiales mexicanas (NOMs) o reglamentos municipales exactos para Ensenada.
-   - *Pregunta:* ¿Existen normativas específicas de Protección Civil o de la Ley de Inclusión de B.C. que deban precargarse de forma fija en la plantilla de Baja California?
-
-3. **Alcance del módulo de Finanzas (Presupuesto y Costos):**
-   - *Situación actual:* El cliente mencionó al especialista de finanzas dentro del comité validador, y el SRS incluye campos de presupuesto planeado vs. ejercido.
-   - *Pregunta:* ¿El especialista de Finanzas solo requiere un check de validación y notas de suficiencia presupuestaria, o necesita un desglose contable de partidas, cotizaciones y facturación dentro de este mismo software?
-
-4. **Usuarios finales adicionales además del Administrador y el Comité:**
-   - *Situación actual:* En la reunión se habló de guardaparques y familias que asisten en los horarios especiales, y en el SRS se menciona un formulario de retroalimentación con código QR.
-   - *Pregunta:* ¿Se prevé una vista pública para que los ciudadanos consulten en vivo si hoy el parque está en horario sensorial sin perros, o el sistema permanecerá de uso estrictamente interno para el comité de obra?
+```text
+software/
+├── iniciar.bat                          # Script de 1 clic para Windows
+├── start.bat                            # Alias de inicio para Windows
+├── iniciar.ps1                          # Script para Windows PowerShell
+├── index.html                           # Estructura base con W3.CSS, Raleway y Font Awesome
+├── package.json                         # Dependencias y scripts
+├── tsconfig.json                        # Configuración estricta de TypeScript
+├── src/
+│   ├── types/
+│   │   └── index.ts                     # Definiciones de tipos (Park, Phase, Requirement, etc.)
+│   ├── services/
+│   │   ├── mockData.ts                  # Semilla inicial de datos (Parque Cooper, Ensenada)
+│   │   ├── storage.ts                   # Persistencia en localStorage y reset
+│   │   └── api.ts                       # Capa de servicio asíncrona simulada
+│   ├── context/
+│   │   ├── AuthContext.tsx              # Autenticación, roles y validación por especialidad
+│   │   └── ToastContext.tsx             # Notificaciones toast accesibles
+│   ├── components/
+│   │   ├── layout/                      # AppLayout (navbar responsiva), RoleSwitcherBanner
+│   │   ├── common/                      # Button, Badge, ProgressBar, Modal, Breadcrumbs
+│   │   ├── phases/                      # PhaseHeader, RequirementItem, Modales de validación
+│   │   ├── infrastructure/              # MatrixView (Áreas x Categorías) y ListView
+│   │   └── schedules/                   # Módulo y modal de horarios adaptativos
+│   ├── pages/
+│   │   ├── LoginPage.tsx                # Acceso con selección rápida de rol
+│   │   ├── ProfilePage.tsx              # Perfil de usuario y botón de restablecer datos
+│   │   ├── DashboardPage.tsx            # Tablero con avance general y requisitos pendientes
+│   │   ├── ParksPage.tsx                # Directorio de parques y clonación de plantillas
+│   │   ├── ParkDetailPage.tsx           # Detalle del parque y fases secuenciales
+│   │   ├── Phase1PermitsPage.tsx        # Fase 1: Permisos de gobierno y dictámenes
+│   │   ├── Phase2InfrastructurePage.tsx # Fase 2: Matriz de equipamiento, áreas y colores mate
+│   │   ├── Phase3SignagePage.tsx        # Fase 3: Señalética con pictogramas y acuerdos
+│   │   ├── SchedulesPage.tsx            # Horarios especiales de baja estimulación
+│   │   ├── AssociationsPage.tsx         # Red de asociaciones civiles aliadas
+│   │   ├── TemplatesPage.tsx            # Plantillas replicables (Baja California vs. Sonora)
+│   │   └── UserManagementPage.tsx       # Directorio de usuarios y comités (Admin)
+│   ├── App.tsx                          # Enrutador principal
+│   └── main.tsx                         # Punto de entrada de React
+```
