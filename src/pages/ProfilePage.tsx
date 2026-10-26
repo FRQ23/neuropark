@@ -135,16 +135,17 @@ export const ProfilePage: React.FC = () => {
         </div>
       </div>
 
-      {/* Database Maintenance */}
-      <div className="w3-card w3-white w3-container w3-padding-24 w3-margin-bottom">
-        <h3 className="w3-medium w3-wide" style={{ margin: '0 0 8px 0' }}>MANTENIMIENTO DEL PROTOTIPO</h3>
-        <p className="w3-small w3-text-grey" style={{ margin: '0 0 16px 0', lineHeight: '1.6' }}>
-          Si modificaste registros o realizaste pruebas y deseas restablecer la base de datos simulada en
-          localStorage a los valores iniciales de prueba (Parque Cooper, 3 fases, comités y asociaciones):
-        </p>
-        <Button variant="secondary" size="sm" onClick={handleResetData} leftIcon={<i className="fa fa-refresh"></i>}>
+      {/* Database Reset Button */}
+      <div style={{ marginTop: '24px', marginBottom: '32px' }}>
+        <button
+          type="button"
+          onClick={handleResetData}
+          className="w3-button w3-border w3-white w3-hover-light-grey w3-small"
+          style={{ borderColor: '#d1d5db', fontWeight: 'bold' }}
+        >
+          <i className="fa fa-refresh" style={{ marginRight: '8px' }}></i>
           Restablecer Base de Datos a Semilla Inicial
-        </Button>
+        </button>
       </div>
     </div>
   );

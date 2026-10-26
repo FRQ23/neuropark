@@ -1,12 +1,31 @@
 import React, { useState } from 'react';
-import { Outlet, NavLink, Link } from 'react-router-dom';
+import { Outlet, NavLink, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { RoleSwitcherBanner } from './RoleSwitcherBanner';
 
 export const AppLayout: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { currentUser, isAdmin } = useAuth();
+  const location = useLocation();
   const defaultParkId = 'park-ensenada-cooper';
+
+  const isPhaseActive = location.pathname.includes('/phase-');
+  const isProfileActive = location.pathname === '/profile';
+
+  const getShortName = (fullName: string) => {
+    const parts = fullName.trim().split(/\s+/);
+    if (parts.length <= 1) return parts[0];
+    const firstLower = parts[0].toLowerCase();
+    if (
+      firstLower.startsWith('ing') ||
+      firstLower.startsWith('lic') ||
+      firstLower.startsWith('dr') ||
+      firstLower.startsWith('mtro')
+    ) {
+      return `${parts[0]} ${parts[1]}`;
+    }
+    return parts[0];
+  };
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `desktop-nav-link ${
@@ -31,10 +50,10 @@ export const AppLayout: React.FC = () => {
             className="w3-button w3-wide font-extrabold flex items-center"
             style={{
               flexShrink: 0,
-              minWidth: '180px',
+              minWidth: '175px',
               whiteSpace: 'nowrap',
-              marginRight: '24px',
-              padding: '14px 12px',
+              marginRight: '16px',
+              padding: '14px 10px',
               letterSpacing: '2px',
               textDecoration: 'none',
             }}
@@ -44,14 +63,12 @@ export const AppLayout: React.FC = () => {
             <span style={{ fontWeight: 800 }}>NEUROPARQUE</span>
           </Link>
 
-          {/* Desktop Links (Right-aligned, compact, with overflow protection) */}
+          {/* Desktop Links (Responsive, fits comfortably without horizontal clipping) */}
           <div
-            className="hidden lg:flex items-center desktop-nav-container"
+            className="hidden lg:flex items-center"
             style={{
               marginLeft: 'auto',
               flexShrink: 1,
-              minWidth: 0,
-              overflowX: 'auto',
               whiteSpace: 'nowrap',
             }}
           >
@@ -61,15 +78,56 @@ export const AppLayout: React.FC = () => {
             <NavLink to="/parks" end className={navLinkClass}>
               <i className="fa fa-tree" style={{ marginRight: '6px' }}></i>PARQUES
             </NavLink>
-            <NavLink to={`/parks/${defaultParkId}/phase-1`} className={navLinkClass}>
-              <i className="fa fa-check-square-o" style={{ marginRight: '6px' }}></i>FASE 1
-            </NavLink>
-            <NavLink to={`/parks/${defaultParkId}/phase-2`} className={navLinkClass}>
-              <i className="fa fa-cogs" style={{ marginRight: '6px' }}></i>FASE 2
-            </NavLink>
-            <NavLink to={`/parks/${defaultParkId}/phase-3`} className={navLinkClass}>
-              <i className="fa fa-map-signs" style={{ marginRight: '6px' }}></i>FASE 3
-            </NavLink>
+
+            {/* Dropdown Fases de Adecuación */}
+            <div className="w3-dropdown-hover" style={{ backgroundColor: 'transparent' }}>
+              <button
+                type="button"
+                className={`desktop-nav-link ${
+                  isPhaseActive ? 'w3-black font-bold' : 'text-slate-800 w3-hover-light-grey'
+                }`}
+                style={{ display: 'inline-flex', alignItems: 'center' }}
+              >
+                <i className="fa fa-tasks" style={{ marginRight: '6px' }}></i>
+                FASES <i className="fa fa-caret-down" style={{ marginLeft: '4px' }}></i>
+              </button>
+              <div
+                className="w3-dropdown-content w3-bar-block w3-border w3-white"
+                style={{ minWidth: '220px', zIndex: 100, border: '1px solid #d1d5db' }}
+              >
+                <NavLink
+                  to={`/parks/${defaultParkId}/phase-1`}
+                  className={({ isActive }) =>
+                    `w3-bar-item w3-button ${isActive ? 'w3-black font-bold' : 'w3-hover-light-grey'}`
+                  }
+                  style={{ padding: '10px 16px', fontSize: '13px' }}
+                >
+                  <i className="fa fa-check-square-o" style={{ marginRight: '8px' }}></i>
+                  Fase 1: Permisos y Legal
+                </NavLink>
+                <NavLink
+                  to={`/parks/${defaultParkId}/phase-2`}
+                  className={({ isActive }) =>
+                    `w3-bar-item w3-button ${isActive ? 'w3-black font-bold' : 'w3-hover-light-grey'}`
+                  }
+                  style={{ padding: '10px 16px', fontSize: '13px' }}
+                >
+                  <i className="fa fa-cogs" style={{ marginRight: '8px' }}></i>
+                  Fase 2: Infraestructura
+                </NavLink>
+                <NavLink
+                  to={`/parks/${defaultParkId}/phase-3`}
+                  className={({ isActive }) =>
+                    `w3-bar-item w3-button ${isActive ? 'w3-black font-bold' : 'w3-hover-light-grey'}`
+                  }
+                  style={{ padding: '10px 16px', fontSize: '13px' }}
+                >
+                  <i className="fa fa-map-signs" style={{ marginRight: '8px' }}></i>
+                  Fase 3: Señalética
+                </NavLink>
+              </div>
+            </div>
+
             <NavLink to={`/parks/${defaultParkId}/schedules`} className={navLinkClass}>
               <i className="fa fa-clock-o" style={{ marginRight: '6px' }}></i>HORARIOS
             </NavLink>
@@ -84,66 +142,78 @@ export const AppLayout: React.FC = () => {
                 <i className="fa fa-users" style={{ marginRight: '6px' }}></i>USUARIOS
               </NavLink>
             )}
+          </div>
+
+          {/* User Profile and Mobile Hamburger - ALWAYS visible and pinned to right */}
+          <div className="flex items-center" style={{ marginLeft: '12px', flexShrink: 0 }}>
             {currentUser && (
               <Link
                 to="/profile"
-                className="desktop-nav-link w3-light-grey font-bold"
-                style={{ marginLeft: '4px' }}
-                title="Ver perfil"
+                className={`w3-button flex items-center font-bold ${
+                  isProfileActive ? 'w3-black' : 'w3-light-grey w3-hover-grey'
+                }`}
+                style={{
+                  padding: '9px 13px',
+                  fontSize: '13px',
+                  border: '1px solid #d1d5db',
+                  whiteSpace: 'nowrap',
+                  textDecoration: 'none',
+                }}
+                title={`Mi Perfil (${currentUser.name})`}
               >
                 <i className="fa fa-user" style={{ marginRight: '6px' }}></i>
-                {currentUser.name.split(' ')[0]}
+                <span>{getShortName(currentUser.name)}</span>
               </Link>
             )}
-          </div>
 
-          {/* Mobile hamburger button */}
-          <button
-            type="button"
-            className="w3-button lg:hidden"
-            style={{ marginLeft: 'auto', padding: '14px 16px' }}
-            onClick={() => setMobileMenuOpen((prev) => !prev)}
-            title="Abrir menú"
-            aria-label="Abrir menú de navegación"
-          >
-            <i className="fa fa-bars"></i>
-          </button>
+            {/* Mobile hamburger button */}
+            <button
+              type="button"
+              className="w3-button lg:hidden"
+              style={{ marginLeft: '8px', padding: '9px 13px' }}
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              title="Abrir menú"
+              aria-label="Abrir menú de navegación"
+            >
+              <i className="fa fa-bars"></i>
+            </button>
+          </div>
         </div>
 
         {/* Mobile menu dropdown */}
         {mobileMenuOpen && (
           <div className="w3-bar-block w3-black lg:hidden">
             <NavLink to="/" end onClick={() => setMobileMenuOpen(false)} className="w3-bar-item w3-button">
-              TABLERO
+              <i className="fa fa-dashboard" style={{ marginRight: '8px' }}></i>TABLERO
             </NavLink>
             <NavLink to="/parks" end onClick={() => setMobileMenuOpen(false)} className="w3-bar-item w3-button">
-              PARQUES
+              <i className="fa fa-tree" style={{ marginRight: '8px' }}></i>PARQUES
             </NavLink>
             <NavLink to={`/parks/${defaultParkId}/phase-1`} onClick={() => setMobileMenuOpen(false)} className="w3-bar-item w3-button">
-              FASE 1: PERMISOS
+              <i className="fa fa-check-square-o" style={{ marginRight: '8px' }}></i>FASE 1: PERMISOS
             </NavLink>
             <NavLink to={`/parks/${defaultParkId}/phase-2`} onClick={() => setMobileMenuOpen(false)} className="w3-bar-item w3-button">
-              FASE 2: INFRAESTRUCTURA
+              <i className="fa fa-cogs" style={{ marginRight: '8px' }}></i>FASE 2: INFRAESTRUCTURA
             </NavLink>
             <NavLink to={`/parks/${defaultParkId}/phase-3`} onClick={() => setMobileMenuOpen(false)} className="w3-bar-item w3-button">
-              FASE 3: SEÑALÉTICA
+              <i className="fa fa-map-signs" style={{ marginRight: '8px' }}></i>FASE 3: SEÑALÉTICA
             </NavLink>
             <NavLink to={`/parks/${defaultParkId}/schedules`} onClick={() => setMobileMenuOpen(false)} className="w3-bar-item w3-button">
-              HORARIOS
+              <i className="fa fa-clock-o" style={{ marginRight: '8px' }}></i>HORARIOS
             </NavLink>
             <NavLink to="/associations" onClick={() => setMobileMenuOpen(false)} className="w3-bar-item w3-button">
-              ASOCIACIONES
+              <i className="fa fa-handshake-o" style={{ marginRight: '8px' }}></i>ASOCIACIONES
             </NavLink>
             <NavLink to="/templates" onClick={() => setMobileMenuOpen(false)} className="w3-bar-item w3-button">
-              PLANTILLAS
+              <i className="fa fa-clone" style={{ marginRight: '8px' }}></i>PLANTILLAS
             </NavLink>
             {isAdmin && (
               <NavLink to="/users" onClick={() => setMobileMenuOpen(false)} className="w3-bar-item w3-button">
-                USUARIOS
+                <i className="fa fa-users" style={{ marginRight: '8px' }}></i>USUARIOS
               </NavLink>
             )}
             <Link to="/profile" onClick={() => setMobileMenuOpen(false)} className="w3-bar-item w3-button w3-grey">
-              MI PERFIL ({currentUser?.name})
+              <i className="fa fa-user" style={{ marginRight: '8px' }}></i>MI PERFIL ({currentUser?.name})
             </Link>
           </div>
         )}
