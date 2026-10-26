@@ -10,7 +10,6 @@ import {
   Phase,
 } from '../types';
 import { PhaseHeader } from '../components/phases/PhaseHeader';
-import { PhaseNavTabs } from '../components/phases/PhaseNavTabs';
 import { MatrixView } from '../components/infrastructure/MatrixView';
 import { ListView } from '../components/infrastructure/ListView';
 import { AddAreaModal } from '../components/infrastructure/AddAreaModal';
@@ -196,8 +195,6 @@ export const Phase2InfrastructurePage: React.FC = () => {
           { label: 'Fase 2: Infraestructura y equipamiento' },
         ]}
       />
-
-      <PhaseNavTabs parkId={parkId} />
 
       <PhaseHeader
         order={2}

@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { scheduleApi, parkApi } from '../services/api';
 import { ParkSchedule, Park } from '../types';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
-import { PhaseNavTabs } from '../components/phases/PhaseNavTabs';
 import { Button } from '../components/common/Button';
 import { Badge } from '../components/common/Badge';
 import { ScheduleModal } from '../components/schedules/ScheduleModal';
@@ -101,8 +100,6 @@ export const SchedulesPage: React.FC = () => {
           { label: 'Horarios Especiales' },
         ]}
       />
-
-      <PhaseNavTabs parkId={parkId} />
 
       {/* Explanatory banner based on client transcript */}
       <div className="card-calm p-6 space-y-3 bg-gradient-to-r from-calm-50/90 to-slate-50 border-calm-200">

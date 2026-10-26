@@ -6,7 +6,6 @@ import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { ProgressBar } from '../components/common/ProgressBar';
 import { Badge } from '../components/common/Badge';
 import { Button } from '../components/common/Button';
-import { PhaseNavTabs } from '../components/phases/PhaseNavTabs';
 import {
   MapPin,
   Calendar,
@@ -133,11 +132,6 @@ export const ParkDetailPage: React.FC = () => {
               </p>
             )}
           </div>
-        </div>
-
-        {/* Phase Navigation Tabs */}
-        <div className="pt-2 border-t border-slate-100">
-          <PhaseNavTabs parkId={park.id} />
         </div>
       </div>
 

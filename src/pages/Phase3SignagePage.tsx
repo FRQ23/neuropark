@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { requirementApi, parkApi, phaseApi } from '../services/api';
 import { Requirement, ParkRequirement, RequirementStatus, Park, Phase } from '../types';
 import { PhaseHeader } from '../components/phases/PhaseHeader';
-import { PhaseNavTabs } from '../components/phases/PhaseNavTabs';
 import { RequirementItem } from '../components/phases/RequirementItem';
 import { RequirementFormModal } from '../components/phases/RequirementFormModal';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
@@ -138,8 +137,6 @@ export const Phase3SignagePage: React.FC = () => {
           { label: 'Fase 3: Señalética y comunidad' },
         ]}
       />
-
-      <PhaseNavTabs parkId={parkId} />
 
       <PhaseHeader
         order={3}
