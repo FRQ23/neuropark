@@ -10,6 +10,7 @@ interface BadgeProps {
   scope?: string;
   size?: 'sm' | 'md';
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export const Badge: React.FC<BadgeProps> = ({
@@ -20,6 +21,7 @@ export const Badge: React.FC<BadgeProps> = ({
   scope,
   size = 'md',
   className = '',
+  style,
 }) => {
   const sizeClass = size === 'sm' ? 'w3-small' : '';
 
@@ -32,7 +34,7 @@ export const Badge: React.FC<BadgeProps> = ({
     }[status];
 
     return (
-      <span className={`${config.cls} ${sizeClass} ${className}`}>
+      <span className={`${config.cls} ${sizeClass} ${className}`} style={style}>
         {children || config.text}
       </span>
     );

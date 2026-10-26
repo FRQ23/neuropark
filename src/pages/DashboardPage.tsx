@@ -298,6 +298,19 @@ export const DashboardPage: React.FC = () => {
             </div>
 
             <table className="w3-table w3-striped w3-bordered">
+              <thead>
+                <tr className="w3-light-grey" style={{ borderBottom: '2px solid #ddd' }}>
+                  <th style={{ width: '150px', textAlign: 'center', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    Estado y Fase
+                  </th>
+                  <th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    Requisito y Observaciones
+                  </th>
+                  <th style={{ width: '90px', textAlign: 'center', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    Acción
+                  </th>
+                </tr>
+              </thead>
               <tbody>
                 {parkRequirements
                   .filter((pr) => pr.status !== 'validated')
@@ -309,24 +322,60 @@ export const DashboardPage: React.FC = () => {
 
                     return (
                       <tr key={pr.id}>
-                        <td style={{ verticalAlign: 'middle', width: '130px' }}>
-                          <Badge status={pr.status} size="sm" />
-                          <div style={{ marginTop: '4px' }}>
-                            <span className="w3-tag w3-light-grey w3-tiny">{phase?.name || req.phaseCode}</span>
+                        <td style={{ verticalAlign: 'middle', textAlign: 'center', width: '150px', padding: '12px 8px' }}>
+                          <div
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              textAlign: 'center',
+                              gap: '5px',
+                              width: '100%',
+                            }}
+                          >
+                            <Badge
+                              status={pr.status}
+                              size="sm"
+                              className="w3-center"
+                              style={{
+                                minWidth: '100px',
+                                textAlign: 'center',
+                                display: 'inline-block',
+                                fontWeight: 'bold',
+                                padding: '4px 8px',
+                              }}
+                            />
+                            <span
+                              className="w3-tag w3-light-grey w3-tiny w3-center"
+                              style={{
+                                display: 'inline-block',
+                                textAlign: 'center',
+                                whiteSpace: 'normal',
+                                width: '100%',
+                                maxWidth: '135px',
+                                lineHeight: '1.3',
+                                padding: '4px 6px',
+                                border: '1px solid #e5e7eb',
+                              }}
+                            >
+                              {phase?.name || req.phaseCode}
+                            </span>
                           </div>
                         </td>
                         <td style={{ verticalAlign: 'middle' }}>
                           <div style={{ fontWeight: 'bold' }}>{req.title}</div>
                           {pr.notes && (
-                            <div className="w3-small w3-text-grey" style={{ fontStyle: 'italic' }}>
+                            <div className="w3-small w3-text-grey" style={{ fontStyle: 'italic', marginTop: '2px' }}>
                               "{pr.notes}"
                             </div>
                           )}
                         </td>
-                        <td style={{ verticalAlign: 'middle', textAlign: 'right', width: '90px' }}>
+                        <td style={{ verticalAlign: 'middle', textAlign: 'center', width: '90px' }}>
                           <Link
                             to={`/parks/${selectedParkId}/${req.phaseCode}`}
-                            className="w3-button w3-light-grey w3-small"
+                            className="w3-button w3-black w3-small"
+                            style={{ padding: '6px 12px' }}
                           >
                             Revisar
                           </Link>
