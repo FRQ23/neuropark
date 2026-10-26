@@ -3,12 +3,22 @@ import { Outlet } from 'react-router-dom';
 import { RoleSwitcherBanner } from './RoleSwitcherBanner';
 import { Sidebar } from './Sidebar';
 import { Navbar } from './Navbar';
+import { ReadingRuler } from '../accessibility/ReadingRuler';
+import { FocusMask } from '../accessibility/FocusMask';
+import { NeuroAssistWidget } from '../accessibility/NeuroAssistWidget';
 
 export const AppLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-canvas-light flex flex-col selection:bg-calm-200 selection:text-calm-900">
+    <div className="min-h-screen bg-canvas-light flex flex-col selection:bg-calm-200 selection:text-calm-900 relative">
+      {/* Visual Reading Guides (TDAH & Visual Tracking) */}
+      <ReadingRuler />
+      <FocusMask />
+
+      {/* Floating NeuroAssist Widget for Cognitive Accessibility */}
+      <NeuroAssistWidget />
+
       {/* Top Demo Banner for easy testing and role switching */}
       <RoleSwitcherBanner />
 
@@ -30,7 +40,7 @@ export const AppLayout: React.FC = () => {
               personas neurodivergentes.
             </p>
             <p className="mt-0.5 text-slate-400">
-              Desarrollado para el Comité de Parque Cooper (Ensenada, B.C.) y replicabilidad estatal.
+              Desarrollado bajo directrices W3C COGA y patrones de accesibilidad cognitiva NeuroUX.
             </p>
           </footer>
         </div>

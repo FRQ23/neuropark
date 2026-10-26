@@ -2,87 +2,233 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --font-scale: 1;
-    --color-bg-app: #f7f9f8;
-    --color-surface: #ffffff;
-    --color-text-main: #1e293b;
-    --color-text-muted: #64748b;
-    --color-border: #e2e8f0;
-  }
+/* =========================================================
+   NEUROINCLUSIVE / COGNITIVE ACCESSIBILITY CSS BOILERPLATE
+   Basado en directrices W3C COGA y patrones de NeuroUX
+   ========================================================= */
 
-  /* Accessible text scaling */
-  html.text-size-normal {
-    font-size: 16px;
-  }
-  html.text-size-large {
-    font-size: 18px;
-  }
-  html.text-size-xl {
-    font-size: 20px;
-  }
+:root {
+  /* 1. PALETA CROMÁTICA DE BAJA FATIGA VISUAL
+     Evita el blanco (#FFF) y negro (#000) puros para mitigar el deslumbramiento */
+  --color-bg: #f8f7f4;       /* Blanco roto / papel cálido */
+  --color-surface: #ffffff;  /* Fondo de contenedores/tarjetas */
+  --color-text: #22252a;     /* Grafito oscuro (alto contraste pero suave) */
+  --color-muted: #595f69;    /* Texto secundario legible */
+  --color-border: #dcd9d0;   /* Delimitación clara y estructurada */
+  --color-accent: #1d6a96;   /* Azul accesible (reduce sobreestimulación) */
+  --color-focus: #0c4a6e;    /* Indicador de foco evidente */
 
-  /* High contrast mode */
-  html.high-contrast {
-    --color-bg-app: #000000;
-    --color-surface: #121212;
-    --color-text-main: #ffffff;
-    --color-text-muted: #e2e8f0;
-    --color-border: #ffffff;
-    filter: contrast(1.25);
-  }
+  /* 2. TIPOGRAFÍA Y ESPACIADO (Diseñado para Dislexia y TDAH) */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  --font-family-dyslexic: 'OpenDyslexic', 'OpenDyslexic3', sans-serif;
+  --font-size-base: 1.125rem;  /* 18px para facilitar la lectura fluida */
+  --line-height-base: 1.7;     /* Espacio vertical generoso entre líneas */
+  --letter-spacing: 0.03em;    /* Separación para evitar apiñamiento de letras */
+  --word-spacing: 0.08em;      /* Separación clara entre palabras */
 
-  html.high-contrast body {
-    background-color: #050505;
-    color: #ffffff;
-  }
+  /* 3. CONTROL DE AMPLITUD DE LECTURA (CHUNKING) */
+  --max-line-width: 65ch;      /* Evita saltos de línea largos que desorientan */
+  --border-radius: 8px;
+}
 
-  html.high-contrast .bg-white {
-    background-color: #121212 !important;
-    border-color: #ffffff !important;
-    color: #ffffff !important;
-  }
-
-  html.high-contrast .text-slate-600,
-  html.high-contrast .text-slate-500 {
-    color: #e2e8f0 !important;
-  }
-
-  /* Reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.001s !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.001s !important;
-      scroll-behavior: auto !important;
-    }
-  }
-
-  body {
-    background-color: var(--color-bg-app);
-    color: var(--color-text-main);
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    line-height: 1.6;
-    letter-spacing: 0.01em;
-  }
-
-  /* Accessible focus indicators */
-  :focus-visible {
-    outline: 3px solid #5a8270;
-    outline-offset: 2px;
+/* =========================================================
+   MODO OSCURO SUAVE (Sin contrastes extremos)
+   ========================================================= */
+@media (prefers-color-scheme: dark) {
+  :root.theme-auto {
+    --color-bg: #181a1b;
+    --color-surface: #222527;
+    --color-text: #e1e3e6;
+    --color-muted: #a3a9b2;
+    --color-border: #33383f;
+    --color-accent: #79b8ff;
+    --color-focus: #90caf9;
   }
 }
 
-/* Custom accessible utility classes */
-@layer components {
-  .btn-base {
-    @apply inline-flex items-center justify-center font-medium rounded-lg transition-colors min-h-[44px] min-w-[44px] px-4 py-2.5 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+html.soft-dark {
+  --color-bg: #181a1b;
+  --color-surface: #222527;
+  --color-text: #e1e3e6;
+  --color-muted: #a3a9b2;
+  --color-border: #33383f;
+  --color-accent: #79b8ff;
+  --color-focus: #90caf9;
+}
+
+html.soft-dark body {
+  background-color: var(--color-bg) !important;
+  color: var(--color-text) !important;
+}
+
+html.soft-dark .bg-white {
+  background-color: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+
+html.soft-dark .bg-slate-50,
+html.soft-dark .bg-slate-50\/80,
+html.soft-dark .bg-slate-100 {
+  background-color: #262a2d !important;
+  color: var(--color-text) !important;
+  border-color: var(--color-border) !important;
+}
+
+html.soft-dark .text-slate-800,
+html.soft-dark .text-slate-700,
+html.soft-dark .text-slate-900 {
+  color: #f1f3f5 !important;
+}
+
+html.soft-dark .text-slate-600,
+html.soft-dark .text-slate-500 {
+  color: #b0b7c3 !important;
+}
+
+/* =========================================================
+   MODO ALTO CONTRASTE
+   ========================================================= */
+html.high-contrast {
+  --color-bg: #000000;
+  --color-surface: #121212;
+  --color-text: #ffffff;
+  --color-muted: #e2e8f0;
+  --color-border: #ffff00;
+  --color-accent: #ffff00;
+  --color-focus: #ffff00;
+  filter: contrast(1.3);
+}
+
+html.high-contrast body {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+html.high-contrast .bg-white {
+  background-color: #121212 !important;
+  border-color: #ffff00 !important;
+  color: #ffffff !important;
+}
+
+/* =========================================================
+   DISLEXIA (OpenDyslexic)
+   ========================================================= */
+html.font-dyslexic,
+html.font-dyslexic body,
+html.font-dyslexic * {
+  font-family: var(--font-family-dyslexic) !important;
+  letter-spacing: 0.05em !important;
+  word-spacing: 0.12em !important;
+}
+
+/* =========================================================
+   ESPACIADO EXPANDIDO (TDAH & PROCESAMIENTO)
+   ========================================================= */
+html.expanded-spacing {
+  --letter-spacing: 0.06em;
+  --word-spacing: 0.14em;
+  --line-height-base: 1.9;
+}
+
+html.expanded-spacing p,
+html.expanded-spacing span,
+html.expanded-spacing li,
+html.expanded-spacing div {
+  letter-spacing: var(--letter-spacing) !important;
+  word-spacing: var(--word-spacing) !important;
+  line-height: var(--line-height-base) !important;
+}
+
+/* =========================================================
+   W3C COGA CHUNKING (Límite 65ch para evitar desorientación)
+   ========================================================= */
+html.coga-chunking main p,
+html.coga-chunking .reading-area,
+html.coga-chunking article p {
+  max-width: var(--max-line-width) !important;
+}
+
+/* =========================================================
+   REDUCCIÓN TOTAL DE MOVIMIENTO (Crucial para TDAH y sensibilidad sensorial)
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
-  
-  .card-calm {
-    @apply bg-white rounded-xl border border-slate-200/90 shadow-soft p-5 transition-shadow;
-  }
+}
+
+html.reduced-motion *,
+html.reduced-motion *::before,
+html.reduced-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* =========================================================
+   ESCALAS DE TAMAÑO DE TEXTO
+   ========================================================= */
+html.text-size-normal {
+  font-size: 16px;
+}
+html.text-size-large {
+  font-size: 18px; /* 1.125rem base */
+}
+html.text-size-xl {
+  font-size: 21px;
+}
+
+/* =========================================================
+   ESTILOS GENERALES
+   ========================================================= */
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  letter-spacing: var(--letter-spacing);
+  word-spacing: var(--word-spacing);
+  text-rendering: optimizeLegibility;
+}
+
+/* Prohibir texto justificado (evita "ríos blancos" que confunden en dislexia) */
+p, li, blockquote, dd {
+  text-align: left !important;
+}
+
+/* Foco visible indispensable para navegación por teclado */
+:focus-visible {
+  outline: 3px solid var(--color-focus) !important;
+  outline-offset: 3px !important;
+  border-radius: 4px;
+}
+
+/* Segmentación de contenido (Chunking visual para TDAH) */
+.card,
+.content-box,
+.card-calm {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+/* Listas con espaciado amplio */
+ul, ol {
+  padding-left: 1.4rem;
+}
+li {
+  margin-bottom: 0.5rem;
+}
+
+/* Botones accesibles con tamaño mínimo táctil de 44x44px */
+.btn-base {
+  @apply inline-flex items-center justify-center font-medium rounded-xl transition-colors min-h-[44px] min-w-[44px] px-4 py-2.5 text-sm;
 }

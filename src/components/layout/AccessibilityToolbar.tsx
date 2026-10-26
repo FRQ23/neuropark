@@ -1,29 +1,71 @@
 import React from 'react';
 import { useAccessibility } from '../../context/AccessibilityContext';
-import { Eye, Sun, Type } from 'lucide-react';
+import { Eye, Sun, Type, Brain, SlidersHorizontal } from 'lucide-react';
 
 export const AccessibilityToolbar: React.FC = () => {
-  const { highContrast, textSize, toggleHighContrast, setTextSize } = useAccessibility();
+  const {
+    themeMode,
+    setThemeMode,
+    textSize,
+    setTextSize,
+    isDyslexicFont,
+    toggleDyslexicFont,
+  } = useAccessibility();
 
   return (
     <div
-      aria-label="Herramientas de accesibilidad y bajo estímulo"
+      aria-label="Herramientas de accesibilidad cognitiva y bajo estímulo"
       className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200"
     >
-      {/* High Contrast Toggle */}
+      {/* Dyslexia OpenDyslexic quick toggle */}
       <button
         type="button"
-        onClick={toggleHighContrast}
-        className={`px-2.5 py-1 text-xs font-medium rounded-lg flex items-center gap-1.5 transition-colors min-h-[36px] ${
-          highContrast
-            ? 'bg-black text-yellow-300 font-bold border border-yellow-300 shadow-xs'
+        onClick={toggleDyslexicFont}
+        className={`px-2.5 py-1 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition-colors min-h-[36px] ${
+          isDyslexicFont
+            ? 'bg-calm-700 text-white shadow-xs font-bold'
             : 'text-slate-700 hover:bg-white hover:shadow-xs'
         }`}
-        aria-pressed={highContrast}
-        title="Alternar modo de alto contraste para visibilidad reforzada"
+        aria-pressed={isDyslexicFont}
+        title="Activar fuente OpenDyslexic (Optimización para dislexia)"
+      >
+        <Type className="w-3.5 h-3.5" aria-hidden="true" />
+        <span className="hidden md:inline">OpenDyslexic</span>
+      </button>
+
+      <span className="w-px h-4 bg-slate-300" aria-hidden="true" />
+
+      {/* Theme Mode Cycle */}
+      <button
+        type="button"
+        onClick={() => {
+          if (themeMode === 'warm-paper') setThemeMode('soft-dark');
+          else if (themeMode === 'soft-dark') setThemeMode('high-contrast');
+          else setThemeMode('warm-paper');
+        }}
+        className={`px-2.5 py-1 text-xs font-medium rounded-lg flex items-center gap-1.5 transition-colors min-h-[36px] ${
+          themeMode === 'high-contrast'
+            ? 'bg-black text-yellow-300 font-bold border border-yellow-300'
+            : themeMode === 'soft-dark'
+            ? 'bg-slate-800 text-slate-100 font-semibold'
+            : 'text-slate-700 hover:bg-white hover:shadow-xs'
+        }`}
+        title={`Tema actual: ${
+          themeMode === 'warm-paper'
+            ? 'Papel Cálido (W3C COGA)'
+            : themeMode === 'soft-dark'
+            ? 'Modo Oscuro Suave'
+            : 'Alto Contraste'
+        }. Clic para cambiar.`}
       >
         <Eye className="w-3.5 h-3.5" aria-hidden="true" />
-        <span className="hidden sm:inline">Alto contraste</span>
+        <span className="hidden sm:inline">
+          {themeMode === 'warm-paper'
+            ? 'Papel Cálido'
+            : themeMode === 'soft-dark'
+            ? 'Oscuro Suave'
+            : 'Contraste'}
+        </span>
       </button>
 
       <span className="w-px h-4 bg-slate-300" aria-hidden="true" />
@@ -39,7 +81,7 @@ export const AccessibilityToolbar: React.FC = () => {
               : 'text-slate-600 hover:text-slate-900'
           }`}
           aria-pressed={textSize === 'normal'}
-          title="Tamaño de texto estándar (16px)"
+          title="Texto 16px"
         >
           A
         </button>
@@ -52,7 +94,7 @@ export const AccessibilityToolbar: React.FC = () => {
               : 'text-slate-600 hover:text-slate-900'
           }`}
           aria-pressed={textSize === 'large'}
-          title="Tamaño de texto grande (18px)"
+          title="Texto 18px (Base COGA)"
         >
           A+
         </button>
@@ -65,7 +107,7 @@ export const AccessibilityToolbar: React.FC = () => {
               : 'text-slate-600 hover:text-slate-900'
           }`}
           aria-pressed={textSize === 'xl'}
-          title="Tamaño de texto muy grande (20px)"
+          title="Texto 21px"
         >
           A++
         </button>
