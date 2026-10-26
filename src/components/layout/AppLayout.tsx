@@ -9,7 +9,7 @@ export const AppLayout: React.FC = () => {
   const defaultParkId = 'park-ensenada-cooper';
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `w3-button w3-bar-item ${
+    `desktop-nav-link ${
       isActive ? 'w3-black font-bold' : 'text-slate-800 w3-hover-light-grey'
     }`;
 
@@ -18,48 +18,81 @@ export const AppLayout: React.FC = () => {
       {/* Top Demo Banner for easy role switching */}
       <RoleSwitcherBanner />
 
-      {/* Main W3.CSS Navbar on top */}
+      {/* Main Navbar on top */}
       <div className="w3-white w3-border-bottom" style={{ borderColor: '#e5e7eb' }}>
-        <div className="w3-bar max-w-7xl mx-auto flex items-center justify-between" id="myNavbar">
-          <Link to="/" className="w3-button w3-wide font-extrabold flex items-center gap-2">
-            <i className="fa fa-tree w3-margin-right text-lg"></i>
-            <span>NEUROPARQUE</span>
+        <div
+          className="max-w-7xl mx-auto flex items-center justify-between"
+          id="myNavbar"
+          style={{ width: '100%', padding: '0 12px' }}
+        >
+          {/* Brand Logo: fixed minimum width, never shrinks, separated from menu */}
+          <Link
+            to="/"
+            className="w3-button w3-wide font-extrabold flex items-center"
+            style={{
+              flexShrink: 0,
+              minWidth: '180px',
+              whiteSpace: 'nowrap',
+              marginRight: '24px',
+              padding: '14px 12px',
+              letterSpacing: '2px',
+              textDecoration: 'none',
+            }}
+            title="NEUROPARQUE Inicio"
+          >
+            <i className="fa fa-tree" style={{ marginRight: '8px', fontSize: '18px' }}></i>
+            <span style={{ fontWeight: 800 }}>NEUROPARQUE</span>
           </Link>
 
-          {/* Desktop Links (Right-aligned like in template) */}
-          <div className="hidden lg:flex items-center" style={{ marginLeft: 'auto' }}>
+          {/* Desktop Links (Right-aligned, compact, with overflow protection) */}
+          <div
+            className="hidden lg:flex items-center desktop-nav-container"
+            style={{
+              marginLeft: 'auto',
+              flexShrink: 1,
+              minWidth: 0,
+              overflowX: 'auto',
+              whiteSpace: 'nowrap',
+            }}
+          >
             <NavLink to="/" end className={navLinkClass}>
-              <i className="fa fa-dashboard w3-margin-right"></i>TABLERO
+              <i className="fa fa-dashboard" style={{ marginRight: '6px' }}></i>TABLERO
             </NavLink>
             <NavLink to="/parks" end className={navLinkClass}>
-              <i className="fa fa-tree w3-margin-right"></i>PARQUES
+              <i className="fa fa-tree" style={{ marginRight: '6px' }}></i>PARQUES
             </NavLink>
             <NavLink to={`/parks/${defaultParkId}/phase-1`} className={navLinkClass}>
-              <i className="fa fa-check-square-o w3-margin-right"></i>FASE 1
+              <i className="fa fa-check-square-o" style={{ marginRight: '6px' }}></i>FASE 1
             </NavLink>
             <NavLink to={`/parks/${defaultParkId}/phase-2`} className={navLinkClass}>
-              <i className="fa fa-cogs w3-margin-right"></i>FASE 2
+              <i className="fa fa-cogs" style={{ marginRight: '6px' }}></i>FASE 2
             </NavLink>
             <NavLink to={`/parks/${defaultParkId}/phase-3`} className={navLinkClass}>
-              <i className="fa fa-map-signs w3-margin-right"></i>FASE 3
+              <i className="fa fa-map-signs" style={{ marginRight: '6px' }}></i>FASE 3
             </NavLink>
             <NavLink to={`/parks/${defaultParkId}/schedules`} className={navLinkClass}>
-              <i className="fa fa-clock-o w3-margin-right"></i>HORARIOS
+              <i className="fa fa-clock-o" style={{ marginRight: '6px' }}></i>HORARIOS
             </NavLink>
             <NavLink to="/associations" className={navLinkClass}>
-              <i className="fa fa-handshake-o w3-margin-right"></i>ASOCIACIONES
+              <i className="fa fa-handshake-o" style={{ marginRight: '6px' }}></i>ASOCIACIONES
             </NavLink>
             <NavLink to="/templates" className={navLinkClass}>
-              <i className="fa fa-clone w3-margin-right"></i>PLANTILLAS
+              <i className="fa fa-clone" style={{ marginRight: '6px' }}></i>PLANTILLAS
             </NavLink>
             {isAdmin && (
               <NavLink to="/users" className={navLinkClass}>
-                <i className="fa fa-users w3-margin-right"></i>USUARIOS
+                <i className="fa fa-users" style={{ marginRight: '6px' }}></i>USUARIOS
               </NavLink>
             )}
             {currentUser && (
-              <Link to="/profile" className="w3-button w3-light-grey font-bold">
-                <i className="fa fa-user w3-margin-right"></i>{currentUser.name.split(' ')[0]}
+              <Link
+                to="/profile"
+                className="desktop-nav-link w3-light-grey font-bold"
+                style={{ marginLeft: '4px' }}
+                title="Ver perfil"
+              >
+                <i className="fa fa-user" style={{ marginRight: '6px' }}></i>
+                {currentUser.name.split(' ')[0]}
               </Link>
             )}
           </div>
@@ -68,9 +101,10 @@ export const AppLayout: React.FC = () => {
           <button
             type="button"
             className="w3-button lg:hidden"
-            style={{ marginLeft: 'auto' }}
+            style={{ marginLeft: 'auto', padding: '14px 16px' }}
             onClick={() => setMobileMenuOpen((prev) => !prev)}
             title="Abrir menú"
+            aria-label="Abrir menú de navegación"
           >
             <i className="fa fa-bars"></i>
           </button>

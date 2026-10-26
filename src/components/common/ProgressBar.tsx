@@ -14,6 +14,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   value,
   label,
   subLabel,
+  size = 'md',
   showPercentage = true,
   className = '',
   colorScheme = 'calm',
@@ -26,10 +27,16 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
     amber: 'w3-dark-grey',
   }[colorScheme];
 
+  const height = {
+    sm: '6px',
+    md: '12px',
+    lg: '18px',
+  }[size];
+
   return (
-    <div className={`w3-margin-bottom ${className}`}>
+    <div className={`w3-margin-bottom ${className}`} style={{ marginBottom: '10px' }}>
       {(label || showPercentage) && (
-        <div className="w3-row w3-small w3-margin-bottom">
+        <div className="w3-row w3-small" style={{ marginBottom: '4px' }}>
           <div className="w3-col s8">
             <strong>{label}</strong>
             {subLabel && <span className="w3-text-grey" style={{ marginLeft: '8px' }}>{subLabel}</span>}
@@ -46,13 +53,16 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
         aria-valuemin={0}
         aria-valuemax={100}
         aria-label={label || 'Progreso'}
+        style={{ height, width: '100%', backgroundColor: '#f1f5f9' }}
       >
         <div
-          className={`w3-container ${barColor} w3-center w3-small`}
-          style={{ width: `${clampedValue}%`, minWidth: clampedValue > 0 ? '24px' : '0', padding: '2px 0' }}
-        >
-          {clampedValue > 5 && `${clampedValue}%`}
-        </div>
+          className={barColor}
+          style={{
+            width: `${clampedValue}%`,
+            height: '100%',
+            transition: 'width 0.3s ease',
+          }}
+        />
       </div>
     </div>
   );

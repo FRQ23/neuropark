@@ -76,49 +76,72 @@ export const ParkDetailPage: React.FC = () => {
         ]}
       />
 
-      {/* Park Info Hero */}
-      <div className="w3-padding-24" style={{ borderBottom: '1px solid #e5e7eb', marginBottom: '20px' }}>
-        <div className="w3-row">
-          <div className="w3-col l8 m12 s12">
-            <div style={{ marginBottom: '8px' }}>
-              <span className="w3-tag w3-black w3-small" style={{ marginRight: '6px' }}>
-                {park.state}
-              </span>
-              <span
-                className={`w3-tag w3-small ${
-                  park.status === 'open' ? 'w3-green' : 'w3-khaki'
-                }`}
-              >
-                {park.status === 'open' ? 'Abierto al Público' : 'En Adecuación Progresiva'}
-              </span>
-            </div>
+      {/* Park Info Hero (Flat, full width, no squeezed columns) */}
+      <div className="w3-padding-16" style={{ borderBottom: '1px solid #e5e7eb', marginBottom: '20px' }}>
+        <div style={{ marginBottom: '8px' }}>
+          <span className="w3-tag w3-black w3-small" style={{ marginRight: '6px' }}>
+            {park.state}
+          </span>
+          <span
+            className={`w3-tag w3-small ${
+              park.status === 'open' ? 'w3-green' : 'w3-dark-grey'
+            }`}
+          >
+            {park.status === 'open' ? 'Abierto al Público' : 'En Adecuación Progresiva'}
+          </span>
+        </div>
 
-            <h1 className="w3-xxlarge w3-wide" style={{ margin: '8px 0', fontWeight: 'bold' }}>{park.name}</h1>
-            <p className="w3-text-grey" style={{ margin: '4px 0' }}>
-              <i className="fa fa-map-marker w3-margin-right"></i>
-              {park.location}
-            </p>
-            <p style={{ margin: '8px 0 0 0', lineHeight: '1.6' }}>
-              {park.description}
-            </p>
+        <h1 className="w3-xxlarge w3-wide" style={{ margin: '6px 0 8px 0', fontWeight: 'bold' }}>{park.name}</h1>
+        <p className="w3-text-grey" style={{ margin: '4px 0' }}>
+          <i className="fa fa-map-marker" style={{ marginRight: '6px' }}></i>
+          {park.location}
+        </p>
+        <p style={{ margin: '8px 0 16px 0', lineHeight: '1.6', maxWidth: '960px' }}>
+          {park.description}
+        </p>
+
+        {/* Relocated clean progress section below description */}
+        <div style={{ maxWidth: '640px', marginTop: '12px', paddingTop: '12px', borderTop: '1px solid #f1f5f9' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+            <span className="w3-small font-bold" style={{ textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <i className="fa fa-tasks" style={{ marginRight: '6px' }}></i>
+              Avance General de Adecuación
+            </span>
+            <span className="w3-small font-bold">
+              <span className="w3-text-grey" style={{ marginRight: '8px' }}>
+                {validatedReqs} de {totalReqs} requisitos validados
+              </span>
+              <span className={`w3-tag ${overallPercentage === 100 ? 'w3-green' : 'w3-black'} w3-small`}>
+                {overallPercentage}%
+              </span>
+            </span>
           </div>
 
-          <div className="w3-col l4 m12 s12 w3-margin-top">
-            <div style={{ padding: '8px 0' }}>
-              <ProgressBar
-                value={overallPercentage}
-                label="Validación General"
-                subLabel={`${validatedReqs}/${totalReqs}`}
-                colorScheme={overallPercentage === 100 ? 'emerald' : 'calm'}
-              />
-              {park.targetOpenDate && (
-                <p className="w3-tiny w3-text-grey" style={{ margin: '8px 0 0 0' }}>
-                  <i className="fa fa-calendar w3-margin-right"></i>
-                  Meta apertura: {new Date(park.targetOpenDate).toLocaleDateString('es-MX')}
-                </p>
-              )}
-            </div>
+          <div
+            className="w3-light-grey w3-border"
+            role="progressbar"
+            aria-valuenow={overallPercentage}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-label="Avance general de validación"
+            style={{ height: '12px', width: '100%' }}
+          >
+            <div
+              className={overallPercentage === 100 ? 'w3-green' : 'w3-black'}
+              style={{
+                width: `${overallPercentage}%`,
+                height: '100%',
+                transition: 'width 0.3s ease',
+              }}
+            />
           </div>
+
+          {park.targetOpenDate && (
+            <p className="w3-small w3-text-grey" style={{ margin: '8px 0 0 0' }}>
+              <i className="fa fa-calendar" style={{ marginRight: '6px' }}></i>
+              Meta estimada de apertura: {new Date(park.targetOpenDate).toLocaleDateString('es-MX')}
+            </p>
+          )}
         </div>
       </div>
 

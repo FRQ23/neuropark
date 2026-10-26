@@ -81,3 +81,34 @@ table.w3-hoverable tr:hover {
 .matrix-cell:hover {
   background-color: #f8fafc !important;
 }
+
+/* =========================================================
+   BARRA DE NAVEGACIÓN SUPERIOR (RESPONSIVE Y SIN COLISIONES)
+   ========================================================= */
+
+.desktop-nav-link {
+  padding: 14px 9px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+  letter-spacing: 0.5px;
+  display: inline-flex !important;
+  align-items: center !important;
+  text-decoration: none !important;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  transition: background-color 0.15s ease;
+}
+
+@media (min-width: 1280px) {
+  .desktop-nav-link {
+    padding: 14px 11px !important;
+    font-size: 13px !important;
+  }
+}
+
+.desktop-nav-container::-webkit-scrollbar {
+  display: none;
+}
+
