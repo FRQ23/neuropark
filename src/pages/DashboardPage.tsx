@@ -11,7 +11,6 @@ import {
   Lock,
   Unlock,
   CheckCircle2,
-  AlertCircle,
   Clock,
   ArrowRight,
   FileCheck2,
@@ -20,9 +19,7 @@ import {
   Sparkles,
   HeartHandshake,
   Calendar,
-  Camera,
   MapPin,
-  ExternalLink,
 } from 'lucide-react';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
 
@@ -71,7 +68,6 @@ export const DashboardPage: React.FC = () => {
 
   const activePark = parks.find((p) => p.id === selectedParkId) || parks[0];
 
-  // Requirements metrics
   const totalReqCount = parkRequirements.length;
   const validatedCount = parkRequirements.filter((pr) => pr.status === 'validated').length;
   const completedCount = parkRequirements.filter((pr) => pr.status === 'completed').length;
@@ -92,123 +88,149 @@ export const DashboardPage: React.FC = () => {
   };
 
   if (isLoading) {
-    return <LoadingSpinner message="Cargando tablero y seguimiento de fases..." />;
+    return <LoadingSpinner message="Cargando tablero..." />;
   }
 
   return (
-    <div className="space-y-6">
-      {/* Top Banner & Park Selector */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-bold uppercase tracking-wider text-calm-700 bg-calm-50 border border-calm-200 px-2 py-0.5 rounded">
-              Tablero de Mando
-            </span>
-            <span className="text-xs text-slate-500">Supervisión integral de apertura</span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">
-            {activePark?.name || 'Parque Cooper'}
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-600 mt-1 flex items-center gap-1.5">
-            <MapPin className="w-4 h-4 text-calm-600 flex-shrink-0" />
-            <span>{activePark?.location || 'Ensenada, B.C.'}</span>
-          </p>
-        </div>
+    <div className="space-y-8">
+      {/* Hero Header matching W3.CSS clean style */}
+      <div className="w3-container w3-white w3-card p-6 sm:p-8 border-l-4 border-black">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="w3-tag w3-black text-xs font-bold uppercase tracking-wider px-2.5 py-1">
+                Caso Piloto Oficial
+              </span>
+              <span className="w3-tag w3-light-grey text-xs font-bold text-slate-800">
+                {activePark?.state || 'Baja California'}
+              </span>
+            </div>
 
-        {parks.length > 1 && (
-          <div className="flex items-center gap-2 self-start sm:self-center">
-            <label htmlFor="park-select" className="text-xs font-semibold text-slate-600">
-              Cambiar Parque:
-            </label>
-            <select
-              id="park-select"
-              value={selectedParkId}
-              onChange={(e) => setSelectedParkId(e.target.value)}
-              className="text-xs bg-white border border-slate-300 rounded-xl px-3 py-2 font-medium"
-            >
-              {parks.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name} ({p.state})
-                </option>
-              ))}
-            </select>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              {activePark?.name || 'Parque Cooper'}
+            </h1>
+            <p className="text-sm text-slate-600 flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-slate-700" />
+              <span>{activePark?.location || 'Ensenada, B.C.'}</span>
+            </p>
+            <p className="text-sm text-slate-600 max-w-3xl leading-relaxed pt-1">
+              {activePark?.description}
+            </p>
           </div>
-        )}
+
+          {parks.length > 1 && (
+            <div className="w-full md:w-auto">
+              <label htmlFor="park-select" className="block text-xs font-bold uppercase text-slate-500 mb-1">
+                Cambiar Parque:
+              </label>
+              <select
+                id="park-select"
+                value={selectedParkId}
+                onChange={(e) => setSelectedParkId(e.target.value)}
+                className="w-full text-xs bg-slate-50 border border-slate-300 rounded p-2.5 font-bold"
+              >
+                {parks.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name} ({p.state})
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* "Listo para abrir" Locked Status Hero Banner */}
+      {/* W3.CSS Statistics Bar (Promo Section style) */}
+      <div className="w3-container w3-grid w3-center w3-dark-grey w3-padding-32 rounded shadow-sm" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '20px' }}>
+        <div>
+          <span className="w3-xxlarge font-extrabold text-white">
+            {totalReqCount > 0 ? Math.round((validatedCount / totalReqCount) * 100) : 0}%
+          </span>
+          <br />
+          <span className="text-xs uppercase tracking-wider text-slate-300 font-bold">Avance Global</span>
+        </div>
+        <div>
+          <span className="w3-xxlarge font-extrabold text-white">{validatedCount} / {totalReqCount}</span>
+          <br />
+          <span className="text-xs uppercase tracking-wider text-slate-300 font-bold">Requisitos Validados</span>
+        </div>
+        <div>
+          <span className="w3-xxlarge font-extrabold text-white">{schedules.length}</span>
+          <br />
+          <span className="text-xs uppercase tracking-wider text-slate-300 font-bold">Horarios Especiales</span>
+        </div>
+        <div>
+          <span className="w3-xxlarge font-extrabold text-white">{associations.length}</span>
+          <br />
+          <span className="text-xs uppercase tracking-wider text-slate-300 font-bold">Fundaciones Aliadas</span>
+        </div>
+      </div>
+
+      {/* "Listo para abrir" Status Hero Card */}
       <div
-        className={`rounded-2xl border p-6 transition-all shadow-soft-lg ${
+        className={`w3-card p-6 sm:p-8 rounded transition-all ${
           isReadyToOpen
-            ? 'bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-100/60 border-emerald-300 text-emerald-950'
-            : 'bg-white border-amber-300/80 text-slate-800'
+            ? 'w3-pale-green border border-green-500 text-green-900'
+            : 'w3-white border border-slate-300 text-slate-900'
         }`}
       >
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="flex items-start gap-4">
             <div
-              className={`w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 ${
-                isReadyToOpen
-                  ? 'bg-emerald-600 text-white shadow-soft'
-                  : 'bg-amber-100 text-amber-800 border border-amber-300'
+              className={`w-14 h-14 rounded flex items-center justify-center flex-shrink-0 font-bold ${
+                isReadyToOpen ? 'w3-green text-white' : 'w3-black text-white'
               }`}
             >
               {isReadyToOpen ? <Unlock className="w-7 h-7" /> : <Lock className="w-7 h-7" />}
             </div>
 
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-2 flex-wrap">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
                 <span
-                  className={`text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
-                    isReadyToOpen
-                      ? 'bg-emerald-200 text-emerald-900 border border-emerald-400'
-                      : 'bg-amber-200 text-amber-950 border border-amber-400'
+                  className={`text-xs uppercase font-extrabold tracking-wider px-2.5 py-0.5 rounded ${
+                    isReadyToOpen ? 'w3-green text-white' : 'w3-light-grey text-black border border-slate-400'
                   }`}
                 >
                   {isReadyToOpen ? 'Listo para abrir' : 'Apertura Bloqueada'}
                 </span>
-                <span className="text-xs text-slate-500">
-                  {validatedCount} de {totalReqCount} requisitos validados oficialmente
+                <span className="text-xs text-slate-500 font-bold">
+                  {validatedCount} de {totalReqCount} validados
                 </span>
               </div>
 
-              <h2 className="text-xl font-bold">
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight">
                 {isReadyToOpen
-                  ? '¡El parque cuenta con el 100% de requisitos dictaminados y validados!'
+                  ? '¡El parque cumple al 100% todos los dictámenes y puede inaugurarse!'
                   : 'Estatus: En adecuación progresiva (Bloqueado para apertura)'}
               </h2>
 
               <p className="text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">
                 {isReadyToOpen
-                  ? 'Todos los permisos de gobierno, adecuaciones de infraestructura por área y señalética comunitaria han sido aprobados por sus respectivos comités de educación, psicología y finanzas.'
-                  : `Por seguridad de la comunidad neurodivergente, el parque permanece bloqueado para apertura al público. Faltan ${
+                  ? 'Los comités de educación, psicología y finanzas han dictaminado y acreditado todos los requisitos de infraestructura, pintura y señalética.'
+                  : `El parque no puede abrir al público hasta que todos los requisitos sean validados. Faltan ${
                       totalReqCount - validatedCount
-                    } requisitos por validar con dictamen oficial.`}
+                    } requisitos por dictaminar.`}
               </p>
             </div>
           </div>
 
-          <div className="flex flex-col items-start md:items-end gap-2 w-full md:w-auto flex-shrink-0">
+          <div className="flex-shrink-0 w-full md:w-auto">
             {isReadyToOpen ? (
-              <Button
-                variant="primary"
+              <button
+                type="button"
                 onClick={handleOpenPark}
                 disabled={activePark?.status === 'open' || !isAdmin}
-                leftIcon={<Sparkles className="w-4 h-4" />}
+                className="w3-button w3-black w3-padding-large w3-large w-full md:w-auto font-bold uppercase tracking-wider"
               >
                 {activePark?.status === 'open'
-                  ? '✓ Parque Inaugurado Oficialmente'
+                  ? '✓ Parque Inaugurado'
                   : 'Habilitar Apertura Oficial'}
-              </Button>
+              </button>
             ) : (
-              <div className="text-xs bg-amber-50 text-amber-900 border border-amber-200 p-3 rounded-xl max-w-xs">
-                <p className="font-semibold flex items-center gap-1.5">
-                  <Lock className="w-3.5 h-3.5" />
-                  Regla de seguridad:
-                </p>
-                <p className="mt-0.5 opacity-90">
-                  Este candado se desbloqueará automáticamente al dictaminar y validar los {totalReqCount}{' '}
-                  requisitos.
+              <div className="w3-light-grey p-4 rounded border border-slate-300 text-xs max-w-xs">
+                <span className="font-extrabold uppercase block mb-1">Regla de Apertura:</span>
+                <p className="text-slate-600">
+                  El candado permanecerá activo hasta completar la validación técnica en campo.
                 </p>
               </div>
             )}
@@ -216,25 +238,27 @@ export const DashboardPage: React.FC = () => {
         </div>
 
         {/* Global Progress Bar */}
-        <div className="mt-6 pt-4 border-t border-slate-200/60">
+        <div className="mt-6 pt-4 border-t border-slate-200">
           <ProgressBar
             value={totalReqCount > 0 ? (validatedCount / totalReqCount) * 100 : 0}
-            label="Avance Global de Validación de Requisitos"
-            subLabel={`${validatedCount} validados de ${totalReqCount} totales`}
-            size="lg"
+            label="Avance de Validación Oficial"
+            subLabel={`${validatedCount} de ${totalReqCount} requisitos`}
+            size="md"
             colorScheme={isReadyToOpen ? 'emerald' : 'calm'}
           />
         </div>
       </div>
 
-      {/* Progress Cards Per Phase (Data-Driven) */}
+      {/* Phases Grid (Key features / 3 Columns like W3.CSS Team/About) */}
       <div>
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-lg font-bold text-slate-800">Avance por Fase de Adecuación</h2>
-          <span className="text-xs text-slate-500">Orden secuencial de cumplimiento</span>
+        <div className="w3-container p-0 mb-4 flex items-center justify-between">
+          <h2 className="text-xl font-extrabold uppercase tracking-wide text-slate-900">
+            Fases de Adecuación
+          </h2>
+          <span className="text-xs text-slate-500 font-bold">Fases 1, 2 y 3</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {phases.map((phase) => {
             const phaseReqs = requirements.filter((r) => r.phaseCode === phase.code);
             const phaseReqIds = phaseReqs.map((r) => r.id);
@@ -248,50 +272,51 @@ export const DashboardPage: React.FC = () => {
             const pend = phaseParkReqs.filter((p) => p.status === 'pending' || p.status === 'in_progress').length;
             const percent = total > 0 ? Math.round((valid / total) * 100) : 0;
 
-            const Icon = phase.code === 'phase-1' ? FileCheck2 : phase.code === 'phase-2' ? Sliders : Signpost;
-
             return (
               <div
                 key={phase.id}
-                className="card-calm p-5 flex flex-col justify-between space-y-4 hover:shadow-soft-lg transition-all"
+                className="w3-card w3-white p-6 flex flex-col justify-between space-y-4 hover:shadow-lg transition-shadow border border-slate-200"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="w-8 h-8 rounded-xl bg-calm-100 text-calm-800 flex items-center justify-center font-bold text-xs">
-                      {phase.order}
+                    <span className="w3-tag w3-black text-xs font-bold uppercase tracking-wider px-2.5 py-1">
+                      Fase {phase.order}
                     </span>
-                    <span className="text-xs font-semibold text-slate-600">{percent}% validado</span>
+                    <span className="text-xs font-bold text-slate-700">{percent}% validado</span>
                   </div>
 
                   <div>
-                    <h3 className="font-bold text-slate-800 text-base">{phase.name}</h3>
-                    <p className="text-xs text-slate-500 line-clamp-2 mt-1">{phase.description}</p>
+                    <h3 className="text-base font-bold text-slate-900 uppercase tracking-wide">
+                      {phase.name}
+                    </h3>
+                    <p className="text-xs text-slate-600 mt-1 line-clamp-2 leading-relaxed">
+                      {phase.description}
+                    </p>
                   </div>
 
                   <ProgressBar value={percent} size="sm" showPercentage={false} />
 
                   <div className="grid grid-cols-3 gap-2 text-center text-xs pt-1">
-                    <div className="bg-emerald-50 text-emerald-900 p-2 rounded-lg border border-emerald-200">
-                      <span className="block font-bold text-sm">{valid}</span>
-                      <span className="text-[10px] uppercase font-semibold">Validados</span>
+                    <div className="w3-light-grey p-2 rounded">
+                      <span className="block font-bold text-slate-900">{valid}</span>
+                      <span className="text-[10px] text-slate-600 uppercase font-semibold">Validados</span>
                     </div>
-                    <div className="bg-teal-50 text-teal-900 p-2 rounded-lg border border-teal-200">
-                      <span className="block font-bold text-sm">{comp}</span>
-                      <span className="text-[10px] uppercase font-semibold">Completos</span>
+                    <div className="w3-light-grey p-2 rounded">
+                      <span className="block font-bold text-slate-900">{comp}</span>
+                      <span className="text-[10px] text-slate-600 uppercase font-semibold">Completos</span>
                     </div>
-                    <div className="bg-amber-50 text-amber-900 p-2 rounded-lg border border-amber-200">
-                      <span className="block font-bold text-sm">{pend}</span>
-                      <span className="text-[10px] uppercase font-semibold">Pendientes</span>
+                    <div className="w3-light-grey p-2 rounded">
+                      <span className="block font-bold text-slate-900">{pend}</span>
+                      <span className="text-[10px] text-slate-600 uppercase font-semibold">Pendientes</span>
                     </div>
                   </div>
                 </div>
 
                 <Link
                   to={`/parks/${selectedParkId}/${phase.code}`}
-                  className="inline-flex items-center justify-between text-xs font-semibold text-calm-700 hover:text-calm-900 pt-3 border-t border-slate-100 group"
+                  className="w3-button w3-black w3-block text-xs font-bold uppercase tracking-wider text-center py-2.5 mt-2"
                 >
-                  <span>Ver checklist de la {phase.name}</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  Abrir Checklist
                 </Link>
               </div>
             );
@@ -299,22 +324,21 @@ export const DashboardPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Bottom Grid: Pending Items To Review & Community / Schedules Glance */}
+      {/* Pending Items & Schedules */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Pending Items List (2 columns) */}
-        <div className="lg:col-span-2 card-calm p-6 space-y-4">
-          <div className="flex items-center justify-between">
+        {/* Pending checks list (2 cols) */}
+        <div className="lg:col-span-2 w3-card w3-white p-6 space-y-4 border border-slate-200">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-200">
             <div>
-              <h2 className="text-base font-bold text-slate-800 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-amber-600" />
-                <span>Requisitos Pendientes de Dictamen o Validación</span>
+              <h2 className="text-base font-bold uppercase tracking-wide text-slate-900">
+                Requisitos Pendientes de Dictamen
               </h2>
               <p className="text-xs text-slate-500">
-                Lista prioritaria de elementos que requieren atención del comité
+                Elementos que requieren revisión de los comités de educación, psicología y finanzas
               </p>
             </div>
-            <span className="text-xs bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded-full">
-              {totalReqCount - validatedCount} pendientes
+            <span className="w3-tag w3-black text-xs font-bold px-2.5 py-1">
+              {totalReqCount - validatedCount} por validar
             </span>
           </div>
 
@@ -331,21 +355,20 @@ export const DashboardPage: React.FC = () => {
                     <div className="space-y-1">
                       <div className="flex items-center gap-2 flex-wrap">
                         <Badge status={pr.status} size="sm" />
-                        <span className="text-[10px] font-semibold text-calm-700 bg-calm-50 px-1.5 py-0.5 rounded">
+                        <span className="text-[10px] font-bold uppercase text-slate-700 bg-slate-100 px-1.5 py-0.5 rounded">
                           {phase?.name || req.phaseCode}
                         </span>
                         {req.specialty && <Badge specialty={req.specialty} size="sm" />}
                       </div>
-                      <p className="text-sm font-semibold text-slate-800">{req.title}</p>
-                      {pr.notes && <p className="text-xs text-slate-500 italic">"{pr.notes}"</p>}
+                      <p className="text-sm font-bold text-slate-900">{req.title}</p>
+                      {pr.notes && <p className="text-xs text-slate-600 italic">"{pr.notes}"</p>}
                     </div>
 
                     <Link
                       to={`/parks/${selectedParkId}/${req.phaseCode}`}
-                      className="text-xs text-calm-700 hover:text-calm-900 font-semibold flex items-center gap-1 flex-shrink-0 pt-1"
+                      className="w3-button w3-light-grey text-xs font-bold uppercase py-1.5 px-3 flex-shrink-0"
                     >
-                      <span>Revisar</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      Revisar
                     </Link>
                   </div>
                 );
@@ -353,60 +376,40 @@ export const DashboardPage: React.FC = () => {
 
             {totalReqCount - validatedCount === 0 && (
               <div className="p-8 text-center text-slate-500 text-sm">
-                🎉 No hay requisitos pendientes. Todos han sido validados con éxito.
+                ✓ Todos los requisitos han sido validados exitosamente.
               </div>
             )}
           </div>
         </div>
 
-        {/* Quick widgets (1 column) */}
-        <div className="space-y-4">
-          {/* Schedules Widget */}
-          <div className="card-calm p-5 space-y-3">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-calm-600" />
-                <span>Horarios Especiales Activos</span>
-              </h3>
-              <Link
-                to={`/parks/${selectedParkId}/schedules`}
-                className="text-xs text-calm-700 hover:underline"
-              >
-                Ver todos
-              </Link>
-            </div>
-
-            <div className="space-y-2">
-              {schedules.map((s) => (
-                <div key={s.id} className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1">
-                  <div className="flex items-center justify-between font-semibold text-slate-800">
-                    <span>{s.days.join(', ')}</span>
-                    <span className="text-calm-700 bg-white px-2 py-0.5 rounded border border-slate-200">
-                      {s.startTime} - {s.endTime}
-                    </span>
-                  </div>
-                  <p className="text-slate-500 line-clamp-1 text-[11px]">
-                    {s.restrictions[0] || 'Ambiente controlado'}
-                  </p>
-                </div>
-              ))}
-            </div>
+        {/* Schedules quick widget (1 col) */}
+        <div className="w3-card w3-white p-6 space-y-4 border border-slate-200 h-fit">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+            <h3 className="text-base font-bold uppercase tracking-wide text-slate-900">
+              Horarios Especiales
+            </h3>
+            <Link
+              to={`/parks/${selectedParkId}/schedules`}
+              className="text-xs font-bold text-slate-900 uppercase hover:underline"
+            >
+              Ver todos
+            </Link>
           </div>
 
-          {/* Affiliated Associations Widget */}
-          <div className="card-calm p-5 space-y-3">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
-                <HeartHandshake className="w-4 h-4 text-calm-600" />
-                <span>Asociaciones en Red</span>
-              </h3>
-              <Link to="/associations" className="text-xs text-calm-700 hover:underline">
-                Gestionar ({associations.length})
-              </Link>
-            </div>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              Organizaciones civiles vinculadas para validación de señalética, horarios y réplicas en otros estados.
-            </p>
+          <div className="space-y-3">
+            {schedules.map((s) => (
+              <div key={s.id} className="w3-light-grey p-3.5 rounded border border-slate-200 text-xs space-y-1.5">
+                <div className="flex items-center justify-between font-bold text-slate-900">
+                  <span>{s.days.join(', ')}</span>
+                  <span className="w3-tag w3-black text-[10px] font-bold px-2 py-0.5">
+                    {s.startTime} - {s.endTime}
+                  </span>
+                </div>
+                <p className="text-slate-600 text-[11px]">
+                  {s.restrictions[0] || 'Ambiente controlado'}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
