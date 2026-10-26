@@ -75,8 +75,8 @@ export const EvidenceUploadModal: React.FC<EvidenceUploadModalProps> = ({
           value={type}
           onChange={(e) => setType(e.target.value as 'before' | 'after')}
           options={[
-            { value: 'after', label: '📸 Estado Posterior / Adecuación Realizada ("Después")' },
-            { value: 'before', label: '🏚️ Estado Original / Previo a la Adecuación ("Antes")' },
+            { value: 'after', label: 'Estado Posterior / Adecuación Realizada ("Después")' },
+            { value: 'before', label: 'Estado Original / Previo a la Adecuación ("Antes")' },
           ]}
         />
 

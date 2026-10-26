@@ -58,7 +58,7 @@ export const RoleSwitcherBanner: React.FC = () => {
                 .filter((u) => u.role === 'admin')
                 .map((u) => (
                   <option key={u.id} value={u.id}>
-                    🔑 {u.name} (Admin)
+                    {u.name} (Admin)
                   </option>
                 ))}
             </optgroup>
@@ -67,7 +67,7 @@ export const RoleSwitcherBanner: React.FC = () => {
                 .filter((u) => u.role === 'committee')
                 .map((u) => (
                   <option key={u.id} value={u.id}>
-                    🎓 {u.name}
+                    {u.name}
                   </option>
                 ))}
             </optgroup>
@@ -76,7 +76,7 @@ export const RoleSwitcherBanner: React.FC = () => {
                 .filter((u) => u.role === 'viewer')
                 .map((u) => (
                   <option key={u.id} value={u.id}>
-                    👁️ {u.name} (Solo lectura)
+                    {u.name} (Solo lectura)
                   </option>
                 ))}
             </optgroup>

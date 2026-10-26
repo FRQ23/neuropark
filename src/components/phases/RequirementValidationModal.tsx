@@ -34,10 +34,10 @@ export const RequirementValidationModal: React.FC<RequirementValidationModalProp
   };
 
   const statusOptions = [
-    { value: 'pending', label: '⏳ Pendiente de inicio' },
-    { value: 'in_progress', label: '🛠️ En progreso / En trámite' },
-    { value: 'completed', label: '📋 Completado (Listo para dictamen del comité)' },
-    { value: 'validated', label: '✅ Validado oficialmente por el especialista' },
+    { value: 'pending', label: 'Pendiente de inicio' },
+    { value: 'in_progress', label: 'En progreso / En trámite' },
+    { value: 'completed', label: 'Completado (Listo para dictamen del comité)' },
+    { value: 'validated', label: 'Validado oficialmente por el especialista' },
   ];
 
   return (

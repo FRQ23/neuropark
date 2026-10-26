@@ -223,7 +223,7 @@ export const DashboardPage: React.FC = () => {
                 className="w3-button w3-black w3-padding-large w3-large w-full md:w-auto font-bold uppercase tracking-wider"
               >
                 {activePark?.status === 'open'
-                  ? '✓ Parque Inaugurado'
+                  ? 'Parque Inaugurado'
                   : 'Habilitar Apertura Oficial'}
               </button>
             ) : (
@@ -376,7 +376,7 @@ export const DashboardPage: React.FC = () => {
 
             {totalReqCount - validatedCount === 0 && (
               <div className="p-8 text-center text-slate-500 text-sm">
-                ✓ Todos los requisitos han sido validados exitosamente.
+                Todos los requisitos han sido validados exitosamente.
               </div>
             )}
           </div>

@@ -96,9 +96,9 @@ export const ListView: React.FC<ListViewProps> = ({
             className="w-full text-xs rounded-xl border border-slate-300 p-2 bg-slate-50 text-slate-700 focus:outline-none"
           >
             <option value="all">Todos los estados</option>
-            <option value="completed">✓ Cambio físico realizado</option>
-            <option value="pending">⏳ Pendiente de realización</option>
-            <option value="validated">🛡️ Validado oficialmente</option>
+            <option value="completed">Cambio físico realizado</option>
+            <option value="pending">Pendiente de realización</option>
+            <option value="validated">Validado oficialmente</option>
           </select>
         </div>
       </div>

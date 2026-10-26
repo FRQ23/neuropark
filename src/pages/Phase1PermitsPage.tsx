@@ -201,10 +201,10 @@ export const Phase1PermitsPage: React.FC = () => {
             aria-label="Filtrar por estatus"
           >
             <option value="all">Todos los estatus</option>
-            <option value="pending">⏳ Pendiente</option>
-            <option value="in_progress">🛠️ En progreso</option>
-            <option value="completed">📋 Completado</option>
-            <option value="validated">✅ Validado</option>
+            <option value="pending">Pendiente</option>
+            <option value="in_progress">En progreso</option>
+            <option value="completed">Completado</option>
+            <option value="validated">Validado</option>
           </select>
         </div>
 

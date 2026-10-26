@@ -58,9 +58,9 @@ export const AddInfrastructureModal: React.FC<AddInfrastructureModalProps> = ({
           value={type}
           onChange={(e) => setType(e.target.value as InfrastructureType)}
           options={[
-            { value: 'equipment', label: '🎡 Aparato / Equipamiento Especial' },
-            { value: 'infrastructure', label: '🏗️ Infraestructura / Adecuación Física' },
-            { value: 'color_spec', label: '🎨 Especificación Cromática (Color de bajo estímulo)' },
+            { value: 'equipment', label: 'Aparato / Equipamiento Especial' },
+            { value: 'infrastructure', label: 'Infraestructura / Adecuación Física' },
+            { value: 'color_spec', label: 'Especificación Cromática (Color de bajo estímulo)' },
           ]}
         />
 
