@@ -3,7 +3,6 @@ import { Modal } from '../common/Modal';
 import { Button } from '../common/Button';
 import { Input } from '../common/Input';
 import { Select } from '../common/Select';
-import { Upload, Image as ImageIcon } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 interface EvidenceUploadModalProps {
@@ -69,7 +68,7 @@ export const EvidenceUploadModal: React.FC<EvidenceUploadModalProps> = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title} maxWidth="md">
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit}>
         <Select
           label="Tipo de fotografía de evidencia"
           value={type}
@@ -80,38 +79,38 @@ export const EvidenceUploadModal: React.FC<EvidenceUploadModalProps> = ({
           ]}
         />
 
-        <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-slate-700">
-            Archivo fotográfico <span className="text-rose-500">*</span>
+        <div className="w3-margin-bottom">
+          <label className="w3-text-dark-grey" style={{ display: 'block', marginBottom: '4px' }}>
+            <b>Archivo fotográfico</b> <span className="w3-text-red">*</span>
           </label>
-          <div className="border-2 border-dashed border-slate-300 rounded-xl p-4 text-center hover:border-calm-500 transition-colors bg-slate-50/50">
+          <div className="w3-panel w3-light-grey w3-border w3-padding-24 w3-center">
             {previewUrl ? (
-              <div className="space-y-3">
+              <div>
                 <img
                   src={previewUrl}
                   alt="Vista previa"
-                  className="max-h-48 mx-auto rounded-lg object-cover shadow-sm border border-slate-200"
+                  style={{ maxHeight: '180px', maxWidth: '100%', objectFit: 'cover', margin: '0 auto', display: 'block' }}
                 />
                 <button
                   type="button"
                   onClick={() => setPreviewUrl('')}
-                  className="text-xs text-rose-600 hover:underline font-medium"
+                  className="w3-button w3-text-red w3-small w3-margin-top"
                 >
                   Cambiar imagen
                 </button>
               </div>
             ) : (
-              <label className="cursor-pointer block py-4">
-                <Upload className="w-8 h-8 text-calm-600 mx-auto mb-2" />
-                <span className="text-sm font-medium text-slate-700 block">
-                  Haz clic para seleccionar o arrastra una foto
-                </span>
-                <span className="text-xs text-slate-500 block mt-1">PNG, JPG, WebP (cliente local)</span>
+              <label style={{ cursor: 'pointer', display: 'block' }}>
+                <p>
+                  <i className="fa fa-upload w3-xxlarge w3-text-dark-grey"></i>
+                </p>
+                <b className="w3-block">Haz clic para seleccionar o subir foto</b>
+                <span className="w3-tiny w3-text-grey">PNG, JPG, WebP</span>
                 <input
                   type="file"
                   accept="image/*"
                   onChange={handleFileChange}
-                  className="hidden"
+                  style={{ display: 'none' }}
                 />
               </label>
             )}
@@ -126,10 +125,10 @@ export const EvidenceUploadModal: React.FC<EvidenceUploadModalProps> = ({
           required
         />
 
-        {error && <p className="text-xs text-rose-600 font-medium">{error}</p>}
+        {error && <p className="w3-small w3-text-red">{error}</p>}
 
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
-          <Button type="button" variant="secondary" onClick={onClose}>
+        <div className="w3-bar w3-margin-top" style={{ textAlign: 'right' }}>
+          <Button type="button" variant="secondary" onClick={onClose} style={{ marginRight: '8px' }}>
             Cancelar
           </Button>
           <Button type="submit" variant="primary" disabled={!previewUrl}>

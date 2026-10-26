@@ -58,7 +58,7 @@ export const LinkInfrastructureModal: React.FC<LinkInfrastructureModalProps> = (
       description="Vincula qué equipo, color o adecuación física se necesita para un área y categoría neurodivergente."
       maxWidth="md"
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit}>
         <Select
           label="Área del Parque"
           value={areaId}
@@ -83,22 +83,22 @@ export const LinkInfrastructureModal: React.FC<LinkInfrastructureModalProps> = (
           }))}
         />
 
-        <div className="flex items-center gap-2 pt-2">
-          <input
-            type="checkbox"
-            id="is-completed-box"
-            checked={isCompleted}
-            onChange={(e) => setIsCompleted(e.target.checked)}
-            className="rounded text-calm-600 focus:ring-calm-500 w-4 h-4"
-          />
-          <label htmlFor="is-completed-box" className="text-xs text-slate-700 font-medium select-none">
-            ¿La adecuación física o cambio ya fue realizado en campo?
+        <div style={{ margin: '12px 0' }}>
+          <label htmlFor="is-completed-box" className="w3-small" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <input
+              type="checkbox"
+              id="is-completed-box"
+              className="w3-check"
+              checked={isCompleted}
+              onChange={(e) => setIsCompleted(e.target.checked)}
+            />
+            <span>¿La adecuación física o cambio ya fue realizado en campo?</span>
           </label>
         </div>
 
-        <div className="space-y-1.5">
-          <label htmlFor="link-notes" className="block text-sm font-medium text-slate-700">
-            Observaciones o especificaciones de instalación
+        <div className="w3-margin-bottom">
+          <label htmlFor="link-notes" className="w3-text-dark-grey" style={{ display: 'block', marginBottom: '4px' }}>
+            <b>Observaciones o especificaciones de instalación</b>
           </label>
           <textarea
             id="link-notes"
@@ -106,12 +106,12 @@ export const LinkInfrastructureModal: React.FC<LinkInfrastructureModalProps> = (
             placeholder="Detalles sobre montaje, anclajes, pruebas de color o contratista..."
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            className="w-full rounded-xl border border-slate-300 p-3 text-sm text-slate-800 focus:border-calm-600 focus:ring-1 focus:ring-calm-600"
+            className="w3-input w3-border"
           />
         </div>
 
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
-          <Button type="button" variant="secondary" onClick={onClose}>
+        <div className="w3-bar w3-margin-top" style={{ textAlign: 'right' }}>
+          <Button type="button" variant="secondary" onClick={onClose} style={{ marginRight: '8px' }}>
             Cancelar
           </Button>
           <Button type="submit" variant="primary">

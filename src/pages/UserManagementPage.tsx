@@ -8,8 +8,8 @@ import { Input } from '../components/common/Input';
 import { Select } from '../components/common/Select';
 import { ConfirmDialog } from '../components/common/ConfirmDialog';
 import { useToast } from '../context/ToastContext';
-import { Users2, Plus, Edit2, Trash2, Mail, Phone, ShieldCheck } from 'lucide-react';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
+import { LoadingSpinner } from '../components/common/LoadingSpinner';
 
 export const UserManagementPage: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -102,7 +102,7 @@ export const UserManagementPage: React.FC = () => {
     if (!userToDelete) return;
     try {
       await userApi.delete(userToDelete.id);
-      showSuccess('Usuario eliminado', `Se retiró el usuario ${userToDelete.name}.`);
+      showSuccess('Usuario eliminado', `Se retiró a ${userToDelete.name}.`);
       setUserToDelete(null);
       loadUsers();
     } catch (err: any) {
@@ -110,96 +110,92 @@ export const UserManagementPage: React.FC = () => {
     }
   };
 
+  if (isLoading) {
+    return <LoadingSpinner message="Cargando directorio de usuarios y comités..." />;
+  }
+
   return (
-    <div className="space-y-6">
+    <div>
       <Breadcrumbs items={[{ label: 'Administración' }, { label: 'Gestión de Usuarios' }]} />
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
-            <Users2 className="w-6 h-6 text-calm-600" />
-            <span>Gestión de Usuarios y Comités Especialistas</span>
-          </h1>
-          <p className="text-sm text-slate-500 mt-1">
-            Administración de credenciales, roles asignados y especialidades (Educación, Psicología, Finanzas).
-          </p>
-        </div>
+      <div className="w3-container w3-white w3-card w3-padding-24 w3-margin-bottom">
+        <div className="w3-row">
+          <div className="w3-col l8 m8 s12">
+            <h1 className="w3-xxlarge w3-wide" style={{ margin: '4px 0' }}>
+              <i className="fa fa-users w3-margin-right"></i>
+              GESTIÓN DE USUARIOS Y COMITÉS
+            </h1>
+            <p className="w3-text-grey" style={{ margin: '4px 0 0 0', lineHeight: '1.6' }}>
+              Control de acceso y asignación de especialistas para dictámenes técnicos de educación, psicología y finanzas.
+            </p>
+          </div>
 
-        <Button onClick={openCreateModal} leftIcon={<Plus className="w-4 h-4" />}>
-          Nuevo Usuario
-        </Button>
+          <div className="w3-col l4 m4 s12 w3-right-align w3-margin-top">
+            <Button variant="primary" onClick={openCreateModal} leftIcon={<i className="fa fa-plus"></i>}>
+              Nuevo Usuario
+            </Button>
+          </div>
+        </div>
       </div>
 
-      <div className="card-calm overflow-hidden p-0">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse text-xs">
-            <thead>
-              <tr className="bg-slate-50 text-slate-600 font-semibold uppercase tracking-wider border-b border-slate-200">
-                <th className="p-4">Usuario</th>
-                <th className="p-4">Rol en el Sistema</th>
-                <th className="p-4">Especialidad de Dictamen</th>
-                <th className="p-4">Institución / Dependencia</th>
-                <th className="p-4">Contacto</th>
-                <th className="p-4 text-right">Acciones</th>
+      <div className="w3-card w3-white w3-responsive w3-margin-bottom">
+        <table className="w3-table w3-striped w3-bordered">
+          <thead>
+            <tr className="w3-dark-grey">
+              <th>Usuario</th>
+              <th>Rol en el Sistema</th>
+              <th>Especialidad de Dictamen</th>
+              <th>Institución / Dependencia</th>
+              <th>Contacto</th>
+              <th className="w3-right-align">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((u) => (
+              <tr key={u.id}>
+                <td style={{ verticalAlign: 'middle' }}>
+                  <b>{u.name}</b>
+                  <div className="w3-tiny w3-text-grey">{u.email}</div>
+                </td>
+                <td style={{ verticalAlign: 'middle' }}>
+                  <Badge role={u.role} />
+                </td>
+                <td style={{ verticalAlign: 'middle' }}>
+                  {u.specialty ? (
+                    <Badge specialty={u.specialty} />
+                  ) : (
+                    <span className="w3-text-grey w3-small" style={{ fontStyle: 'italic' }}>No aplica</span>
+                  )}
+                </td>
+                <td style={{ verticalAlign: 'middle' }} className="w3-small">
+                  {u.institution || '—'}
+                </td>
+                <td style={{ verticalAlign: 'middle' }} className="w3-small">
+                  {u.phone || '—'}
+                </td>
+                <td style={{ verticalAlign: 'middle', textAlign: 'right' }}>
+                  <button
+                    type="button"
+                    onClick={() => openEditModal(u)}
+                    className="w3-button w3-light-grey w3-small"
+                    title="Editar"
+                    style={{ marginRight: '4px' }}
+                  >
+                    <i className="fa fa-pencil"></i>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setUserToDelete(u)}
+                    className="w3-button w3-hover-red w3-light-grey w3-small"
+                    title="Eliminar"
+                  >
+                    <i className="fa fa-trash"></i>
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {users.map((u) => (
-                <tr key={u.id} className="hover:bg-slate-50/70 transition-colors">
-                  <td className="p-4">
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={u.avatar}
-                        alt={u.name}
-                        className="w-9 h-9 rounded-full object-cover border border-slate-200"
-                      />
-                      <div>
-                        <p className="font-bold text-slate-800 text-sm">{u.name}</p>
-                        <p className="text-slate-500">{u.email}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="p-4">
-                    <Badge role={u.role} />
-                  </td>
-                  <td className="p-4">
-                    {u.specialty ? (
-                      <Badge specialty={u.specialty} />
-                    ) : (
-                      <span className="text-slate-400 italic">No aplica (Admin / Viewer)</span>
-                    )}
-                  </td>
-                  <td className="p-4 text-slate-700 font-medium">
-                    {u.institution || '—'}
-                  </td>
-                  <td className="p-4 text-slate-500">
-                    {u.phone || '—'}
-                  </td>
-                  <td className="p-4 text-right">
-                    <div className="flex items-center justify-end gap-1">
-                      <button
-                        type="button"
-                        onClick={() => openEditModal(u)}
-                        className="p-1.5 text-slate-400 hover:text-calm-700 hover:bg-slate-100 rounded-lg"
-                        title="Editar"
-                      >
-                        <Edit2 className="w-4 h-4" />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setUserToDelete(u)}
-                        className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg"
-                        title="Eliminar"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {/* User Form Modal */}
@@ -209,7 +205,7 @@ export const UserManagementPage: React.FC = () => {
         title={editingUser ? 'Editar Usuario' : 'Registrar Nuevo Usuario'}
         maxWidth="md"
       >
-        <form onSubmit={handleSave} className="space-y-4">
+        <form onSubmit={handleSave}>
           <Input
             label="Nombre completo"
             value={name}
@@ -266,8 +262,8 @@ export const UserManagementPage: React.FC = () => {
             placeholder="646-123-4567"
           />
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
-            <Button type="button" variant="secondary" onClick={() => setIsModalOpen(false)}>
+          <div className="w3-bar w3-margin-top" style={{ textAlign: 'right' }}>
+            <Button type="button" variant="secondary" onClick={() => setIsModalOpen(false)} style={{ marginRight: '8px' }}>
               Cancelar
             </Button>
             <Button type="submit" variant="primary">

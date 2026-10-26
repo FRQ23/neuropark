@@ -42,7 +42,7 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
       description="Como administrador, puedes definir categorías técnicas y sus perfiles de necesidad."
       maxWidth="md"
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit}>
         <Input
           label="Nombre de la Categoría"
           placeholder="Ej: Procesamiento Visual e Iluminación"
@@ -50,9 +50,9 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
           onChange={(e) => setName(e.target.value)}
           required
         />
-        <div className="space-y-1.5">
-          <label htmlFor="cat-desc" className="block text-sm font-medium text-slate-700">
-            Descripción y necesidades sensoriales/físicas
+        <div className="w3-margin-bottom">
+          <label htmlFor="cat-desc" className="w3-text-dark-grey" style={{ display: 'block', marginBottom: '4px' }}>
+            <b>Descripción y necesidades sensoriales/físicas</b>
           </label>
           <textarea
             id="cat-desc"
@@ -60,26 +60,26 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
             placeholder="Especifica los retos sensoriales o apoyos necesarios para este grupo..."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full rounded-xl border border-slate-300 p-3 text-sm text-slate-800 focus:border-calm-600 focus:ring-1 focus:ring-calm-600"
+            className="w3-input w3-border"
             required
           />
         </div>
 
-        <div className="flex items-center gap-2 pt-2">
-          <input
-            type="checkbox"
-            id="cat-example-check"
-            checked={isExample}
-            onChange={(e) => setIsExample(e.target.checked)}
-            className="rounded text-calm-600 focus:ring-calm-500 w-4 h-4"
-          />
-          <label htmlFor="cat-example-check" className="text-xs text-slate-600 select-none">
-            Marcar como categoría de ejemplo (placeholder de prueba)
+        <div style={{ margin: '12px 0' }}>
+          <label htmlFor="cat-example-check" className="w3-small" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <input
+              type="checkbox"
+              id="cat-example-check"
+              className="w3-check"
+              checked={isExample}
+              onChange={(e) => setIsExample(e.target.checked)}
+            />
+            <span>Marcar como categoría de ejemplo (placeholder de prueba)</span>
           </label>
         </div>
 
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
-          <Button type="button" variant="secondary" onClick={onClose}>
+        <div className="w3-bar w3-margin-top" style={{ textAlign: 'right' }}>
+          <Button type="button" variant="secondary" onClick={onClose} style={{ marginRight: '8px' }}>
             Cancelar
           </Button>
           <Button type="submit" variant="primary">

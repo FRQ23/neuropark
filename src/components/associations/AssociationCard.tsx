@@ -2,7 +2,6 @@ import React from 'react';
 import { Association } from '../../types';
 import { Badge } from '../common/Badge';
 import { useAuth } from '../../context/AuthContext';
-import { Mail, Phone, MapPin, Globe, Edit2, Trash2, HeartHandshake } from 'lucide-react';
 
 interface AssociationCardProps {
   association: Association;
@@ -18,90 +17,77 @@ export const AssociationCard: React.FC<AssociationCardProps> = ({
   const { isAdmin } = useAuth();
 
   return (
-    <article
-      aria-label={`Asociación: ${association.name}`}
-      className="card-calm p-5 space-y-4 hover:shadow-soft-lg transition-all flex flex-col justify-between"
-    >
-      <div className="space-y-3">
-        <div className="flex items-start justify-between gap-2">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 flex-wrap">
-              <Badge scope={association.scope} size="sm" />
-              {association.isExample && (
-                <span className="text-[10px] bg-amber-50 text-amber-900 border border-amber-200 px-2 py-0.5 rounded font-medium">
-                  Ejemplo
-                </span>
-              )}
-            </div>
-            <h3 className="text-base font-bold text-slate-800 leading-snug">
-              {association.name}
-            </h3>
+    <div className="w3-card w3-white w3-container w3-padding-16 w3-margin-bottom" style={{ minHeight: '260px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+      <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+          <div>
+            <Badge scope={association.scope} size="sm" />
+            {association.isExample && (
+              <span className="w3-tag w3-khaki w3-small" style={{ marginLeft: '6px' }}>
+                Ejemplo
+              </span>
+            )}
+            <h3 className="w3-large w3-wide" style={{ margin: '8px 0 4px 0' }}>{association.name}</h3>
           </div>
 
           {isAdmin && (
-            <div className="flex items-center gap-1">
+            <div>
               <button
                 type="button"
                 onClick={() => onEdit(association)}
-                className="p-1.5 text-slate-400 hover:text-calm-700 hover:bg-slate-100 rounded-lg"
+                className="w3-button w3-light-grey w3-small"
                 title="Editar asociación"
-                aria-label="Editar asociación"
+                style={{ padding: '4px 8px', marginRight: '4px' }}
               >
-                <Edit2 className="w-4 h-4" />
+                <i className="fa fa-pencil"></i>
               </button>
               <button
                 type="button"
                 onClick={() => onDelete(association.id)}
-                className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg"
+                className="w3-button w3-hover-red w3-light-grey w3-small"
                 title="Eliminar asociación"
-                aria-label="Eliminar asociación"
+                style={{ padding: '4px 8px' }}
               >
-                <Trash2 className="w-4 h-4" />
+                <i className="fa fa-trash"></i>
               </button>
             </div>
           )}
         </div>
 
         {/* Contact info list */}
-        <div className="space-y-1.5 text-xs text-slate-600">
-          <p className="font-semibold text-slate-800 flex items-center gap-2">
-            <HeartHandshake className="w-4 h-4 text-calm-600 flex-shrink-0" />
-            <span>Contacto: {association.contactPerson}</span>
+        <div className="w3-small w3-text-dark-grey" style={{ lineHeight: '1.8' }}>
+          <p style={{ margin: '2px 0' }}>
+            <i className="fa fa-user w3-margin-right w3-text-grey"></i>
+            <b>Contacto:</b> {association.contactPerson}
           </p>
 
-          <p className="flex items-center gap-2">
-            <Mail className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
-            <a
-              href={`mailto:${association.email}`}
-              className="text-calm-700 hover:underline truncate"
-            >
+          <p style={{ margin: '2px 0' }}>
+            <i className="fa fa-envelope w3-margin-right w3-text-grey"></i>
+            <a href={`mailto:${association.email}`} className="w3-text-dark-grey">
               {association.email}
             </a>
           </p>
 
-          <p className="flex items-center gap-2">
-            <Phone className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
-            <span>{association.phone}</span>
+          <p style={{ margin: '2px 0' }}>
+            <i className="fa fa-phone w3-margin-right w3-text-grey"></i>
+            {association.phone}
           </p>
 
           {(association.address || association.state) && (
-            <p className="flex items-center gap-2 text-slate-500">
-              <MapPin className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
-              <span className="truncate">
-                {association.address ? `${association.address}, ` : ''}
-                {association.state}
-              </span>
+            <p style={{ margin: '2px 0' }}>
+              <i className="fa fa-map-marker w3-margin-right w3-text-grey"></i>
+              {association.address ? `${association.address}, ` : ''}{association.state}
             </p>
           )}
 
           {association.website && (
-            <p className="flex items-center gap-2">
-              <Globe className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+            <p style={{ margin: '2px 0' }}>
+              <i className="fa fa-globe w3-margin-right w3-text-grey"></i>
               <a
                 href={association.website}
                 target="_blank"
                 rel="noreferrer"
-                className="text-calm-700 hover:underline truncate"
+                className="w3-text-dark-grey"
               >
                 {association.website.replace(/^https?:\/\//, '')}
               </a>
@@ -111,10 +97,10 @@ export const AssociationCard: React.FC<AssociationCardProps> = ({
       </div>
 
       {association.notes && (
-        <div className="pt-3 border-t border-slate-100 text-xs text-slate-600 bg-slate-50/70 p-2.5 rounded-lg border border-slate-200/60">
-          <p className="italic font-normal">"{association.notes}"</p>
+        <div className="w3-panel w3-light-grey w3-tiny w3-padding-small" style={{ fontStyle: 'italic', margin: '12px 0 0 0' }}>
+          "{association.notes}"
         </div>
       )}
-    </article>
+    </div>
   );
 };

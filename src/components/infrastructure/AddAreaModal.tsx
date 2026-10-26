@@ -30,7 +30,7 @@ export const AddAreaModal: React.FC<AddAreaModalProps> = ({ isOpen, onClose, onS
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Nueva Área del Parque" maxWidth="md">
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit}>
         <Input
           label="Nombre del Área"
           placeholder="Ej: Jardín de Aromas y Texturas"
@@ -38,9 +38,9 @@ export const AddAreaModal: React.FC<AddAreaModalProps> = ({ isOpen, onClose, onS
           onChange={(e) => setName(e.target.value)}
           required
         />
-        <div className="space-y-1.5">
-          <label htmlFor="area-desc" className="block text-sm font-medium text-slate-700">
-            Descripción de su función
+        <div className="w3-margin-bottom">
+          <label htmlFor="area-desc" className="w3-text-dark-grey" style={{ display: 'block', marginBottom: '4px' }}>
+            <b>Descripción de su función</b>
           </label>
           <textarea
             id="area-desc"
@@ -48,11 +48,11 @@ export const AddAreaModal: React.FC<AddAreaModalProps> = ({ isOpen, onClose, onS
             placeholder="Zona diseñada para exploración táctil y olfativa con plantas no alérgicas..."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full rounded-xl border border-slate-300 p-3 text-sm text-slate-800 focus:border-calm-600 focus:ring-1 focus:ring-calm-600"
+            className="w3-input w3-border"
           />
         </div>
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
-          <Button type="button" variant="secondary" onClick={onClose}>
+        <div className="w3-bar w3-margin-top" style={{ textAlign: 'right' }}>
+          <Button type="button" variant="secondary" onClick={onClose} style={{ marginRight: '8px' }}>
             Cancelar
           </Button>
           <Button type="submit" variant="primary">

@@ -14,38 +14,33 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   value,
   label,
   subLabel,
-  size = 'md',
   showPercentage = true,
   className = '',
   colorScheme = 'calm',
 }) => {
   const clampedValue = Math.min(100, Math.max(0, Math.round(value)));
 
-  const heightClasses = {
-    sm: 'h-2',
-    md: 'h-3',
-    lg: 'h-4',
-  }[size];
-
-  const barColors = {
-    calm: 'bg-calm-600',
-    emerald: 'bg-emerald-600',
-    amber: 'bg-amber-500',
+  const barColor = {
+    calm: 'w3-black',
+    emerald: 'w3-green',
+    amber: 'w3-dark-grey',
   }[colorScheme];
 
   return (
-    <div className={`w-full ${className}`}>
+    <div className={`w3-margin-bottom ${className}`}>
       {(label || showPercentage) && (
-        <div className="flex items-center justify-between text-xs font-medium text-slate-700 mb-1.5">
-          <span>{label}</span>
-          <div className="flex items-center gap-2">
-            {subLabel && <span className="text-slate-400 font-normal">{subLabel}</span>}
-            {showPercentage && <span className="font-semibold text-slate-800">{clampedValue}%</span>}
+        <div className="w3-row w3-small w3-margin-bottom">
+          <div className="w3-col s8">
+            <strong>{label}</strong>
+            {subLabel && <span className="w3-text-grey" style={{ marginLeft: '8px' }}>{subLabel}</span>}
+          </div>
+          <div className="w3-col s4 w3-right-align">
+            {showPercentage && <strong>{clampedValue}%</strong>}
           </div>
         </div>
       )}
       <div
-        className={`w-full bg-slate-200/80 rounded-full overflow-hidden ${heightClasses}`}
+        className="w3-light-grey w3-border"
         role="progressbar"
         aria-valuenow={clampedValue}
         aria-valuemin={0}
@@ -53,9 +48,11 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
         aria-label={label || 'Progreso'}
       >
         <div
-          className={`${barColors} ${heightClasses} rounded-full transition-all duration-300 ease-out`}
-          style={{ width: `${clampedValue}%` }}
-        />
+          className={`w3-container ${barColor} w3-center w3-small`}
+          style={{ width: `${clampedValue}%`, minWidth: clampedValue > 0 ? '24px' : '0', padding: '2px 0' }}
+        >
+          {clampedValue > 5 && `${clampedValue}%`}
+        </div>
       </div>
     </div>
   );

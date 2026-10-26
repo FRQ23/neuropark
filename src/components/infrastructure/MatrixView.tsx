@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Area, NeurodivergenceCategory, Infrastructure, AreaCategoryInfrastructure } from '../../types';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../common/Button';
-import { Check, Clock, Plus, ShieldCheck, Camera, Sparkles } from 'lucide-react';
 
 interface MatrixViewProps {
   areas: Area[];
@@ -23,21 +22,18 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
   onValidateItem,
   onOpenLinkModal,
 }) => {
-  const { isAdmin, isCommittee, currentUser } = useAuth();
+  const { isAdmin, isCommittee } = useAuth();
 
   const getInfrastructureById = (id: string) => infrastructures.find((i) => i.id === id);
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-soft overflow-hidden">
-      <div className="p-4 bg-slate-50/80 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+    <div className="w3-card w3-white w3-margin-bottom">
+      <div className="w3-container w3-light-grey w3-padding-16" style={{ borderBottom: '1px solid #ddd', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
         <div>
-          <h2 className="text-base font-bold text-slate-800 flex items-center gap-2">
-            <span>Matriz Cruzada: Áreas vs. Categorías de Neurodivergencia</span>
-            <span className="text-xs bg-calm-100 text-calm-800 font-semibold px-2 py-0.5 rounded-full">
-              Fase 2
-            </span>
-          </h2>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <h3 className="w3-large w3-wide" style={{ margin: 0 }}>
+            MATRIZ CRUZADA: ÁREAS VS. CATEGORÍAS
+          </h3>
+          <p className="w3-small w3-text-grey" style={{ margin: '4px 0 0 0' }}>
             Mapeo interactivo: qué infraestructura, equipo biomecánico o color se requiere en cada zona.
           </p>
         </div>
@@ -45,47 +41,39 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
           <Button
             size="sm"
             onClick={() => onOpenLinkModal()}
-            leftIcon={<Plus className="w-4 h-4" />}
+            leftIcon={<i className="fa fa-plus"></i>}
           >
             Vincular Requisito
           </Button>
         )}
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse min-w-[700px]">
+      <div className="w3-responsive">
+        <table className="w3-table w3-bordered w3-striped w3-white" style={{ minWidth: '700px' }}>
           <thead>
-            <tr className="bg-slate-100/90 text-slate-700 text-xs font-semibold uppercase tracking-wider border-b border-slate-200">
-              <th className="p-4 w-56 sticky left-0 bg-slate-100 z-10 border-r border-slate-200">
-                Área del Parque
-              </th>
+            <tr className="w3-dark-grey">
+              <th style={{ width: '220px', verticalAlign: 'top' }}>Área del Parque</th>
               {categories.map((cat) => (
-                <th key={cat.id} className="p-4 min-w-[260px] border-r border-slate-200 last:border-r-0">
-                  <div className="space-y-1">
-                    <span className="font-bold text-slate-800 normal-case block text-sm">
-                      {cat.name}
-                    </span>
-                    <p className="text-[11px] font-normal text-slate-500 line-clamp-2">
-                      {cat.description}
-                    </p>
-                  </div>
+                <th key={cat.id} style={{ minWidth: '240px', verticalAlign: 'top' }}>
+                  <b className="w3-block">{cat.name}</b>
+                  <span className="w3-tiny" style={{ fontWeight: 'normal', opacity: 0.85 }}>
+                    {cat.description}
+                  </span>
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-200 text-xs">
+          <tbody>
             {areas.map((area) => (
-              <tr key={area.id} className="hover:bg-slate-50/60 transition-colors">
+              <tr key={area.id}>
                 {/* Area Row Header */}
-                <td className="p-4 font-semibold text-slate-800 sticky left-0 bg-white group-hover:bg-slate-50/60 z-10 border-r border-slate-200">
-                  <div className="space-y-1">
-                    <p className="text-sm font-bold text-calm-800">{area.name}</p>
-                    {area.description && (
-                      <p className="text-[11px] font-normal text-slate-500 leading-relaxed">
-                        {area.description}
-                      </p>
-                    )}
-                  </div>
+                <td style={{ verticalAlign: 'top', backgroundColor: '#fdfdfd' }}>
+                  <b>{area.name}</b>
+                  {area.description && (
+                    <p className="w3-tiny w3-text-grey" style={{ margin: '4px 0 0 0' }}>
+                      {area.description}
+                    </p>
+                  )}
                 </td>
 
                 {/* Cells for each Category */}
@@ -95,12 +83,9 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
                   );
 
                   return (
-                    <td
-                      key={cat.id}
-                      className="p-3 align-top border-r border-slate-200 last:border-r-0 bg-slate-50/20"
-                    >
-                      <div className="space-y-2.5 min-h-[110px] flex flex-col justify-between">
-                        <div className="space-y-2">
+                    <td key={cat.id} style={{ verticalAlign: 'top', padding: '8px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100px', justifyContent: 'space-between' }}>
+                        <div>
                           {cellItems.map((item) => {
                             const inf = getInfrastructureById(item.infrastructureId);
                             if (!inf) return null;
@@ -108,77 +93,62 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
                             return (
                               <div
                                 key={item.id}
-                                className={`p-3 rounded-xl border transition-all text-xs space-y-2 ${
+                                className={`w3-panel w3-border ${
                                   item.isValidated
-                                    ? 'bg-emerald-50/70 border-emerald-300 text-emerald-950'
+                                    ? 'w3-pale-green w3-leftbar w3-border-green'
                                     : item.isCompleted
-                                    ? 'bg-teal-50/60 border-teal-300 text-teal-950'
-                                    : 'bg-white border-slate-200 text-slate-800 shadow-2xs'
+                                    ? 'w3-pale-blue w3-leftbar w3-border-blue'
+                                    : 'w3-light-grey'
                                 }`}
+                                style={{ padding: '8px', margin: '4px 0' }}
                               >
-                                <div className="flex items-start justify-between gap-1">
-                                  <span className="font-semibold text-slate-900 block leading-tight">
-                                    {inf.name}
-                                  </span>
-                                  <span
-                                    className={`text-[10px] uppercase font-bold px-1.5 py-0.5 rounded ${
-                                      inf.type === 'color_spec'
-                                        ? 'bg-amber-100 text-amber-800'
-                                        : inf.type === 'equipment'
-                                        ? 'bg-sky-100 text-sky-800'
-                                        : 'bg-indigo-100 text-indigo-800'
-                                    }`}
-                                  >
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <b>{inf.name}</b>
+                                  <span className="w3-tag w3-black w3-tiny">
                                     {inf.type === 'color_spec' ? 'Color' : inf.type === 'equipment' ? 'Equipo' : 'Obra'}
                                   </span>
                                 </div>
 
-                                <div className="text-[11px] text-slate-600 bg-white/70 p-1.5 rounded border border-slate-100 font-mono">
+                                <div className="w3-tiny w3-text-dark-grey" style={{ fontFamily: 'monospace', margin: '4px 0' }}>
                                   {inf.colorOrSpec}
                                 </div>
 
                                 {item.notes && (
-                                  <p className="text-[11px] text-slate-500 italic line-clamp-2">
+                                  <p className="w3-tiny w3-text-grey" style={{ fontStyle: 'italic', margin: '4px 0' }}>
                                     "{item.notes}"
                                   </p>
                                 )}
 
                                 {/* Physical validation status */}
-                                <div className="pt-1.5 border-t border-slate-200/60 flex items-center justify-between gap-2 text-[11px]">
-                                  {/* Change completed checkbox */}
-                                  <label
-                                    className={`flex items-center gap-1.5 cursor-pointer font-medium select-none ${
-                                      item.isCompleted ? 'text-teal-700' : 'text-slate-500'
-                                    }`}
-                                  >
+                                <div style={{ borderTop: '1px solid #ddd', paddingTop: '6px', marginTop: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <label className="w3-tiny" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
                                     <input
                                       type="checkbox"
+                                      className="w3-check"
+                                      style={{ width: '16px', height: '16px' }}
                                       checked={item.isCompleted}
                                       onChange={() => onToggleCompleted(item.id, item.isCompleted)}
                                       disabled={!isAdmin && !isCommittee}
-                                      className="rounded text-calm-600 focus:ring-calm-500 w-3.5 h-3.5"
                                     />
-                                    <span>¿Cambio físico hecho?</span>
+                                    <span>¿Hecho?</span>
                                   </label>
 
-                                  {/* Specialty validation */}
                                   <button
                                     type="button"
                                     onClick={() => onValidateItem(item.id, item.isValidated)}
                                     disabled={!isAdmin && !isCommittee}
-                                    className={`px-2 py-0.5 rounded text-[10px] font-semibold flex items-center gap-1 transition-colors ${
-                                      item.isValidated
-                                        ? 'bg-emerald-600 text-white'
-                                        : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                                    className={`w3-button w3-tiny ${
+                                      item.isValidated ? 'w3-green' : 'w3-light-grey w3-border'
                                     }`}
+                                    style={{ padding: '2px 6px' }}
                                     title={
                                       item.isValidated
                                         ? `Validado por ${item.validatedByName || item.validatedBy}`
                                         : 'Validar oficialmente como comité'
                                     }
                                   >
-                                    <ShieldCheck className="w-3 h-3" />
-                                    <span>{item.isValidated ? 'Validado' : 'Validar'}</span>
+                                    <i className="fa fa-shield w3-margin-right"></i>
+                                    {item.isValidated ? 'Validado' : 'Validar'}
                                   </button>
                                 </div>
                               </div>
@@ -186,8 +156,8 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
                           })}
 
                           {cellItems.length === 0 && (
-                            <p className="text-slate-400 italic text-[11px] py-3 text-center">
-                              Sin requisitos asignados
+                            <p className="w3-tiny w3-text-grey w3-center" style={{ fontStyle: 'italic', padding: '12px 0' }}>
+                              Sin requisitos
                             </p>
                           )}
                         </div>
@@ -197,10 +167,10 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
                           <button
                             type="button"
                             onClick={() => onOpenLinkModal(area.id, cat.id)}
-                            className="w-full py-1.5 text-center text-slate-500 hover:text-calm-700 hover:bg-white rounded-lg border border-dashed border-slate-200 hover:border-calm-300 text-[11px] font-medium transition-colors flex items-center justify-center gap-1"
+                            className="w3-button w3-light-grey w3-block w3-tiny w3-border"
+                            style={{ marginTop: '6px', padding: '4px' }}
                           >
-                            <Plus className="w-3 h-3" />
-                            <span>Asignar equipo</span>
+                            <i className="fa fa-plus w3-margin-right"></i>Asignar
                           </button>
                         )}
                       </div>

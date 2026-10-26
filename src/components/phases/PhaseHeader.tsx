@@ -1,6 +1,5 @@
 import React from 'react';
 import { ProgressBar } from '../common/ProgressBar';
-import { Badge } from '../common/Badge';
 
 interface PhaseHeaderProps {
   order: number;
@@ -16,34 +15,39 @@ export const PhaseHeader: React.FC<PhaseHeaderProps> = ({
   name,
   description,
   totalRequirements,
-  completedRequirements,
   validatedRequirements,
 }) => {
   const percentage = totalRequirements > 0 ? (validatedRequirements / totalRequirements) * 100 : 0;
 
   return (
-    <div className="card-calm p-6 space-y-4">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-bold uppercase tracking-wider text-calm-700 bg-calm-50 border border-calm-200 px-2 py-0.5 rounded">
-              Fase {order}
+    <div className="w3-container w3-white w3-card w3-padding-24 w3-margin-bottom">
+      <div className="w3-row">
+        <div className="w3-col l8 m12 s12">
+          <div style={{ marginBottom: '8px' }}>
+            <span className="w3-tag w3-black w3-small" style={{ marginRight: '8px' }}>
+              FASE {order}
             </span>
-            <span className="text-xs text-slate-500">
+            <span className="w3-small w3-text-grey">
               {validatedRequirements} de {totalRequirements} requisitos validados oficialmente
             </span>
           </div>
-          <h1 className="text-2xl font-bold text-slate-800 tracking-tight">{name}</h1>
-          {description && <p className="text-sm text-slate-600 mt-1 max-w-3xl">{description}</p>}
+          <h2 style={{ margin: '6px 0' }} className="w3-wide">{name}</h2>
+          {description && (
+            <p className="w3-text-grey" style={{ margin: '6px 0 0 0', lineHeight: '1.6' }}>
+              {description}
+            </p>
+          )}
         </div>
 
-        <div className="md:w-64 bg-slate-50 p-4 rounded-xl border border-slate-200 flex-shrink-0">
-          <ProgressBar
-            value={percentage}
-            label="Avance de Validación"
-            subLabel={`${validatedRequirements}/${totalRequirements}`}
-            colorScheme={percentage === 100 ? 'emerald' : 'calm'}
-          />
+        <div className="w3-col l4 m12 s12 w3-margin-top">
+          <div className="w3-container w3-light-grey w3-border w3-padding-16">
+            <ProgressBar
+              value={percentage}
+              label="Avance de Validación"
+              subLabel={`${validatedRequirements}/${totalRequirements}`}
+              colorScheme={percentage === 100 ? 'emerald' : 'calm'}
+            />
+          </div>
         </div>
       </div>
     </div>

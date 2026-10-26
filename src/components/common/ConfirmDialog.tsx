@@ -1,7 +1,6 @@
 import React from 'react';
 import { Modal } from './Modal';
 import { Button } from './Button';
-import { AlertTriangle } from 'lucide-react';
 
 interface ConfirmDialogProps {
   isOpen: boolean;
@@ -28,18 +27,16 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
 }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title} maxWidth="md">
-      <div className="space-y-4">
-        <div className="flex items-start gap-3">
+      <div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
           {isDangerous && (
-            <div className="p-2 rounded-xl bg-rose-50 text-rose-600 flex-shrink-0">
-              <AlertTriangle className="w-5 h-5" aria-hidden="true" />
-            </div>
+            <i className="fa fa-exclamation-triangle w3-text-red w3-xxlarge" aria-hidden="true"></i>
           )}
-          <p className="text-sm text-slate-600 leading-relaxed pt-1">{message}</p>
+          <p className="w3-medium" style={{ margin: 0 }}>{message}</p>
         </div>
 
-        <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
-          <Button variant="secondary" onClick={onClose} disabled={isLoading}>
+        <div className="w3-bar w3-margin-top" style={{ textAlign: 'right' }}>
+          <Button variant="secondary" onClick={onClose} disabled={isLoading} style={{ marginRight: '8px' }}>
             {cancelLabel}
           </Button>
           <Button

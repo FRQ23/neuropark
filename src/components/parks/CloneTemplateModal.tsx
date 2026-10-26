@@ -55,7 +55,7 @@ export const CloneTemplateModal: React.FC<CloneTemplateModalProps> = ({
       description="Replica la metodología de fases y requisitos adaptándola a la normativa de otro estado o ciudad."
       maxWidth="lg"
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit}>
         <Select
           label="Seleccionar plantilla base"
           value={templateId}
@@ -73,10 +73,10 @@ export const CloneTemplateModal: React.FC<CloneTemplateModalProps> = ({
         />
 
         {selectedTemplate && (
-          <div className="p-3 bg-calm-50 border border-calm-200 rounded-xl text-xs space-y-1">
-            <p className="font-semibold text-calm-900">{selectedTemplate.name}</p>
-            <p className="text-slate-600">{selectedTemplate.description}</p>
-            <p className="text-calm-700 font-medium pt-1">
+          <div className="w3-panel w3-light-grey w3-border w3-padding-small w3-small w3-margin-bottom">
+            <p style={{ margin: 0, fontWeight: 'bold' }}>{selectedTemplate.name}</p>
+            <p className="w3-text-grey" style={{ margin: '2px 0' }}>{selectedTemplate.description}</p>
+            <p style={{ margin: '4px 0 0 0', fontWeight: 'bold' }}>
               Incluye {selectedTemplate.phases.reduce((acc, p) => acc + p.requirements.length, 0)} requisitos
               iniciales en estado "Pendiente".
             </p>
@@ -91,22 +91,26 @@ export const CloneTemplateModal: React.FC<CloneTemplateModalProps> = ({
           required
         />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Input
-            label="Estado"
-            placeholder="Ej: Sonora"
-            value={state}
-            onChange={(e) => setState(e.target.value)}
-            required
-          />
+        <div className="w3-row-padding" style={{ margin: '0 -8px' }}>
+          <div className="w3-half">
+            <Input
+              label="Estado"
+              placeholder="Ej: Sonora"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+              required
+            />
+          </div>
 
-          <Input
-            label="Ubicación / Ciudad"
-            placeholder="Ej: Hermosillo, Sonora"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            required
-          />
+          <div className="w3-half">
+            <Input
+              label="Ubicación / Ciudad"
+              placeholder="Ej: Hermosillo, Sonora"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              required
+            />
+          </div>
         </div>
 
         <Input
@@ -116,21 +120,21 @@ export const CloneTemplateModal: React.FC<CloneTemplateModalProps> = ({
           onChange={(e) => setContactPerson(e.target.value)}
         />
 
-        <div className="space-y-1.5">
-          <label htmlFor="clone-desc" className="block text-sm font-medium text-slate-700">
-            Descripción del proyecto de adaptación o construcción
+        <div className="w3-margin-bottom">
+          <label htmlFor="clone-desc" className="w3-text-dark-grey" style={{ display: 'block', marginBottom: '4px' }}>
+            <b>Descripción del proyecto de adaptación o construcción</b>
           </label>
           <textarea
             id="clone-desc"
             rows={3}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full rounded-xl border border-slate-300 p-2.5 text-xs text-slate-800 focus:border-calm-600 focus:ring-1 focus:ring-calm-600"
+            className="w3-input w3-border"
           />
         </div>
 
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
-          <Button type="button" variant="secondary" onClick={onClose}>
+        <div className="w3-bar w3-margin-top" style={{ textAlign: 'right' }}>
+          <Button type="button" variant="secondary" onClick={onClose} style={{ marginRight: '8px' }}>
             Cancelar
           </Button>
           <Button type="submit" variant="primary">

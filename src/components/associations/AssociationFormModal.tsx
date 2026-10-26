@@ -60,7 +60,7 @@ export const AssociationFormModal: React.FC<AssociationFormModalProps> = ({
       description="Directorio de organizaciones civiles que respaldan la apertura, replican el modelo o donan insumos."
       maxWidth="lg"
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit}>
         <Input
           label="Nombre de la Asociación o Fundación"
           placeholder="Ej: Fundación Apoyo Autismo B.C."
@@ -69,62 +69,71 @@ export const AssociationFormModal: React.FC<AssociationFormModalProps> = ({
           required
         />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Input
-            label="Persona de enlace / contacto"
-            placeholder="Ej: Lic. Mariana Cárdenas"
-            value={contactPerson}
-            onChange={(e) => setContactPerson(e.target.value)}
-            required
-          />
-
-          <Select
-            label="Alcance territorial"
-            value={scope}
-            onChange={(e) => setScope(e.target.value as AssociationScope)}
-            options={[
-              { value: 'local', label: 'Local (Ensenada / Municipio)' },
-              { value: 'estatal', label: 'Estatal (Baja California / Otro estado)' },
-              { value: 'nacional', label: 'Nacional (México)' },
-              { value: 'internacional', label: 'Internacional' },
-            ]}
-          />
+        <div className="w3-row-padding" style={{ margin: '0 -8px' }}>
+          <div className="w3-half">
+            <Input
+              label="Persona de enlace / contacto"
+              placeholder="Ej: Lic. Mariana Cárdenas"
+              value={contactPerson}
+              onChange={(e) => setContactPerson(e.target.value)}
+              required
+            />
+          </div>
+          <div className="w3-half">
+            <Select
+              label="Alcance territorial"
+              value={scope}
+              onChange={(e) => setScope(e.target.value as AssociationScope)}
+              options={[
+                { value: 'local', label: 'Local (Ensenada / Municipio)' },
+                { value: 'estatal', label: 'Estatal (Baja California / Otro estado)' },
+                { value: 'nacional', label: 'Nacional (México)' },
+                { value: 'internacional', label: 'Internacional' },
+              ]}
+            />
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Input
-            label="Correo electrónico de contacto"
-            type="email"
-            placeholder="contacto@organizacion.org"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-
-          <Input
-            label="Teléfono de contacto"
-            placeholder="646-123-4567"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            required
-          />
+        <div className="w3-row-padding" style={{ margin: '0 -8px' }}>
+          <div className="w3-half">
+            <Input
+              label="Correo electrónico de contacto"
+              type="email"
+              placeholder="contacto@organizacion.org"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="w3-half">
+            <Input
+              label="Teléfono de contacto"
+              placeholder="646-123-4567"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+            />
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Input
-            label="Estado / Ciudad"
-            placeholder="Ej: Ensenada, Baja California"
-            value={state}
-            onChange={(e) => setState(e.target.value)}
-          />
-
-          <Input
-            label="Sitio web o enlace (opcional)"
-            type="url"
-            placeholder="https://asociacion.org"
-            value={website}
-            onChange={(e) => setWebsite(e.target.value)}
-          />
+        <div className="w3-row-padding" style={{ margin: '0 -8px' }}>
+          <div className="w3-half">
+            <Input
+              label="Estado / Ciudad"
+              placeholder="Ej: Ensenada, Baja California"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+            />
+          </div>
+          <div className="w3-half">
+            <Input
+              label="Sitio web o enlace (opcional)"
+              type="url"
+              placeholder="https://asociacion.org"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+            />
+          </div>
         </div>
 
         <Input
@@ -134,9 +143,9 @@ export const AssociationFormModal: React.FC<AssociationFormModalProps> = ({
           onChange={(e) => setAddress(e.target.value)}
         />
 
-        <div className="space-y-1.5">
-          <label htmlFor="assoc-notes" className="block text-sm font-medium text-slate-700">
-            Notas de colaboración o acuerdos vigentes
+        <div className="w3-margin-bottom">
+          <label htmlFor="assoc-notes" className="w3-text-dark-grey" style={{ display: 'block', marginBottom: '4px' }}>
+            <b>Notas de colaboración o acuerdos vigentes</b>
           </label>
           <textarea
             id="assoc-notes"
@@ -144,29 +153,29 @@ export const AssociationFormModal: React.FC<AssociationFormModalProps> = ({
             placeholder="Convenio de colaboración firmado, apoyo técnico en sensibilización comunitaria..."
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            className="w-full rounded-xl border border-slate-300 p-2.5 text-xs text-slate-800 focus:border-calm-600 focus:ring-1 focus:ring-calm-600"
+            className="w3-input w3-border"
           />
         </div>
 
-        <div className="flex items-center gap-2 pt-1">
-          <input
-            type="checkbox"
-            id="assoc-example-check"
-            checked={isExample}
-            onChange={(e) => setIsExample(e.target.checked)}
-            className="rounded text-calm-600 focus:ring-calm-500 w-4 h-4"
-          />
-          <label htmlFor="assoc-example-check" className="text-xs text-slate-600 select-none">
-            Marcar como dato de ejemplo (placeholder de prueba)
+        <div style={{ margin: '12px 0' }}>
+          <label htmlFor="assoc-example-check" className="w3-small" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <input
+              type="checkbox"
+              id="assoc-example-check"
+              className="w3-check"
+              checked={isExample}
+              onChange={(e) => setIsExample(e.target.checked)}
+            />
+            <span>Marcar como dato de ejemplo (placeholder de prueba)</span>
           </label>
         </div>
 
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
-          <Button type="button" variant="secondary" onClick={onClose}>
+        <div className="w3-bar w3-margin-top" style={{ textAlign: 'right' }}>
+          <Button type="button" variant="secondary" onClick={onClose} style={{ marginRight: '8px' }}>
             Cancelar
           </Button>
           <Button type="submit" variant="primary">
-            {association ? 'Guardar Cambios' : 'Registrar Asociación'}
+            {association ? 'Actualizar Asociación' : 'Guardar Asociación'}
           </Button>
         </div>
       </form>

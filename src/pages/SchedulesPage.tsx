@@ -4,12 +4,10 @@ import { scheduleApi, parkApi } from '../services/api';
 import { ParkSchedule, Park } from '../types';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { Button } from '../components/common/Button';
-import { Badge } from '../components/common/Badge';
 import { ScheduleModal } from '../components/schedules/ScheduleModal';
 import { ConfirmDialog } from '../components/common/ConfirmDialog';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
-import { Clock, Plus, Edit2, Trash2, ShieldAlert, CheckCircle2, VolumeX, Dog, Sun, Sparkles } from 'lucide-react';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
 
 export const SchedulesPage: React.FC = () => {
@@ -92,7 +90,7 @@ export const SchedulesPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div>
       <Breadcrumbs
         items={[
           { label: 'Parques', path: '/parks' },
@@ -102,16 +100,16 @@ export const SchedulesPage: React.FC = () => {
       />
 
       {/* Explanatory banner based on client transcript */}
-      <div className="card-calm p-6 space-y-3 bg-gradient-to-r from-calm-50/90 to-slate-50 border-calm-200">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <span className="text-xs font-bold uppercase tracking-wider text-calm-800 bg-calm-100 px-2 py-0.5 rounded">
-              Ambiente Regulado
+      <div className="w3-container w3-white w3-card w3-padding-24 w3-margin-bottom w3-leftbar w3-border-black">
+        <div className="w3-row">
+          <div className="w3-col l8 m8 s12">
+            <span className="w3-tag w3-black w3-small" style={{ marginBottom: '6px' }}>
+              AMBIENTE REGULADO
             </span>
-            <h1 className="text-2xl font-bold text-slate-800">
-              Horarios Exclusivos para Personas Neurodivergentes
+            <h1 className="w3-xxlarge w3-wide" style={{ margin: '6px 0' }}>
+              HORARIOS EXCLUSIVOS
             </h1>
-            <p className="text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">
+            <p className="w3-text-grey" style={{ lineHeight: '1.6', margin: '4px 0 0 0' }}>
               En las palabras del cliente en la reunión: <em>"Como es un parque regular ahorita, se cambia
               el horario y hay un horario que es específico para neurodivergencias: es otro tipo de ambiente,
               los colores, no va a haber perros, no va a haber gente ruidosa ni maquinaria."</em>
@@ -119,151 +117,130 @@ export const SchedulesPage: React.FC = () => {
           </div>
 
           {isAdmin && (
-            <Button
-              onClick={() => {
-                setEditingSchedule(null);
-                setIsModalOpen(true);
-              }}
-              leftIcon={<Plus className="w-4 h-4" />}
-            >
-              Nuevo Horario Especial
-            </Button>
+            <div className="w3-col l4 m4 s12 w3-right-align w3-margin-top">
+              <Button
+                onClick={() => {
+                  setEditingSchedule(null);
+                  setIsModalOpen(true);
+                }}
+                leftIcon={<i className="fa fa-plus"></i>}
+              >
+                Nuevo Horario
+              </Button>
+            </div>
           )}
         </div>
       </div>
 
       {/* Grid of Schedules */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="w3-row-padding" style={{ margin: '0 -8px' }}>
         {schedules.map((schedule) => (
-          <article
-            key={schedule.id}
-            aria-label={`Horario: ${schedule.days.join(', ')}`}
-            className={`card-calm p-6 flex flex-col justify-between space-y-5 transition-all ${
-              schedule.active ? 'border-calm-300 shadow-soft' : 'opacity-70 bg-slate-50'
-            }`}
-          >
-            <div className="space-y-4">
-              {/* Header: Days and Active state */}
-              <div className="flex items-start justify-between gap-3">
-                <div className="space-y-1">
-                  <div className="flex flex-wrap gap-1.5">
+          <div key={schedule.id} className="w3-col l6 m12 s12 w3-margin-bottom">
+            <div
+              className="w3-card w3-white w3-container w3-padding-16"
+              style={{
+                opacity: schedule.active ? 1 : 0.7,
+                borderLeft: schedule.active ? '4px solid #000' : '4px solid #ccc',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <div>
+                  <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginBottom: '6px' }}>
                     {schedule.days.map((day) => (
-                      <span
-                        key={day}
-                        className="text-xs font-bold text-calm-900 bg-calm-100 border border-calm-200 px-2.5 py-1 rounded-lg"
-                      >
+                      <span key={day} className="w3-tag w3-light-grey w3-border w3-small">
                         {day}
                       </span>
                     ))}
                   </div>
 
-                  <div className="flex items-center gap-2 text-lg font-bold text-slate-800 pt-1">
-                    <Clock className="w-5 h-5 text-calm-600" />
-                    <span>
-                      {schedule.startTime} — {schedule.endTime} hrs
-                    </span>
-                  </div>
+                  <h3 className="w3-large w3-wide" style={{ margin: '4px 0' }}>
+                    <i className="fa fa-clock-o w3-margin-right"></i>
+                    {schedule.startTime} — {schedule.endTime} hrs
+                  </h3>
                 </div>
 
-                <div className="flex items-center gap-1.5">
-                  <span
-                    className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${
-                      schedule.active
-                        ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
-                        : 'bg-slate-200 text-slate-700'
-                    }`}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <button
+                    type="button"
+                    onClick={() => handleToggleActive(schedule)}
+                    className={`w3-tag w3-button w3-small ${schedule.active ? 'w3-green' : 'w3-grey'}`}
+                    style={{ padding: '2px 8px' }}
                   >
                     {schedule.active ? 'Activo' : 'En pausa'}
-                  </span>
+                  </button>
 
                   {isAdmin && (
-                    <div className="flex items-center gap-1 ml-1">
+                    <>
                       <button
                         type="button"
                         onClick={() => {
                           setEditingSchedule(schedule);
                           setIsModalOpen(true);
                         }}
-                        className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100"
+                        className="w3-button w3-light-grey w3-small"
                         title="Editar horario"
-                        aria-label="Editar horario"
+                        style={{ padding: '4px 8px' }}
                       >
-                        <Edit2 className="w-4 h-4" />
+                        <i className="fa fa-pencil"></i>
                       </button>
                       <button
                         type="button"
                         onClick={() => setScheduleToDelete(schedule)}
-                        className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50"
+                        className="w3-button w3-hover-red w3-light-grey w3-small"
                         title="Eliminar horario"
-                        aria-label="Eliminar horario"
+                        style={{ padding: '4px 8px' }}
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <i className="fa fa-trash"></i>
                       </button>
-                    </div>
+                    </>
                   )}
                 </div>
               </div>
 
               {/* Restrictions List */}
-              <div className="space-y-2">
-                <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                  Condiciones y Restricciones del Entorno:
-                </p>
-                <div className="space-y-1.5 bg-slate-50/80 p-3 rounded-xl border border-slate-200/70">
+              <div style={{ marginTop: '12px' }}>
+                <span className="w3-tiny w3-text-grey font-bold w3-wide">
+                  CONDICIONES Y RESTRICCIONES DEL ENTORNO:
+                </span>
+                <div className="w3-panel w3-light-grey w3-border w3-padding-small w3-small" style={{ margin: '6px 0' }}>
                   {schedule.restrictions.map((res, idx) => (
-                    <div key={idx} className="flex items-start gap-2 text-xs text-slate-700">
-                      <CheckCircle2 className="w-4 h-4 text-calm-600 mt-0.5 flex-shrink-0" />
-                      <span>{res}</span>
-                    </div>
+                    <p key={idx} style={{ margin: '3px 0' }}>
+                      <i className="fa fa-check w3-margin-right w3-text-green"></i>
+                      {res}
+                    </p>
                   ))}
                 </div>
               </div>
 
               {schedule.notes && (
-                <p className="text-xs text-slate-500 italic bg-white p-2 rounded-lg border border-slate-100">
+                <p className="w3-tiny w3-text-grey" style={{ fontStyle: 'italic', margin: '6px 0 0 0' }}>
                   Nota operativa: "{schedule.notes}"
                 </p>
               )}
             </div>
-
-            {isAdmin && (
-              <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-xs text-slate-400">Control de publicación:</span>
-                <button
-                  type="button"
-                  onClick={() => handleToggleActive(schedule)}
-                  className="text-xs text-calm-700 hover:text-calm-900 font-semibold underline"
-                >
-                  {schedule.active ? 'Pausar este horario' : 'Reactivar este horario'}
-                </button>
-              </div>
-            )}
-          </article>
-        ))}
-
-        {schedules.length === 0 && (
-          <div className="col-span-2 card-calm p-12 text-center text-slate-500 text-sm">
-            No se han registrado horarios especiales para este parque todavía.
           </div>
-        )}
+        ))}
       </div>
 
-      {/* Schedule Form Modal */}
+      {/* Modal for Create/Edit */}
       <ScheduleModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSave={handleSaveSchedule}
-        parkId={parkId}
         schedule={editingSchedule}
+        parkId={parkId}
       />
 
-      {/* Confirm Delete Dialog */}
+      {/* Confirm Delete */}
       <ConfirmDialog
         isOpen={!!scheduleToDelete}
         onClose={() => setScheduleToDelete(null)}
         onConfirm={handleDeleteSchedule}
-        title="¿Eliminar horario especial?"
-        message="¿Estás seguro de que deseas eliminar este horario? Los guardaparques y familias ya no verán esta franja en el calendario."
+        title="Eliminar Franja Horaria"
+        message={`¿Seguro que deseas eliminar el horario especial de los ${scheduleToDelete?.days.join(
+          ', '
+        )}?`}
+        confirmLabel="Eliminar"
       />
     </div>
   );

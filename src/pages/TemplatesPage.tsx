@@ -3,14 +3,10 @@ import { templateApi, parkApi } from '../services/api';
 import { ChecklistTemplate } from '../types';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { Button } from '../components/common/Button';
-import { Badge } from '../components/common/Badge';
 import { CloneTemplateModal } from '../components/parks/CloneTemplateModal';
-import { Modal } from '../components/common/Modal';
-import { Input } from '../components/common/Input';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { useNavigate } from 'react-router-dom';
-import { Layers, Copy, Plus, MapPin, CheckCircle2, ChevronRight, Info } from 'lucide-react';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
 
 export const TemplatesPage: React.FC = () => {
@@ -58,40 +54,44 @@ export const TemplatesPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div>
       <Breadcrumbs items={[{ label: 'Red y Expansión' }, { label: 'Plantillas de Replicabilidad' }]} />
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
-            <Layers className="w-6 h-6 text-calm-600" />
-            <span>Plantillas de Replicabilidad por Estado</span>
-          </h1>
-          <p className="text-sm text-slate-500 mt-1">
-            Estandarización del modelo para adaptar parques existentes o construir nuevos desde cero en otras entidades federativas.
-          </p>
-        </div>
+      <div className="w3-container w3-white w3-card w3-padding-24 w3-margin-bottom">
+        <div className="w3-row">
+          <div className="w3-col l8 m8 s12">
+            <h1 className="w3-xxlarge w3-wide" style={{ margin: '4px 0' }}>
+              <i className="fa fa-clone w3-margin-right"></i>
+              PLANTILLAS DE REPLICABILIDAD
+            </h1>
+            <p className="w3-text-grey" style={{ margin: '4px 0 0 0', lineHeight: '1.6' }}>
+              Estandarización del modelo para adaptar parques existentes o construir nuevos desde cero en otras entidades federativas.
+            </p>
+          </div>
 
-        {isAdmin && (
-          <Button
-            onClick={() => {
-              if (templates.length > 0) {
-                setSelectedTemplateForClone(templates[0]);
-                setIsCloneModalOpen(true);
-              }
-            }}
-            leftIcon={<Copy className="w-4 h-4" />}
-          >
-            Clonar Plantilla a Nuevo Parque
-          </Button>
-        )}
+          {isAdmin && (
+            <div className="w3-col l4 m4 s12 w3-right-align w3-margin-top">
+              <Button
+                onClick={() => {
+                  if (templates.length > 0) {
+                    setSelectedTemplateForClone(templates[0]);
+                    setIsCloneModalOpen(true);
+                  }
+                }}
+                leftIcon={<i className="fa fa-clone"></i>}
+              >
+                Clonar Plantilla
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Transcript note about Sonora / Hermosillo & Baja California */}
-      <div className="p-3.5 bg-calm-50 border border-calm-200 rounded-xl text-xs text-slate-700 flex items-start gap-2.5">
-        <Info className="w-4 h-4 text-calm-700 mt-0.5 flex-shrink-0" />
-        <p className="leading-relaxed">
-          <strong>Contexto de Replicabilidad (Minuta de reunión):</strong> <em>"El primero en el estado que se
+      <div className="w3-panel w3-light-grey w3-border w3-padding-16 w3-small w3-margin-bottom">
+        <p style={{ margin: 0 }}>
+          <i className="fa fa-info-circle w3-margin-right w3-large"></i>
+          <b>Contexto de Replicabilidad (Minuta de reunión):</b> <em>"El primero en el estado que se
           va a abrir es Ensenada (parque preexistente adaptado), pero el primero desde cero va a estar en
           Hermosillo, Sonora. Al ser otro estado cambian los permisos y regulaciones."</em> Las plantillas permiten
           precargar los requisitos según la legislación estatal aplicable.
@@ -99,92 +99,92 @@ export const TemplatesPage: React.FC = () => {
       </div>
 
       {/* Templates List */}
-      <div className="space-y-6">
+      <div>
         {templates.map((tpl) => {
           const totalRequirements = tpl.phases.reduce((acc, p) => acc + p.requirements.length, 0);
 
           return (
-            <article
+            <div
               key={tpl.id}
-              aria-label={`Plantilla: ${tpl.name}`}
-              className="card-calm p-6 space-y-5 border-l-4 border-l-calm-600"
+              className="w3-card w3-white w3-container w3-padding-24 w3-margin-bottom w3-leftbar w3-border-black"
             >
-              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-                <div className="space-y-1.5 flex-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-xs font-bold text-calm-900 bg-calm-100 border border-calm-200 px-2 py-0.5 rounded">
-                      Estado: {tpl.state}
+              <div className="w3-row">
+                <div className="w3-col l8 m8 s12">
+                  <div style={{ marginBottom: '6px' }}>
+                    <span className="w3-tag w3-black w3-small" style={{ marginRight: '6px' }}>
+                      ESTADO: {tpl.state.toUpperCase()}
                     </span>
-                    <span className="text-xs text-slate-500">
+                    <span className="w3-small w3-text-grey">
                       {tpl.phases.length} Fases • {totalRequirements} Requisitos incluidos
                     </span>
                   </div>
 
-                  <h2 className="text-xl font-bold text-slate-800">{tpl.name}</h2>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
+                  <h2 className="w3-large w3-wide" style={{ margin: '6px 0' }}>{tpl.name}</h2>
+                  <p className="w3-text-grey" style={{ lineHeight: '1.6', margin: '4px 0 16px 0' }}>
                     {tpl.description}
                   </p>
                 </div>
 
                 {isAdmin && (
-                  <Button
-                    size="sm"
-                    variant="primary"
-                    onClick={() => {
-                      setSelectedTemplateForClone(tpl);
-                      setIsCloneModalOpen(true);
-                    }}
-                    leftIcon={<Copy className="w-4 h-4" />}
-                    className="flex-shrink-0"
-                  >
-                    Usar esta Plantilla
-                  </Button>
+                  <div className="w3-col l4 m4 s12 w3-right-align">
+                    <Button
+                      size="sm"
+                      variant="primary"
+                      onClick={() => {
+                        setSelectedTemplateForClone(tpl);
+                        setIsCloneModalOpen(true);
+                      }}
+                      leftIcon={<i className="fa fa-clone"></i>}
+                    >
+                      Usar esta Plantilla
+                    </Button>
+                  </div>
                 )}
               </div>
 
               {/* Phases and Requirements Breakdown inside this template */}
-              <div className="pt-3 border-t border-slate-100 space-y-3">
-                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                  Fases y estructura de requisitos precargados:
+              <div style={{ borderTop: '1px solid #eee', paddingTop: '16px' }}>
+                <p className="w3-small w3-text-grey font-bold w3-wide" style={{ margin: '0 0 12px 0' }}>
+                  FASES Y ESTRUCTURA DE REQUISITOS PRECARGADOS:
                 </p>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div className="w3-row-padding" style={{ margin: '0 -8px' }}>
                   {tpl.phases.map((phase) => (
-                    <div
-                      key={phase.order}
-                      className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-2"
-                    >
-                      <div className="flex items-center gap-2 font-bold text-slate-800">
-                        <span className="w-5 h-5 rounded-full bg-calm-600 text-white flex items-center justify-center text-[10px]">
-                          {phase.order}
-                        </span>
-                        <span className="truncate">{phase.name}</span>
-                      </div>
+                    <div key={phase.order} className="w3-col l4 m12 s12 w3-margin-bottom">
+                      <div className="w3-panel w3-light-grey w3-border w3-padding-small">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                          <span className="w3-tag w3-black w3-small">
+                            {phase.order}
+                          </span>
+                          <b>{phase.name}</b>
+                        </div>
 
-                      <ul className="space-y-1 text-slate-600">
-                        {phase.requirements.map((req, rIdx) => (
-                          <li key={rIdx} className="flex items-start gap-1.5 text-[11px] leading-tight">
-                            <span className="text-calm-600">•</span>
-                            <span className="line-clamp-2">{req.title}</span>
-                          </li>
-                        ))}
-                      </ul>
+                        <ul className="w3-ul w3-tiny w3-text-dark-grey" style={{ padding: 0 }}>
+                          {phase.requirements.map((req, rIdx) => (
+                            <li key={rIdx} style={{ padding: '4px 0', borderBottom: '1px dotted #ccc' }}>
+                              • {req.title}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
-            </article>
+            </div>
           );
         })}
       </div>
 
       {/* Clone Modal */}
-      <CloneTemplateModal
-        isOpen={isCloneModalOpen}
-        onClose={() => setIsCloneModalOpen(false)}
-        templates={templates}
-        onClone={handleClone}
-      />
+      {selectedTemplateForClone && (
+        <CloneTemplateModal
+          isOpen={isCloneModalOpen}
+          onClose={() => setIsCloneModalOpen(false)}
+          templates={templates}
+          onClone={handleClone}
+        />
+      )}
     </div>
   );
 };

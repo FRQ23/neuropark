@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { Area, NeurodivergenceCategory, Infrastructure, AreaCategoryInfrastructure } from '../../types';
 import { useAuth } from '../../context/AuthContext';
-import { Badge } from '../common/Badge';
 import { Button } from '../common/Button';
-import { Select } from '../common/Select';
-import { Check, ShieldCheck, Camera, Trash2, Edit3, Image as ImageIcon } from 'lucide-react';
 
 interface ListViewProps {
   areas: Area[];
@@ -44,102 +41,96 @@ export const ListView: React.FC<ListViewProps> = ({
   const getInfrastructure = (id: string) => infrastructures.find((i) => i.id === id);
 
   return (
-    <div className="space-y-4">
+    <div>
       {/* Filters Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-soft flex flex-wrap items-center gap-3">
-        <div className="flex-1 min-w-[200px]">
-          <label htmlFor="filter-area" className="block text-xs font-semibold uppercase text-slate-500 mb-1">
-            Filtrar por Área
-          </label>
-          <select
-            id="filter-area"
-            value={selectedArea}
-            onChange={(e) => setSelectedArea(e.target.value)}
-            className="w-full text-xs rounded-xl border border-slate-300 p-2 bg-slate-50 text-slate-700 focus:outline-none"
-          >
-            <option value="all">Todas las áreas ({areas.length})</option>
-            {areas.map((a) => (
-              <option key={a.id} value={a.id}>
-                {a.name}
-              </option>
-            ))}
-          </select>
-        </div>
+      <div className="w3-container w3-white w3-card w3-padding-16 w3-margin-bottom">
+        <div className="w3-row-padding" style={{ margin: '0 -8px' }}>
+          <div className="w3-col l4 m4 s12 w3-margin-bottom">
+            <label htmlFor="filter-area" className="w3-text-dark-grey" style={{ display: 'block', marginBottom: '4px' }}>
+              <b>FILTRAR POR ÁREA</b>
+            </label>
+            <select
+              id="filter-area"
+              value={selectedArea}
+              onChange={(e) => setSelectedArea(e.target.value)}
+              className="w3-select w3-border w3-white"
+            >
+              <option value="all">Todas las áreas ({areas.length})</option>
+              {areas.map((a) => (
+                <option key={a.id} value={a.id}>
+                  {a.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div className="flex-1 min-w-[200px]">
-          <label htmlFor="filter-cat" className="block text-xs font-semibold uppercase text-slate-500 mb-1">
-            Filtrar por Categoría
-          </label>
-          <select
-            id="filter-cat"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full text-xs rounded-xl border border-slate-300 p-2 bg-slate-50 text-slate-700 focus:outline-none"
-          >
-            <option value="all">Todas las categorías ({categories.length})</option>
-            {categories.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
-          </select>
-        </div>
+          <div className="w3-col l4 m4 s12 w3-margin-bottom">
+            <label htmlFor="filter-cat" className="w3-text-dark-grey" style={{ display: 'block', marginBottom: '4px' }}>
+              <b>FILTRAR POR CATEGORÍA</b>
+            </label>
+            <select
+              id="filter-cat"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="w3-select w3-border w3-white"
+            >
+              <option value="all">Todas las categorías ({categories.length})</option>
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div className="flex-1 min-w-[180px]">
-          <label htmlFor="filter-status" className="block text-xs font-semibold uppercase text-slate-500 mb-1">
-            Estado de Obra / Cambio
-          </label>
-          <select
-            id="filter-status"
-            value={selectedStatus}
-            onChange={(e) => setSelectedStatus(e.target.value)}
-            className="w-full text-xs rounded-xl border border-slate-300 p-2 bg-slate-50 text-slate-700 focus:outline-none"
-          >
-            <option value="all">Todos los estados</option>
-            <option value="completed">Cambio físico realizado</option>
-            <option value="pending">Pendiente de realización</option>
-            <option value="validated">Validado oficialmente</option>
-          </select>
+          <div className="w3-col l4 m4 s12 w3-margin-bottom">
+            <label htmlFor="filter-status" className="w3-text-dark-grey" style={{ display: 'block', marginBottom: '4px' }}>
+              <b>ESTADO DE OBRA</b>
+            </label>
+            <select
+              id="filter-status"
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
+              className="w3-select w3-border w3-white"
+            >
+              <option value="all">Todos los estados</option>
+              <option value="completed">Cambio físico realizado</option>
+              <option value="pending">Pendiente de realización</option>
+              <option value="validated">Validado oficialmente</option>
+            </select>
+          </div>
         </div>
       </div>
 
       {/* Items List */}
-      <div className="space-y-3">
+      <div>
         {filteredItems.map((item) => {
           const area = getArea(item.areaId);
           const category = getCategory(item.categoryId);
           const inf = getInfrastructure(item.infrastructureId);
           if (!inf) return null;
 
+          const borderClass = item.isValidated
+            ? 'w3-border-green'
+            : item.isCompleted
+            ? 'w3-border-blue'
+            : 'w3-border-khaki';
+
           return (
             <div
               key={item.id}
-              className={`card-calm p-5 border-l-4 transition-all ${
-                item.isValidated
-                  ? 'border-l-emerald-600 bg-emerald-50/20'
-                  : item.isCompleted
-                  ? 'border-l-teal-500'
-                  : 'border-l-amber-400'
-              }`}
+              className={`w3-card w3-white w3-container w3-padding-16 w3-margin-bottom w3-leftbar ${borderClass}`}
             >
-              <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
-                <div className="space-y-2 flex-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-xs font-bold text-calm-800 bg-calm-100 px-2 py-0.5 rounded">
+              <div className="w3-row">
+                <div className="w3-col l8 m8 s12">
+                  <div style={{ marginBottom: '6px' }}>
+                    <span className="w3-tag w3-black w3-small" style={{ marginRight: '6px' }}>
                       {area?.name || 'Área'}
                     </span>
-                    <span className="text-xs font-medium text-indigo-800 bg-indigo-50 border border-indigo-200 px-2 py-0.5 rounded">
+                    <span className="w3-tag w3-dark-grey w3-small" style={{ marginRight: '6px' }}>
                       {category?.name || 'Categoría'}
                     </span>
-                    <span
-                      className={`text-[11px] uppercase font-bold px-2 py-0.5 rounded ${
-                        inf.type === 'color_spec'
-                          ? 'bg-amber-100 text-amber-800'
-                          : inf.type === 'equipment'
-                          ? 'bg-sky-100 text-sky-800'
-                          : 'bg-indigo-100 text-indigo-800'
-                      }`}
-                    >
+                    <span className="w3-tag w3-light-grey w3-border w3-small">
                       {inf.type === 'color_spec'
                         ? 'Color / Pintura'
                         : inf.type === 'equipment'
@@ -148,72 +139,66 @@ export const ListView: React.FC<ListViewProps> = ({
                     </span>
                   </div>
 
-                  <h3 className="text-base font-bold text-slate-800 leading-snug">{inf.name}</h3>
+                  <h3 style={{ margin: '6px 0' }}>{inf.name}</h3>
 
-                  <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-200 text-xs font-mono text-slate-700">
-                    <span className="font-semibold text-slate-900 block font-sans text-[11px] uppercase tracking-wider mb-0.5">
-                      Especificación técnica / color:
+                  <div className="w3-panel w3-light-grey w3-small" style={{ padding: '8px', margin: '6px 0', fontFamily: 'monospace' }}>
+                    <span className="w3-text-grey" style={{ display: 'block', fontFamily: 'inherit', fontWeight: 'bold' }}>
+                      ESPECIFICACIÓN TÉCNICA:
                     </span>
                     {inf.colorOrSpec}
                   </div>
 
                   {item.notes && (
-                    <p className="text-xs text-slate-600 italic">
-                      Nota de campo: "{item.notes}"
+                    <p className="w3-small w3-text-grey" style={{ fontStyle: 'italic', margin: '4px 0' }}>
+                      Nota: "{item.notes}"
                     </p>
                   )}
 
                   {item.validatedBy && (
-                    <p className="text-xs text-emerald-800 font-medium flex items-center gap-1.5 pt-1">
-                      <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                      Validado por <strong>{item.validatedByName || item.validatedBy}</strong> el{' '}
-                      {item.validatedAt ? new Date(item.validatedAt).toLocaleDateString('es-MX') : ''}
+                    <p className="w3-small w3-text-green font-bold" style={{ margin: '6px 0 0 0' }}>
+                      <i className="fa fa-shield w3-margin-right"></i>
+                      Validado por {item.validatedByName || item.validatedBy}
+                      {item.validatedAt ? ` el ${new Date(item.validatedAt).toLocaleDateString('es-MX')}` : ''}
                     </p>
                   )}
                 </div>
 
                 {/* Right controls */}
-                <div className="flex flex-col sm:flex-row md:flex-col items-start md:items-end gap-3 flex-shrink-0">
-                  {/* Physical change check */}
-                  <label
-                    className={`inline-flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium border cursor-pointer select-none transition-colors ${
-                      item.isCompleted
-                        ? 'bg-teal-50 border-teal-300 text-teal-800 font-semibold'
-                        : 'bg-slate-50 border-slate-200 text-slate-600'
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={item.isCompleted}
-                      onChange={() => onToggleCompleted(item.id, item.isCompleted)}
-                      disabled={!isAdmin && !isCommittee}
-                      className="rounded text-calm-600 focus:ring-calm-500 w-4 h-4"
-                    />
-                    <span>¿Cambio físico hecho?</span>
-                  </label>
-
-                  <div className="flex items-center gap-2">
-                    <Button
-                      size="sm"
-                      variant={item.isValidated ? 'outline' : 'primary'}
-                      onClick={() => onValidateItem(item.id, item.isValidated)}
-                      disabled={!isAdmin && !isCommittee}
-                      leftIcon={<ShieldCheck className="w-4 h-4" />}
-                    >
-                      {item.isValidated ? 'Validado' : 'Validar Cambio'}
-                    </Button>
-
-                    {isAdmin && (
-                      <button
-                        type="button"
-                        onClick={() => onDeleteItem(item.id)}
-                        className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
-                        title="Eliminar registro"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    )}
+                <div className="w3-col l4 m4 s12 w3-right-align w3-margin-top-small">
+                  <div style={{ marginBottom: '10px' }}>
+                    <label className="w3-small" style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                      <input
+                        type="checkbox"
+                        className="w3-check"
+                        checked={item.isCompleted}
+                        onChange={() => onToggleCompleted(item.id, item.isCompleted)}
+                        disabled={!isAdmin && !isCommittee}
+                      />
+                      <b>¿Cambio físico hecho?</b>
+                    </label>
                   </div>
+
+                  <Button
+                    size="sm"
+                    variant={item.isValidated ? 'outline' : 'primary'}
+                    onClick={() => onValidateItem(item.id, item.isValidated)}
+                    disabled={!isAdmin && !isCommittee}
+                    leftIcon={<i className="fa fa-shield"></i>}
+                  >
+                    {item.isValidated ? 'Validado' : 'Validar Cambio'}
+                  </Button>
+
+                  {isAdmin && (
+                    <button
+                      type="button"
+                      onClick={() => onDeleteItem(item.id)}
+                      className="w3-button w3-hover-red w3-light-grey w3-small"
+                      title="Eliminar registro"
+                      style={{ marginLeft: '6px' }}
+                    >
+                      <i className="fa fa-trash"></i>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -221,7 +206,7 @@ export const ListView: React.FC<ListViewProps> = ({
         })}
 
         {filteredItems.length === 0 && (
-          <div className="p-8 text-center bg-white rounded-2xl border border-slate-200 text-slate-500 text-sm">
+          <div className="w3-container w3-white w3-card w3-padding-32 w3-center w3-text-grey">
             No se encontraron elementos de infraestructura con los filtros seleccionados.
           </div>
         )}

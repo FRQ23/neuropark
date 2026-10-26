@@ -48,7 +48,7 @@ export const RequirementFormModal: React.FC<RequirementFormModalProps> = ({
       description="Como administrador, puedes definir requisitos específicos según normativas reales o personalizadas."
       maxWidth="lg"
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit}>
         <Input
           label="Título del requisito"
           value={title}
@@ -57,9 +57,9 @@ export const RequirementFormModal: React.FC<RequirementFormModalProps> = ({
           required
         />
 
-        <div className="space-y-1.5">
-          <label htmlFor="req-desc" className="block text-sm font-medium text-slate-700">
-            Descripción detallada y criterio de aceptación
+        <div className="w3-margin-bottom">
+          <label htmlFor="req-desc" className="w3-text-dark-grey" style={{ display: 'block', marginBottom: '4px' }}>
+            <b>Descripción detallada y criterio de aceptación</b>
           </label>
           <textarea
             id="req-desc"
@@ -67,7 +67,7 @@ export const RequirementFormModal: React.FC<RequirementFormModalProps> = ({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Especifica los documentos requeridos o las condiciones físicas esperadas..."
-            className="w-full rounded-xl border border-slate-300 p-3 text-sm text-slate-800 focus:border-calm-600 focus:ring-1 focus:ring-calm-600"
+            className="w3-input w3-border"
             required
           />
         </div>
@@ -84,21 +84,21 @@ export const RequirementFormModal: React.FC<RequirementFormModalProps> = ({
           ]}
         />
 
-        <div className="flex items-center gap-2 pt-2">
-          <input
-            type="checkbox"
-            id="is-example-check"
-            checked={isExample}
-            onChange={(e) => setIsExample(e.target.checked)}
-            className="rounded text-calm-600 focus:ring-calm-500 w-4 h-4"
-          />
-          <label htmlFor="is-example-check" className="text-xs text-slate-600 select-none">
-            Marcar con distintivo de <em>"Requisito de ejemplo"</em> (placeholder de prueba)
+        <div style={{ margin: '12px 0' }}>
+          <label htmlFor="is-example-check" className="w3-small" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <input
+              type="checkbox"
+              id="is-example-check"
+              className="w3-check"
+              checked={isExample}
+              onChange={(e) => setIsExample(e.target.checked)}
+            />
+            <span>Marcar con distintivo de <em>"Requisito de ejemplo"</em> (placeholder de prueba)</span>
           </label>
         </div>
 
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
-          <Button type="button" variant="secondary" onClick={onClose}>
+        <div className="w3-bar w3-margin-top" style={{ textAlign: 'right' }}>
+          <Button type="button" variant="secondary" onClick={onClose} style={{ marginRight: '8px' }}>
             Cancelar
           </Button>
           <Button type="submit" variant="primary">

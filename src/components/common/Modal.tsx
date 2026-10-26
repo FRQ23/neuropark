@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { X } from 'lucide-react';
 
 interface ModalProps {
   isOpen: boolean;
@@ -40,53 +39,48 @@ export const Modal: React.FC<ModalProps> = ({
 
   if (!isOpen) return null;
 
-  const maxWidthClasses = {
-    sm: 'max-w-sm',
-    md: 'max-w-md',
-    lg: 'max-w-lg',
-    xl: 'max-w-xl',
-    '2xl': 'max-w-2xl',
-    '4xl': 'max-w-4xl',
+  const widthStyle = {
+    sm: '400px',
+    md: '600px',
+    lg: '800px',
+    xl: '950px',
+    '2xl': '1100px',
+    '4xl': '1250px',
   }[maxWidth];
 
   return (
     <div
-      className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4"
+      className="w3-modal"
+      style={{ display: 'block', zIndex: 1000 }}
       role="dialog"
       aria-modal="true"
-      aria-labelledby="modal-headline"
+      onClick={onClose}
     >
       <div
-        className="fixed inset-0 transition-opacity"
-        aria-hidden="true"
-        onClick={onClose}
-      />
-
-      <div
         ref={modalRef}
-        className={`relative bg-white rounded-2xl shadow-soft-lg w-full ${maxWidthClasses} p-6 border border-slate-200 z-10 my-8`}
+        className="w3-modal-content w3-card-4 w3-animate-top"
+        style={{ maxWidth: widthStyle, width: '90%', margin: '48px auto' }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-start justify-between pb-4 mb-4 border-b border-slate-100">
-          <div>
-            <h2 id="modal-headline" className="text-lg font-semibold text-slate-800">
-              {title}
-            </h2>
-            {description && (
-              <p className="mt-1 text-sm text-slate-500">{description}</p>
-            )}
-          </div>
+        <header className="w3-container w3-light-grey w3-padding-16" style={{ position: 'relative' }}>
           <button
             type="button"
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 focus-visible:outline focus-visible:outline-2"
+            className="w3-button w3-display-topright w3-large w3-hover-red"
             aria-label="Cerrar modal"
+            style={{ fontWeight: 'bold' }}
           >
-            <X className="w-5 h-5" />
+            &times;
           </button>
-        </div>
+          <h3 style={{ margin: 0 }}>{title}</h3>
+          {description && (
+            <p className="w3-small w3-text-grey" style={{ margin: '4px 0 0 0' }}>
+              {description}
+            </p>
+          )}
+        </header>
 
-        <div className="max-h-[75vh] overflow-y-auto pr-1">
+        <div className="w3-container w3-padding-16" style={{ maxHeight: '70vh', overflowY: 'auto' }}>
           {children}
         </div>
       </div>

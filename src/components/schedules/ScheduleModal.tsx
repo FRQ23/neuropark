@@ -3,7 +3,6 @@ import { Modal } from '../common/Modal';
 import { Button } from '../common/Button';
 import { Input } from '../common/Input';
 import { ParkSchedule } from '../../types';
-import { Plus, X } from 'lucide-react';
 
 interface ScheduleModalProps {
   isOpen: boolean;
@@ -84,11 +83,13 @@ export const ScheduleModal: React.FC<ScheduleModalProps> = ({
       description="Configura franjas horarias con ambiente controlado, libre de perros y con estímulos atenuados."
       maxWidth="lg"
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit}>
         {/* Days of the week */}
-        <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-slate-700">Días aplicables</label>
-          <div className="flex flex-wrap gap-2">
+        <div className="w3-margin-bottom">
+          <label className="w3-text-dark-grey" style={{ display: 'block', marginBottom: '6px' }}>
+            <b>Días aplicables</b>
+          </label>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
             {AVAILABLE_DAYS.map((day) => {
               const isSelected = selectedDays.includes(day);
               return (
@@ -96,12 +97,10 @@ export const ScheduleModal: React.FC<ScheduleModalProps> = ({
                   type="button"
                   key={day}
                   onClick={() => toggleDay(day)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-colors ${
-                    isSelected
-                      ? 'bg-calm-700 text-white font-semibold shadow-xs'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  className={`w3-tag w3-button w3-small ${
+                    isSelected ? 'w3-black' : 'w3-light-grey w3-border'
                   }`}
-                  aria-pressed={isSelected}
+                  style={{ padding: '6px 12px' }}
                 >
                   {day}
                 </button>
@@ -111,55 +110,61 @@ export const ScheduleModal: React.FC<ScheduleModalProps> = ({
         </div>
 
         {/* Hours */}
-        <div className="grid grid-cols-2 gap-4">
-          <Input
-            label="Hora de inicio"
-            type="time"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
-            required
-          />
-          <Input
-            label="Hora de fin"
-            type="time"
-            value={endTime}
-            onChange={(e) => setEndTime(e.target.value)}
-            required
-          />
+        <div className="w3-row-padding" style={{ margin: '0 -8px' }}>
+          <div className="w3-half">
+            <Input
+              label="Hora de inicio"
+              type="time"
+              value={startTime}
+              onChange={(e) => setStartTime(e.target.value)}
+              required
+            />
+          </div>
+          <div className="w3-half">
+            <Input
+              label="Hora de fin"
+              type="time"
+              value={endTime}
+              onChange={(e) => setEndTime(e.target.value)}
+              required
+            />
+          </div>
         </div>
 
         {/* Restrictions */}
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-slate-700">
-            Reglas y restricciones ambientales
+        <div className="w3-margin-bottom">
+          <label className="w3-text-dark-grey" style={{ display: 'block', marginBottom: '4px' }}>
+            <b>Reglas y restricciones ambientales</b>
           </label>
-          <div className="flex gap-2">
+          <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
             <input
               type="text"
               placeholder="Ej: Silencio de campanas y bocinas municipales"
               value={newRestriction}
               onChange={(e) => setNewRestriction(e.target.value)}
-              className="flex-1 rounded-xl border border-slate-300 px-3 py-2 text-xs focus:ring-1 focus:ring-calm-600 focus:outline-none"
+              className="w3-input w3-border"
+              style={{ flex: 1 }}
             />
-            <Button type="button" size="sm" onClick={addRestriction} leftIcon={<Plus className="w-3.5 h-3.5" />}>
+            <Button type="button" size="sm" onClick={addRestriction} leftIcon={<i className="fa fa-plus"></i>}>
               Agregar
             </Button>
           </div>
 
-          <div className="space-y-1.5 max-h-40 overflow-y-auto pt-1">
+          <div style={{ maxHeight: '160px', overflowY: 'auto' }}>
             {restrictions.map((res, idx) => (
               <div
                 key={idx}
-                className="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-700"
+                className="w3-panel w3-light-grey w3-border w3-padding-small w3-small"
+                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '4px 0' }}
               >
                 <span>• {res}</span>
                 <button
                   type="button"
                   onClick={() => removeRestriction(idx)}
-                  className="text-slate-400 hover:text-rose-600 p-1"
-                  aria-label="Quitar restricción"
+                  className="w3-button w3-hover-red w3-tiny"
+                  style={{ padding: '2px 6px' }}
                 >
-                  <X className="w-3.5 h-3.5" />
+                  &times;
                 </button>
               </div>
             ))}
@@ -167,9 +172,9 @@ export const ScheduleModal: React.FC<ScheduleModalProps> = ({
         </div>
 
         {/* Notes */}
-        <div className="space-y-1.5">
-          <label htmlFor="sched-notes" className="block text-sm font-medium text-slate-700">
-            Notas complementarias
+        <div className="w3-margin-bottom">
+          <label htmlFor="sched-notes" className="w3-text-dark-grey" style={{ display: 'block', marginBottom: '4px' }}>
+            <b>Notas complementarias</b>
           </label>
           <textarea
             id="sched-notes"
@@ -177,26 +182,26 @@ export const ScheduleModal: React.FC<ScheduleModalProps> = ({
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             placeholder="Información adicional para los guardaparques y coordinadores..."
-            className="w-full rounded-xl border border-slate-300 p-2.5 text-xs text-slate-800 focus:border-calm-600 focus:ring-1 focus:ring-calm-600"
+            className="w3-input w3-border"
           />
         </div>
 
         {/* Active toggle */}
-        <div className="flex items-center gap-2 pt-2">
-          <input
-            type="checkbox"
-            id="sched-active"
-            checked={active}
-            onChange={(e) => setActive(e.target.checked)}
-            className="rounded text-calm-600 focus:ring-calm-500 w-4 h-4"
-          />
-          <label htmlFor="sched-active" className="text-xs text-slate-700 font-medium select-none">
-            Horario activo y publicado en la entrada del parque
+        <div style={{ margin: '12px 0' }}>
+          <label htmlFor="sched-active" className="w3-small" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <input
+              type="checkbox"
+              id="sched-active"
+              className="w3-check"
+              checked={active}
+              onChange={(e) => setActive(e.target.checked)}
+            />
+            <span>Horario activo y publicado en la entrada del parque</span>
           </label>
         </div>
 
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
-          <Button type="button" variant="secondary" onClick={onClose}>
+        <div className="w3-bar w3-margin-top" style={{ textAlign: 'right' }}>
+          <Button type="button" variant="secondary" onClick={onClose} style={{ marginRight: '8px' }}>
             Cancelar
           </Button>
           <Button type="submit" variant="primary">

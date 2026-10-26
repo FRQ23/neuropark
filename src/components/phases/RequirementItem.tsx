@@ -1,23 +1,11 @@
 import React, { useState } from 'react';
-import { Requirement, ParkRequirement, RequirementStatus, EvidenceItem } from '../../types';
+import { Requirement, ParkRequirement, RequirementStatus } from '../../types';
 import { Badge } from '../common/Badge';
 import { Button } from '../common/Button';
 import { EvidenceGallery } from './EvidenceGallery';
 import { EvidenceUploadModal } from './EvidenceUploadModal';
 import { RequirementValidationModal } from './RequirementValidationModal';
 import { useAuth } from '../../context/AuthContext';
-import {
-  CheckCircle2,
-  Clock,
-  Camera,
-  MessageSquare,
-  Edit2,
-  Trash2,
-  ChevronDown,
-  ChevronUp,
-  ShieldCheck,
-  Check,
-} from 'lucide-react';
 
 interface RequirementItemProps {
   requirement: Requirement;
@@ -46,137 +34,137 @@ export const RequirementItem: React.FC<RequirementItemProps> = ({
   const hasSpecialtyPermission = canValidateSpecialty(requirement.specialty);
   const evidenceCount = parkRequirement.evidence?.length || 0;
 
-  // Status indicator border color
   const statusBorderClass = {
-    pending: 'border-l-amber-400',
-    in_progress: 'border-l-blue-400',
-    completed: 'border-l-teal-500',
-    validated: 'border-l-emerald-600',
+    pending: 'w3-border-khaki',
+    in_progress: 'w3-border-blue',
+    completed: 'w3-border-teal',
+    validated: 'w3-border-green',
   }[parkRequirement.status];
 
   return (
-    <article
+    <div
       aria-label={`Requisito: ${requirement.title}`}
-      className={`card-calm border-l-4 ${statusBorderClass} p-5 space-y-4 transition-all`}
+      className={`w3-card w3-white w3-container w3-padding-16 w3-margin-bottom w3-leftbar ${statusBorderClass}`}
     >
       {/* Top row: tags, title and status */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-        <div className="space-y-1.5 flex-1">
-          <div className="flex items-center gap-2 flex-wrap">
+      <div className="w3-row">
+        <div className="w3-col l8 m12 s12">
+          <div style={{ marginBottom: '6px' }}>
             <Badge status={parkRequirement.status} />
             {requirement.specialty && (
-              <Badge specialty={requirement.specialty} size="sm" />
+              <span style={{ marginLeft: '6px' }}>
+                <Badge specialty={requirement.specialty} size="sm" />
+              </span>
             )}
             {requirement.isExample && (
-              <span className="text-[11px] font-medium bg-amber-50 text-amber-900 border border-amber-200 px-2 py-0.5 rounded">
+              <span className="w3-tag w3-khaki w3-small" style={{ marginLeft: '6px' }}>
                 Placeholder de ejemplo
               </span>
             )}
           </div>
-          <h3 className="text-base font-semibold text-slate-800 leading-snug">
-            {requirement.title}
-          </h3>
-          <p className="text-sm text-slate-600 leading-relaxed">
+          <h3 style={{ margin: '6px 0' }}>{requirement.title}</h3>
+          <p className="w3-text-grey" style={{ margin: '4px 0 12px 0', lineHeight: '1.6' }}>
             {requirement.description}
           </p>
         </div>
 
         {/* Action button: Validate or update status */}
-        <div className="flex items-center gap-2 self-start flex-wrap">
+        <div className="w3-col l4 m12 s12 w3-right-align">
           <Button
             size="sm"
             variant={parkRequirement.status === 'validated' ? 'outline' : 'primary'}
             onClick={() => setIsValidationModalOpen(true)}
-            leftIcon={<ShieldCheck className="w-4 h-4" />}
+            leftIcon={<i className="fa fa-shield"></i>}
             title={
               hasSpecialtyPermission
                 ? 'Validar o dictaminar requisito'
-                : 'Ver detalles de validación (restringido a su especialidad)'
+                : 'Ver detalles de validación'
             }
           >
             {parkRequirement.status === 'validated' ? 'Ver Dictamen' : 'Validar / Dictaminar'}
           </Button>
 
           {isAdmin && (
-            <div className="flex items-center gap-1 border-l border-slate-200 pl-2">
+            <span style={{ marginLeft: '8px' }}>
               {onEditRequirement && (
                 <button
                   type="button"
                   onClick={() => onEditRequirement(requirement)}
-                  className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg"
+                  className="w3-button w3-light-grey w3-small"
                   title="Editar requisito"
-                  aria-label="Editar requisito"
+                  style={{ marginRight: '4px' }}
                 >
-                  <Edit2 className="w-4 h-4" />
+                  <i className="fa fa-pencil"></i>
                 </button>
               )}
               {onDeleteRequirement && (
                 <button
                   type="button"
                   onClick={() => onDeleteRequirement(requirement.id)}
-                  className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg"
+                  className="w3-button w3-hover-red w3-light-grey w3-small"
                   title="Eliminar requisito"
-                  aria-label="Eliminar requisito"
                 >
-                  <Trash2 className="w-4 h-4" />
+                  <i className="fa fa-trash"></i>
                 </button>
               )}
-            </div>
+            </span>
           )}
         </div>
       </div>
 
       {/* Validation info and notes if present */}
       {(parkRequirement.notes || parkRequirement.validatedBy) && (
-        <div className="bg-slate-50 rounded-xl p-3 text-xs space-y-1.5 border border-slate-200/80">
+        <div className="w3-panel w3-light-grey w3-small w3-padding-small w3-margin-top">
           {parkRequirement.validatedBy && (
-            <p className="text-emerald-900 font-medium flex items-center gap-1.5">
-              <Check className="w-4 h-4 text-emerald-600" aria-hidden="true" />
+            <p className="w3-text-green font-bold" style={{ margin: '4px 0' }}>
+              <i className="fa fa-check w3-margin-right"></i>
               Validado oficialmente por{' '}
-              <span className="font-semibold">{parkRequirement.validatedByName || parkRequirement.validatedBy}</span>
+              <span>{parkRequirement.validatedByName || parkRequirement.validatedBy}</span>
               {parkRequirement.validatedAt && (
-                <span className="text-slate-500 font-normal">
+                <span className="w3-text-grey" style={{ fontWeight: 'normal', marginLeft: '6px' }}>
                   ({new Date(parkRequirement.validatedAt).toLocaleDateString('es-MX')})
                 </span>
               )}
             </p>
           )}
           {parkRequirement.notes && (
-            <div className="flex items-start gap-1.5 text-slate-700">
-              <MessageSquare className="w-3.5 h-3.5 text-slate-400 mt-0.5 flex-shrink-0" aria-hidden="true" />
-              <p className="italic">"{parkRequirement.notes}"</p>
-            </div>
+            <p className="w3-text-dark-grey" style={{ margin: '4px 0', fontStyle: 'italic' }}>
+              <i className="fa fa-comment-o w3-margin-right"></i>
+              "{parkRequirement.notes}"
+            </p>
           )}
         </div>
       )}
 
       {/* Evidence trigger bar */}
-      <div className="pt-2 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2 text-xs">
+      <div className="w3-bar w3-border-top w3-margin-top w3-padding-small w3-small">
         <button
           type="button"
           onClick={() => setShowEvidence((prev) => !prev)}
-          className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 font-medium py-1 px-2 rounded-lg hover:bg-slate-100 transition-colors"
+          className="w3-button w3-light-grey"
+          style={{ padding: '4px 8px' }}
           aria-expanded={showEvidence}
         >
-          <Camera className="w-3.5 h-3.5 text-calm-600" aria-hidden="true" />
-          <span>Evidencia fotográfica ({evidenceCount})</span>
-          {showEvidence ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+          <i className="fa fa-camera w3-margin-right"></i>
+          Evidencia fotográfica ({evidenceCount}){' '}
+          <i className={`fa fa-chevron-${showEvidence ? 'up' : 'down'} w3-margin-left`}></i>
         </button>
 
         {!currentUser?.role || currentUser.role !== 'viewer' ? (
           <button
             type="button"
             onClick={() => setIsUploadModalOpen(true)}
-            className="text-calm-700 hover:text-calm-900 font-medium hover:underline flex items-center gap-1"
+            className="w3-button w3-right"
+            style={{ padding: '4px 8px' }}
           >
-            <span>+ Adjuntar foto Antes/Después</span>
+            <i className="fa fa-plus w3-margin-right"></i>Adjuntar foto Antes/Después
           </button>
         ) : null}
       </div>
 
       {/* Expandable Evidence Gallery */}
       {showEvidence && (
-        <div className="pt-2">
+        <div style={{ marginTop: '12px' }}>
           <EvidenceGallery
             evidence={parkRequirement.evidence || []}
             canEdit={!currentUser?.role || currentUser.role !== 'viewer'}
@@ -200,6 +188,6 @@ export const RequirementItem: React.FC<RequirementItemProps> = ({
         parkRequirement={parkRequirement}
         onSave={(status, notes) => onUpdateStatus(parkRequirement.id, status, notes)}
       />
-    </article>
+    </div>
   );
 };

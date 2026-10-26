@@ -44,7 +44,7 @@ export const AddInfrastructureModal: React.FC<AddInfrastructureModalProps> = ({
       description="Registra un aparato especial, adecuación física o especificación cromática de bajo estímulo."
       maxWidth="md"
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit}>
         <Input
           label="Nombre del elemento"
           placeholder="Ej: Columpio nido con sujeción lateral"
@@ -73,9 +73,9 @@ export const AddInfrastructureModal: React.FC<AddInfrastructureModalProps> = ({
           helperText="Menciona textura, código HEX, o estándar físico."
         />
 
-        <div className="space-y-1.5">
-          <label htmlFor="inf-desc" className="block text-sm font-medium text-slate-700">
-            Propósito y beneficio neurodivergente
+        <div className="w3-margin-bottom">
+          <label htmlFor="inf-desc" className="w3-text-dark-grey" style={{ display: 'block', marginBottom: '4px' }}>
+            <b>Propósito y beneficio neurodivergente</b>
           </label>
           <textarea
             id="inf-desc"
@@ -83,12 +83,12 @@ export const AddInfrastructureModal: React.FC<AddInfrastructureModalProps> = ({
             placeholder="Aporta contención corporal y reduce el sobreestímulo visual durante el juego..."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full rounded-xl border border-slate-300 p-3 text-sm text-slate-800 focus:border-calm-600 focus:ring-1 focus:ring-calm-600"
+            className="w3-input w3-border"
           />
         </div>
 
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
-          <Button type="button" variant="secondary" onClick={onClose}>
+        <div className="w3-bar w3-margin-top" style={{ textAlign: 'right' }}>
+          <Button type="button" variant="secondary" onClick={onClose} style={{ marginRight: '8px' }}>
             Cancelar
           </Button>
           <Button type="submit" variant="primary">

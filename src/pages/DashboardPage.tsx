@@ -3,24 +3,9 @@ import { parkApi, phaseApi, requirementApi, scheduleApi, associationApi } from '
 import { Park, Phase, Requirement, ParkRequirement, ParkSchedule, Association } from '../types';
 import { ProgressBar } from '../components/common/ProgressBar';
 import { Badge } from '../components/common/Badge';
-import { Button } from '../components/common/Button';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
-import {
-  Lock,
-  Unlock,
-  CheckCircle2,
-  Clock,
-  ArrowRight,
-  FileCheck2,
-  Sliders,
-  Signpost,
-  Sparkles,
-  HeartHandshake,
-  Calendar,
-  MapPin,
-} from 'lucide-react';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
 
 export const DashboardPage: React.FC = () => {
@@ -70,10 +55,6 @@ export const DashboardPage: React.FC = () => {
 
   const totalReqCount = parkRequirements.length;
   const validatedCount = parkRequirements.filter((pr) => pr.status === 'validated').length;
-  const completedCount = parkRequirements.filter((pr) => pr.status === 'completed').length;
-  const pendingCount = parkRequirements.filter((pr) => pr.status === 'pending').length;
-  const inProgressCount = parkRequirements.filter((pr) => pr.status === 'in_progress').length;
-
   const isReadyToOpen = totalReqCount > 0 && validatedCount === totalReqCount;
 
   const handleOpenPark = async () => {
@@ -92,42 +73,42 @@ export const DashboardPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-8">
-      {/* Hero Header matching W3.CSS clean style */}
-      <div className="w3-container w3-white w3-card p-6 sm:p-8 border-l-4 border-black">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="w3-tag w3-black text-xs font-bold uppercase tracking-wider px-2.5 py-1">
-                Caso Piloto Oficial
+    <div className="w3-container" style={{ padding: 0 }}>
+      {/* Hero Header */}
+      <div className="w3-container w3-white w3-card w3-padding-24 w3-margin-bottom w3-leftbar w3-border-black">
+        <div className="w3-row">
+          <div className="w3-col l9 m8 s12">
+            <div style={{ marginBottom: '8px' }}>
+              <span className="w3-tag w3-black w3-small" style={{ marginRight: '6px' }}>
+                CASO PILOTO OFICIAL
               </span>
-              <span className="w3-tag w3-light-grey text-xs font-bold text-slate-800">
+              <span className="w3-tag w3-light-grey w3-small">
                 {activePark?.state || 'Baja California'}
               </span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="w3-xxlarge w3-wide" style={{ margin: '8px 0' }}>
               {activePark?.name || 'Parque Cooper'}
             </h1>
-            <p className="text-sm text-slate-600 flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-slate-700" />
-              <span>{activePark?.location || 'Ensenada, B.C.'}</span>
+            <p className="w3-text-grey" style={{ margin: '4px 0' }}>
+              <i className="fa fa-map-marker w3-margin-right"></i>
+              {activePark?.location || 'Ensenada, B.C.'}
             </p>
-            <p className="text-sm text-slate-600 max-w-3xl leading-relaxed pt-1">
+            <p style={{ margin: '8px 0 0 0', lineHeight: '1.6' }}>
               {activePark?.description}
             </p>
           </div>
 
           {parks.length > 1 && (
-            <div className="w-full md:w-auto">
-              <label htmlFor="park-select" className="block text-xs font-bold uppercase text-slate-500 mb-1">
-                Cambiar Parque:
+            <div className="w3-col l3 m4 s12 w3-margin-top">
+              <label htmlFor="park-select" className="w3-text-dark-grey" style={{ display: 'block', marginBottom: '4px' }}>
+                <b>CAMBIAR PARQUE:</b>
               </label>
               <select
                 id="park-select"
                 value={selectedParkId}
                 onChange={(e) => setSelectedParkId(e.target.value)}
-                className="w-full text-xs bg-slate-50 border border-slate-300 rounded p-2.5 font-bold"
+                className="w3-select w3-border w3-white"
               >
                 {parks.map((p) => (
                   <option key={p.id} value={p.id}>
@@ -140,96 +121,88 @@ export const DashboardPage: React.FC = () => {
         </div>
       </div>
 
-      {/* W3.CSS Statistics Bar (Promo Section style) */}
-      <div className="w3-container w3-grid w3-center w3-dark-grey w3-padding-32 rounded shadow-sm" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '20px' }}>
-        <div>
-          <span className="w3-xxlarge font-extrabold text-white">
+      {/* W3.CSS Statistics Bar (Promo Section style from W3.CSS Startup Template) */}
+      <div className="w3-row w3-center w3-dark-grey w3-padding-32 w3-margin-bottom">
+        <div className="w3-quarter w3-section">
+          <span className="w3-xxlarge">
             {totalReqCount > 0 ? Math.round((validatedCount / totalReqCount) * 100) : 0}%
           </span>
           <br />
-          <span className="text-xs uppercase tracking-wider text-slate-300 font-bold">Avance Global</span>
+          <span className="w3-small w3-wide">AVANCE GLOBAL</span>
         </div>
-        <div>
-          <span className="w3-xxlarge font-extrabold text-white">{validatedCount} / {totalReqCount}</span>
+        <div className="w3-quarter w3-section">
+          <span className="w3-xxlarge">{validatedCount} / {totalReqCount}</span>
           <br />
-          <span className="text-xs uppercase tracking-wider text-slate-300 font-bold">Requisitos Validados</span>
+          <span className="w3-small w3-wide">REQUISITOS VALIDADOS</span>
         </div>
-        <div>
-          <span className="w3-xxlarge font-extrabold text-white">{schedules.length}</span>
+        <div className="w3-quarter w3-section">
+          <span className="w3-xxlarge">{schedules.length}</span>
           <br />
-          <span className="text-xs uppercase tracking-wider text-slate-300 font-bold">Horarios Especiales</span>
+          <span className="w3-small w3-wide">HORARIOS ESPECIALES</span>
         </div>
-        <div>
-          <span className="w3-xxlarge font-extrabold text-white">{associations.length}</span>
+        <div className="w3-quarter w3-section">
+          <span className="w3-xxlarge">{associations.length}</span>
           <br />
-          <span className="text-xs uppercase tracking-wider text-slate-300 font-bold">Fundaciones Aliadas</span>
+          <span className="w3-small w3-wide">FUNDACIONES ALIADAS</span>
         </div>
       </div>
 
       {/* "Listo para abrir" Status Hero Card */}
       <div
-        className={`w3-card p-6 sm:p-8 rounded transition-all ${
+        className={`w3-container w3-card w3-padding-24 w3-margin-bottom w3-leftbar ${
           isReadyToOpen
-            ? 'w3-pale-green border border-green-500 text-green-900'
-            : 'w3-white border border-slate-300 text-slate-900'
+            ? 'w3-pale-green w3-border-green'
+            : 'w3-white w3-border-black'
         }`}
       >
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="flex items-start gap-4">
-            <div
-              className={`w-14 h-14 rounded flex items-center justify-center flex-shrink-0 font-bold ${
-                isReadyToOpen ? 'w3-green text-white' : 'w3-black text-white'
-              }`}
-            >
-              {isReadyToOpen ? <Unlock className="w-7 h-7" /> : <Lock className="w-7 h-7" />}
+        <div className="w3-row">
+          <div className="w3-col l9 m8 s12">
+            <div style={{ marginBottom: '8px' }}>
+              <span
+                className={`w3-tag w3-small ${
+                  isReadyToOpen ? 'w3-green' : 'w3-black'
+                }`}
+                style={{ marginRight: '8px' }}
+              >
+                <i className={`fa fa-${isReadyToOpen ? 'unlock' : 'lock'} w3-margin-right`}></i>
+                {isReadyToOpen ? 'LISTO PARA ABRIR' : 'APERTURA BLOQUEADA'}
+              </span>
+              <span className="w3-small w3-text-grey font-bold">
+                {validatedCount} de {totalReqCount} validados
+              </span>
             </div>
 
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <span
-                  className={`text-xs uppercase font-extrabold tracking-wider px-2.5 py-0.5 rounded ${
-                    isReadyToOpen ? 'w3-green text-white' : 'w3-light-grey text-black border border-slate-400'
-                  }`}
-                >
-                  {isReadyToOpen ? 'Listo para abrir' : 'Apertura Bloqueada'}
-                </span>
-                <span className="text-xs text-slate-500 font-bold">
-                  {validatedCount} de {totalReqCount} validados
-                </span>
-              </div>
+            <h2 className="w3-xlarge" style={{ margin: '8px 0' }}>
+              {isReadyToOpen
+                ? '¡El parque cumple al 100% todos los dictámenes y puede inaugurarse!'
+                : 'Estatus: En adecuación progresiva (Bloqueado para apertura)'}
+            </h2>
 
-              <h2 className="text-xl sm:text-2xl font-bold tracking-tight">
-                {isReadyToOpen
-                  ? '¡El parque cumple al 100% todos los dictámenes y puede inaugurarse!'
-                  : 'Estatus: En adecuación progresiva (Bloqueado para apertura)'}
-              </h2>
-
-              <p className="text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">
-                {isReadyToOpen
-                  ? 'Los comités de educación, psicología y finanzas han dictaminado y acreditado todos los requisitos de infraestructura, pintura y señalética.'
-                  : `El parque no puede abrir al público hasta que todos los requisitos sean validados. Faltan ${
-                      totalReqCount - validatedCount
-                    } requisitos por dictaminar.`}
-              </p>
-            </div>
+            <p className="w3-text-grey" style={{ lineHeight: '1.6' }}>
+              {isReadyToOpen
+                ? 'Los comités de educación, psicología y finanzas han dictaminado y acreditado todos los requisitos de infraestructura, pintura y señalética.'
+                : `El parque no puede abrir al público hasta que todos los requisitos sean validados. Faltan ${
+                    totalReqCount - validatedCount
+                  } requisitos por dictaminar.`}
+            </p>
           </div>
 
-          <div className="flex-shrink-0 w-full md:w-auto">
+          <div className="w3-col l3 m4 s12 w3-margin-top w3-right-align">
             {isReadyToOpen ? (
               <button
                 type="button"
                 onClick={handleOpenPark}
                 disabled={activePark?.status === 'open' || !isAdmin}
-                className="w3-button w3-black w3-padding-large w3-large w-full md:w-auto font-bold uppercase tracking-wider"
+                className="w3-button w3-black w3-block w3-padding-large w3-large w3-wide"
               >
                 {activePark?.status === 'open'
-                  ? 'Parque Inaugurado'
-                  : 'Habilitar Apertura Oficial'}
+                  ? 'PARQUE INAUGURADO'
+                  : 'HABILITAR APERTURA OFICIAL'}
               </button>
             ) : (
-              <div className="w3-light-grey p-4 rounded border border-slate-300 text-xs max-w-xs">
-                <span className="font-extrabold uppercase block mb-1">Regla de Apertura:</span>
-                <p className="text-slate-600">
+              <div className="w3-panel w3-light-grey w3-border w3-padding-16 w3-small w3-left-align">
+                <b>REGLA DE APERTURA:</b>
+                <p style={{ margin: '4px 0 0 0' }}>
                   El candado permanecerá activo hasta completar la validación técnica en campo.
                 </p>
               </div>
@@ -238,27 +211,21 @@ export const DashboardPage: React.FC = () => {
         </div>
 
         {/* Global Progress Bar */}
-        <div className="mt-6 pt-4 border-t border-slate-200">
+        <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #eee' }}>
           <ProgressBar
             value={totalReqCount > 0 ? (validatedCount / totalReqCount) * 100 : 0}
             label="Avance de Validación Oficial"
             subLabel={`${validatedCount} de ${totalReqCount} requisitos`}
-            size="md"
             colorScheme={isReadyToOpen ? 'emerald' : 'calm'}
           />
         </div>
       </div>
 
-      {/* Phases Grid (Key features / 3 Columns like W3.CSS Team/About) */}
-      <div>
-        <div className="w3-container p-0 mb-4 flex items-center justify-between">
-          <h2 className="text-xl font-extrabold uppercase tracking-wide text-slate-900">
-            Fases de Adecuación
-          </h2>
-          <span className="text-xs text-slate-500 font-bold">Fases 1, 2 y 3</span>
-        </div>
+      {/* Phases Section */}
+      <div className="w3-margin-bottom">
+        <h2 className="w3-wide w3-margin-bottom">FASES DE ADECUACIÓN</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="w3-row-padding" style={{ margin: '0 -8px' }}>
           {phases.map((phase) => {
             const phaseReqs = requirements.filter((r) => r.phaseCode === phase.code);
             const phaseReqIds = phaseReqs.map((r) => r.id);
@@ -273,51 +240,42 @@ export const DashboardPage: React.FC = () => {
             const percent = total > 0 ? Math.round((valid / total) * 100) : 0;
 
             return (
-              <div
-                key={phase.id}
-                className="w3-card w3-white p-6 flex flex-col justify-between space-y-4 hover:shadow-lg transition-shadow border border-slate-200"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="w3-tag w3-black text-xs font-bold uppercase tracking-wider px-2.5 py-1">
-                      Fase {phase.order}
-                    </span>
-                    <span className="text-xs font-bold text-slate-700">{percent}% validado</span>
+              <div key={phase.id} className="w3-col l4 m12 s12 w3-margin-bottom">
+                <div className="w3-card w3-white w3-container w3-padding-16">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span className="w3-tag w3-black w3-small">FASE {phase.order}</span>
+                    <span className="w3-small font-bold">{percent}% validado</span>
                   </div>
 
-                  <div>
-                    <h3 className="text-base font-bold text-slate-900 uppercase tracking-wide">
-                      {phase.name}
-                    </h3>
-                    <p className="text-xs text-slate-600 mt-1 line-clamp-2 leading-relaxed">
-                      {phase.description}
-                    </p>
-                  </div>
+                  <h3 className="w3-large w3-wide" style={{ margin: '12px 0 6px 0' }}>{phase.name}</h3>
+                  <p className="w3-small w3-text-grey" style={{ minHeight: '40px', lineHeight: '1.5' }}>
+                    {phase.description}
+                  </p>
 
                   <ProgressBar value={percent} size="sm" showPercentage={false} />
 
-                  <div className="grid grid-cols-3 gap-2 text-center text-xs pt-1">
-                    <div className="w3-light-grey p-2 rounded">
-                      <span className="block font-bold text-slate-900">{valid}</span>
-                      <span className="text-[10px] text-slate-600 uppercase font-semibold">Validados</span>
+                  <div className="w3-row w3-center w3-small w3-margin-top w3-margin-bottom">
+                    <div className="w3-third w3-light-grey w3-padding-small w3-border">
+                      <b className="w3-block">{valid}</b>
+                      <span className="w3-tiny w3-text-grey">Validados</span>
                     </div>
-                    <div className="w3-light-grey p-2 rounded">
-                      <span className="block font-bold text-slate-900">{comp}</span>
-                      <span className="text-[10px] text-slate-600 uppercase font-semibold">Completos</span>
+                    <div className="w3-third w3-light-grey w3-padding-small w3-border">
+                      <b className="w3-block">{comp}</b>
+                      <span className="w3-tiny w3-text-grey">Completos</span>
                     </div>
-                    <div className="w3-light-grey p-2 rounded">
-                      <span className="block font-bold text-slate-900">{pend}</span>
-                      <span className="text-[10px] text-slate-600 uppercase font-semibold">Pendientes</span>
+                    <div className="w3-third w3-light-grey w3-padding-small w3-border">
+                      <b className="w3-block">{pend}</b>
+                      <span className="w3-tiny w3-text-grey">Pendientes</span>
                     </div>
                   </div>
-                </div>
 
-                <Link
-                  to={`/parks/${selectedParkId}/${phase.code}`}
-                  className="w3-button w3-black w3-block text-xs font-bold uppercase tracking-wider text-center py-2.5 mt-2"
-                >
-                  Abrir Checklist
-                </Link>
+                  <Link
+                    to={`/parks/${selectedParkId}/${phase.code}`}
+                    className="w3-button w3-black w3-block w3-small w3-wide"
+                  >
+                    ABRIR CHECKLIST
+                  </Link>
+                </div>
               </div>
             );
           })}
@@ -325,91 +283,100 @@ export const DashboardPage: React.FC = () => {
       </div>
 
       {/* Pending Items & Schedules */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Pending checks list (2 cols) */}
-        <div className="lg:col-span-2 w3-card w3-white p-6 space-y-4 border border-slate-200">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-200">
-            <div>
-              <h2 className="text-base font-bold uppercase tracking-wide text-slate-900">
-                Requisitos Pendientes de Dictamen
-              </h2>
-              <p className="text-xs text-slate-500">
-                Elementos que requieren revisión de los comités de educación, psicología y finanzas
-              </p>
+      <div className="w3-row-padding" style={{ margin: '0 -8px' }}>
+        {/* Pending checks list (8 cols) */}
+        <div className="w3-col l8 m12 s12 w3-margin-bottom">
+          <div className="w3-card w3-white w3-container w3-padding-16">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #ddd', paddingBottom: '12px', marginBottom: '12px' }}>
+              <div>
+                <h3 className="w3-large w3-wide" style={{ margin: 0 }}>REQUISITOS PENDIENTES DE DICTAMEN</h3>
+                <p className="w3-small w3-text-grey" style={{ margin: 0 }}>
+                  Elementos pendientes de revisión por los comités
+                </p>
+              </div>
+              <span className="w3-tag w3-black w3-small">
+                {totalReqCount - validatedCount} por validar
+              </span>
             </div>
-            <span className="w3-tag w3-black text-xs font-bold px-2.5 py-1">
-              {totalReqCount - validatedCount} por validar
-            </span>
-          </div>
 
-          <div className="divide-y divide-slate-100">
-            {parkRequirements
-              .filter((pr) => pr.status !== 'validated')
-              .map((pr) => {
-                const req = requirements.find((r) => r.id === pr.requirementId);
-                if (!req) return null;
-                const phase = phases.find((p) => p.code === req.phaseCode);
+            <table className="w3-table w3-striped w3-bordered">
+              <tbody>
+                {parkRequirements
+                  .filter((pr) => pr.status !== 'validated')
+                  .slice(0, 6)
+                  .map((pr) => {
+                    const req = requirements.find((r) => r.id === pr.requirementId);
+                    if (!req) return null;
+                    const phase = phases.find((p) => p.code === req.phaseCode);
 
-                return (
-                  <div key={pr.id} className="py-3 flex items-start justify-between gap-4">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <Badge status={pr.status} size="sm" />
-                        <span className="text-[10px] font-bold uppercase text-slate-700 bg-slate-100 px-1.5 py-0.5 rounded">
-                          {phase?.name || req.phaseCode}
-                        </span>
-                        {req.specialty && <Badge specialty={req.specialty} size="sm" />}
-                      </div>
-                      <p className="text-sm font-bold text-slate-900">{req.title}</p>
-                      {pr.notes && <p className="text-xs text-slate-600 italic">"{pr.notes}"</p>}
-                    </div>
-
-                    <Link
-                      to={`/parks/${selectedParkId}/${req.phaseCode}`}
-                      className="w3-button w3-light-grey text-xs font-bold uppercase py-1.5 px-3 flex-shrink-0"
-                    >
-                      Revisar
-                    </Link>
-                  </div>
-                );
-              })}
+                    return (
+                      <tr key={pr.id}>
+                        <td style={{ verticalAlign: 'middle', width: '130px' }}>
+                          <Badge status={pr.status} size="sm" />
+                          <div style={{ marginTop: '4px' }}>
+                            <span className="w3-tag w3-light-grey w3-tiny">{phase?.name || req.phaseCode}</span>
+                          </div>
+                        </td>
+                        <td style={{ verticalAlign: 'middle' }}>
+                          <div style={{ fontWeight: 'bold' }}>{req.title}</div>
+                          {pr.notes && (
+                            <div className="w3-small w3-text-grey" style={{ fontStyle: 'italic' }}>
+                              "{pr.notes}"
+                            </div>
+                          )}
+                        </td>
+                        <td style={{ verticalAlign: 'middle', textAlign: 'right', width: '90px' }}>
+                          <Link
+                            to={`/parks/${selectedParkId}/${req.phaseCode}`}
+                            className="w3-button w3-light-grey w3-small"
+                          >
+                            Revisar
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
 
             {totalReqCount - validatedCount === 0 && (
-              <div className="p-8 text-center text-slate-500 text-sm">
-                Todos los requisitos han sido validados exitosamente.
+              <div className="w3-container w3-padding-32 w3-center w3-text-grey">
+                <i className="fa fa-check-circle w3-xlarge w3-text-green"></i>
+                <p>Todos los requisitos han sido validados exitosamente.</p>
               </div>
             )}
           </div>
         </div>
 
-        {/* Schedules quick widget (1 col) */}
-        <div className="w3-card w3-white p-6 space-y-4 border border-slate-200 h-fit">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-200">
-            <h3 className="text-base font-bold uppercase tracking-wide text-slate-900">
-              Horarios Especiales
-            </h3>
-            <Link
-              to={`/parks/${selectedParkId}/schedules`}
-              className="text-xs font-bold text-slate-900 uppercase hover:underline"
-            >
-              Ver todos
-            </Link>
-          </div>
+        {/* Schedules quick widget (4 cols) */}
+        <div className="w3-col l4 m12 s12 w3-margin-bottom">
+          <div className="w3-card w3-white w3-container w3-padding-16">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #ddd', paddingBottom: '12px', marginBottom: '12px' }}>
+              <h3 className="w3-large w3-wide" style={{ margin: 0 }}>HORARIOS</h3>
+              <Link
+                to={`/parks/${selectedParkId}/schedules`}
+                className="w3-small w3-button w3-light-grey"
+                style={{ padding: '4px 8px' }}
+              >
+                Ver todos
+              </Link>
+            </div>
 
-          <div className="space-y-3">
-            {schedules.map((s) => (
-              <div key={s.id} className="w3-light-grey p-3.5 rounded border border-slate-200 text-xs space-y-1.5">
-                <div className="flex items-center justify-between font-bold text-slate-900">
-                  <span>{s.days.join(', ')}</span>
-                  <span className="w3-tag w3-black text-[10px] font-bold px-2 py-0.5">
-                    {s.startTime} - {s.endTime}
-                  </span>
+            <div>
+              {schedules.map((s) => (
+                <div key={s.id} className="w3-panel w3-light-grey w3-border w3-padding-small w3-small" style={{ margin: '8px 0' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold' }}>
+                    <span>{s.days.join(', ')}</span>
+                    <span className="w3-tag w3-black w3-tiny">
+                      {s.startTime} - {s.endTime}
+                    </span>
+                  </div>
+                  <p className="w3-text-grey" style={{ margin: '4px 0 0 0' }}>
+                    {s.restrictions[0] || 'Ambiente controlado'}
+                  </p>
                 </div>
-                <p className="text-slate-600 text-[11px]">
-                  {s.restrictions[0] || 'Ambiente controlado'}
-                </p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>

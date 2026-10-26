@@ -4,13 +4,11 @@ import { Park, ChecklistTemplate } from '../types';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { Button } from '../components/common/Button';
-import { Badge } from '../components/common/Badge';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { CloneTemplateModal } from '../components/parks/CloneTemplateModal';
 import { Modal } from '../components/common/Modal';
 import { Input } from '../components/common/Input';
 import { Link } from 'react-router-dom';
-import { Trees, Plus, Copy, MapPin, ArrowRight, UserCheck, Calendar } from 'lucide-react';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
 
 export const ParksPage: React.FC = () => {
@@ -91,111 +89,100 @@ export const ParksPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div>
       <Breadcrumbs items={[{ label: 'Directorio de Parques Inclusivos' }]} />
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
-            <Trees className="w-6 h-6 text-calm-600" />
-            <span>Parques Inclusivos en Proceso de Adecuación</span>
-          </h1>
-          <p className="text-sm text-slate-500 mt-1">
-            Gestión multi-parque: seguimiento paso a paso en Ensenada y replicabilidad para otros estados.
-          </p>
-        </div>
-
-        {isAdmin && (
-          <div className="flex items-center gap-2 flex-wrap">
-            <Button
-              variant="outline"
-              onClick={() => setIsCloneModalOpen(true)}
-              leftIcon={<Copy className="w-4 h-4" />}
-            >
-              Clonar desde Plantilla
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => setIsCreateModalOpen(true)}
-              leftIcon={<Plus className="w-4 h-4" />}
-            >
-              Nuevo Parque
-            </Button>
+      <div className="w3-container w3-white w3-card w3-padding-24 w3-margin-bottom">
+        <div className="w3-row">
+          <div className="w3-col l8 m12 s12">
+            <h1 className="w3-xxlarge w3-wide" style={{ margin: '4px 0' }}>
+              <i className="fa fa-tree w3-margin-right"></i>
+              PARQUES INCLUSIVOS
+            </h1>
+            <p className="w3-text-grey" style={{ margin: '4px 0 0 0', lineHeight: '1.6' }}>
+              Gestión multi-parque: seguimiento paso a paso en Ensenada y replicabilidad para otros estados.
+            </p>
           </div>
-        )}
+
+          {isAdmin && (
+            <div className="w3-col l4 m12 s12 w3-right-align w3-margin-top">
+              <Button
+                variant="outline"
+                onClick={() => setIsCloneModalOpen(true)}
+                leftIcon={<i className="fa fa-clone"></i>}
+                style={{ marginRight: '8px' }}
+              >
+                Clonar Plantilla
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => setIsCreateModalOpen(true)}
+                leftIcon={<i className="fa fa-plus"></i>}
+              >
+                Nuevo Parque
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Grid of Parks */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="w3-row-padding" style={{ margin: '0 -8px' }}>
         {parks.map((park) => (
-          <article
-            key={park.id}
-            aria-label={`Parque: ${park.name}`}
-            className="card-calm p-6 flex flex-col justify-between space-y-4 hover:shadow-soft-lg transition-all"
-          >
-            <div className="space-y-3">
-              <div className="flex items-start justify-between gap-2">
-                <span className="text-xs font-bold text-calm-800 bg-calm-50 border border-calm-200 px-2 py-0.5 rounded">
-                  {park.state}
-                </span>
-
-                <span
-                  className={`text-xs px-2.5 py-0.5 rounded-full font-semibold ${
-                    park.status === 'open'
-                      ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
-                      : park.status === 'ready_to_open'
-                      ? 'bg-teal-100 text-teal-900 border border-teal-300'
-                      : park.status === 'in_progress'
-                      ? 'bg-blue-100 text-blue-900 border border-blue-300'
-                      : 'bg-amber-100 text-amber-900 border border-amber-300'
-                  }`}
-                >
-                  {park.status === 'open'
-                    ? 'Abierto al Público'
-                    : park.status === 'ready_to_open'
-                    ? 'Listo para Abrir'
-                    : park.status === 'in_progress'
-                    ? 'En Adecuación'
-                    : 'Borrador'}
-                </span>
-              </div>
-
+          <div key={park.id} className="w3-col l4 m6 s12 w3-margin-bottom">
+            <div className="w3-card w3-white w3-container w3-padding-16" style={{ minHeight: '270px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
-                <h2 className="text-lg font-bold text-slate-800 leading-snug">{park.name}</h2>
-                <p className="text-xs text-slate-500 flex items-center gap-1.5 mt-1">
-                  <MapPin className="w-3.5 h-3.5 text-calm-600 flex-shrink-0" />
-                  <span>{park.location}</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <span className="w3-tag w3-black w3-small">{park.state}</span>
+
+                  <span
+                    className={`w3-tag w3-small ${
+                      park.status === 'open'
+                        ? 'w3-green'
+                        : park.status === 'ready_to_open'
+                        ? 'w3-teal'
+                        : park.status === 'in_progress'
+                        ? 'w3-blue'
+                        : 'w3-khaki'
+                    }`}
+                  >
+                    {park.status === 'open'
+                      ? 'Abierto al Público'
+                      : park.status === 'ready_to_open'
+                      ? 'Listo para Abrir'
+                      : park.status === 'in_progress'
+                      ? 'En Adecuación'
+                      : 'Borrador'}
+                  </span>
+                </div>
+
+                <h3 className="w3-large w3-wide" style={{ margin: '8px 0 4px 0' }}>{park.name}</h3>
+                <p className="w3-small w3-text-grey" style={{ margin: '2px 0 8px 0' }}>
+                  <i className="fa fa-map-marker w3-margin-right"></i>
+                  {park.location}
                 </p>
+
+                <p className="w3-small" style={{ lineHeight: '1.5', margin: '4px 0 8px 0' }}>
+                  {park.description}
+                </p>
+
+                {park.contactPerson && (
+                  <p className="w3-tiny w3-text-grey" style={{ margin: '4px 0' }}>
+                    Responsable: <b>{park.contactPerson}</b>
+                  </p>
+                )}
               </div>
 
-              <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
-                {park.description}
-              </p>
-
-              {park.contactPerson && (
-                <p className="text-xs text-slate-500 pt-1">
-                  Responsable: <strong className="text-slate-700">{park.contactPerson}</strong>
-                </p>
-              )}
+              <div className="w3-border-top" style={{ paddingTop: '10px', marginTop: '12px' }}>
+                <Link
+                  to={`/parks/${park.id}`}
+                  className="w3-button w3-black w3-block w3-small w3-wide"
+                >
+                  VER FASES Y COMITÉS <i className="fa fa-arrow-right w3-margin-left"></i>
+                </Link>
+              </div>
             </div>
-
-            <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-              <Link
-                to={`/parks/${park.id}`}
-                className="text-xs font-semibold text-calm-700 hover:text-calm-900 inline-flex items-center gap-1.5"
-              >
-                <span>Ver fases y comités</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-
-              <Link
-                to={`/parks/${park.id}/phase-1`}
-                className="text-xs text-slate-500 hover:text-slate-800 hover:underline"
-              >
-                Ir a Fase 1
-              </Link>
-            </div>
-          </article>
+          </div>
         ))}
       </div>
 
@@ -206,7 +193,7 @@ export const ParksPage: React.FC = () => {
         title="Crear Nuevo Registro de Parque"
         maxWidth="md"
       >
-        <form onSubmit={handleManualCreate} className="space-y-4">
+        <form onSubmit={handleManualCreate}>
           <Input
             label="Nombre del Parque"
             placeholder="Ej: Parque Morelos Inclusivo"
@@ -215,19 +202,23 @@ export const ParksPage: React.FC = () => {
             required
           />
 
-          <div className="grid grid-cols-2 gap-4">
-            <Input
-              label="Estado"
-              value={state}
-              onChange={(e) => setState(e.target.value)}
-              required
-            />
-            <Input
-              label="Ubicación / Ciudad"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              required
-            />
+          <div className="w3-row-padding" style={{ margin: '0 -8px' }}>
+            <div className="w3-half">
+              <Input
+                label="Estado"
+                value={state}
+                onChange={(e) => setState(e.target.value)}
+                required
+              />
+            </div>
+            <div className="w3-half">
+              <Input
+                label="Ubicación / Ciudad"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                required
+              />
+            </div>
           </div>
 
           <Input
@@ -237,21 +228,21 @@ export const ParksPage: React.FC = () => {
             onChange={(e) => setContactPerson(e.target.value)}
           />
 
-          <div className="space-y-1.5">
-            <label htmlFor="park-desc-input" className="block text-sm font-medium text-slate-700">
-              Descripción de la adaptación
+          <div className="w3-margin-bottom">
+            <label htmlFor="park-desc-input" className="w3-text-dark-grey" style={{ display: 'block', marginBottom: '4px' }}>
+              <b>Descripción de la adaptación</b>
             </label>
             <textarea
               id="park-desc-input"
               rows={3}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full rounded-xl border border-slate-300 p-2.5 text-xs text-slate-800 focus:border-calm-600 focus:ring-1 focus:ring-calm-600"
+              className="w3-input w3-border"
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
-            <Button type="button" variant="secondary" onClick={() => setIsCreateModalOpen(false)}>
+          <div className="w3-bar w3-margin-top" style={{ textAlign: 'right' }}>
+            <Button type="button" variant="secondary" onClick={() => setIsCreateModalOpen(false)} style={{ marginRight: '8px' }}>
               Cancelar
             </Button>
             <Button type="submit" variant="primary">

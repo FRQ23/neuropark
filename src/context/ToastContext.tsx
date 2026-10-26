@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import { CheckCircle2, AlertCircle, Info, AlertTriangle, X } from 'lucide-react';
 
 export type ToastType = 'success' | 'error' | 'info' | 'warning';
 
@@ -34,7 +33,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       const id = `toast-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
       const newToast: ToastMessage = { id, type, title, message };
 
-      setToasts((prev) => [...prev.slice(-3), newToast]); // Keep max 4 toasts
+      setToasts((prev) => [...prev.slice(-3), newToast]);
 
       setTimeout(() => {
         removeToast(id);
@@ -62,46 +61,58 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     >
       {children}
 
-      {/* Accessible Floating Toast Container with ARIA live region */}
+      {/* Floating Notifications in W3.CSS Panel style */}
       <div
-        className="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+          zIndex: 9999,
+          maxWidth: '380px',
+          width: '90%',
+        }}
         aria-live="polite"
         aria-atomic="true"
       >
         {toasts.map((toast) => {
-          const bgColors = {
-            success: 'bg-emerald-50 border-emerald-300 text-emerald-900',
-            error: 'bg-rose-50 border-rose-300 text-rose-900',
-            warning: 'bg-amber-50 border-amber-300 text-amber-900',
-            info: 'bg-sky-50 border-sky-300 text-sky-900',
+          const panelClass = {
+            success: 'w3-panel w3-green w3-card-4 w3-display-container',
+            error: 'w3-panel w3-red w3-card-4 w3-display-container',
+            warning: 'w3-panel w3-khaki w3-card-4 w3-display-container',
+            info: 'w3-panel w3-blue w3-card-4 w3-display-container',
           }[toast.type];
 
-          const Icon = {
-            success: CheckCircle2,
-            error: AlertCircle,
-            warning: AlertTriangle,
-            info: Info,
+          const iconClass = {
+            success: 'fa fa-check-circle',
+            error: 'fa fa-exclamation-circle',
+            warning: 'fa fa-exclamation-triangle',
+            info: 'fa fa-info-circle',
           }[toast.type];
 
           return (
             <div
               key={toast.id}
-              className={`pointer-events-auto p-4 rounded-xl border shadow-soft-lg flex items-start gap-3 transition-all ${bgColors}`}
+              className={panelClass}
+              style={{ padding: '12px 32px 12px 16px', margin: '8px 0' }}
               role="alert"
             >
-              <Icon className="w-5 h-5 flex-shrink-0 mt-0.5" aria-hidden="true" />
-              <div className="flex-1 text-sm">
-                <p className="font-semibold">{toast.title}</p>
-                {toast.message && <p className="mt-0.5 text-xs opacity-90">{toast.message}</p>}
-              </div>
-              <button
-                type="button"
+              <span
                 onClick={() => removeToast(toast.id)}
-                className="p-1 rounded-lg hover:bg-black/5 focus-visible:outline focus-visible:outline-2"
+                className="w3-button w3-display-topright w3-hover-none"
+                style={{ fontSize: '18px', padding: '4px 10px', cursor: 'pointer' }}
                 aria-label="Cerrar notificación"
               >
-                <X className="w-4 h-4" />
-              </button>
+                &times;
+              </span>
+              <p style={{ margin: 0, fontWeight: 'bold' }}>
+                <i className={`${iconClass} w3-margin-right`}></i>
+                {toast.title}
+              </p>
+              {toast.message && (
+                <p className="w3-small" style={{ margin: '4px 0 0 0' }}>
+                  {toast.message}
+                </p>
+              )}
             </div>
           );
         })}

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { EvidenceItem } from '../../types';
 import { Modal } from '../common/Modal';
-import { Trash2, ZoomIn, Calendar, User as UserIcon } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
 
 interface EvidenceGalleryProps {
   evidence: EvidenceItem[];
@@ -19,8 +17,8 @@ export const EvidenceGallery: React.FC<EvidenceGalleryProps> = ({
 
   if (!evidence || evidence.length === 0) {
     return (
-      <div className="p-4 bg-slate-50 rounded-xl text-center border border-dashed border-slate-200">
-        <p className="text-xs text-slate-500">No hay fotos de evidencia adjuntas aún.</p>
+      <div className="w3-panel w3-light-grey w3-border w3-padding-small w3-center">
+        <p className="w3-small w3-text-grey" style={{ margin: 0 }}>No hay fotos de evidencia adjuntas aún.</p>
       </div>
     );
   }
@@ -29,55 +27,45 @@ export const EvidenceGallery: React.FC<EvidenceGalleryProps> = ({
   const afterPhotos = evidence.filter((e) => e.type === 'after');
 
   return (
-    <div className="space-y-4">
-      {/* Before / After Comparison Layout */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div style={{ marginTop: '8px' }}>
+      <div className="w3-row-padding" style={{ margin: '0 -8px' }}>
         {/* Before Section */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200">
-              Estado Previo ("Antes")
-            </span>
-            <span className="text-xs text-slate-400">{beforePhotos.length} foto(s)</span>
+        <div className="w3-col l6 m6 s12 w3-margin-bottom">
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+            <span className="w3-tag w3-khaki w3-small">ESTADO PREVIO ("ANTES")</span>
+            <span className="w3-tiny w3-text-grey">{beforePhotos.length} foto(s)</span>
           </div>
+
           {beforePhotos.length === 0 ? (
-            <div className="h-32 border border-dashed border-slate-200 rounded-xl flex items-center justify-center text-xs text-slate-400">
+            <div className="w3-panel w3-light-grey w3-border w3-padding-16 w3-center w3-tiny w3-text-grey">
               Sin foto previa
             </div>
           ) : (
             beforePhotos.map((item) => (
-              <div
-                key={item.id}
-                className="group relative rounded-xl overflow-hidden border border-slate-200 bg-white shadow-2xs hover:shadow-soft transition-all"
-              >
-                <div className="relative aspect-video bg-slate-100 overflow-hidden cursor-pointer" onClick={() => setSelectedPhoto(item)}>
-                  <img
-                    src={item.url}
-                    alt={item.caption}
-                    className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-slate-900/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
-                    <ZoomIn className="w-5 h-5 drop-shadow" />
-                  </div>
-                </div>
-                <div className="p-2.5 text-xs space-y-1">
-                  <p className="font-medium text-slate-800 line-clamp-2">{item.caption}</p>
-                  <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1">
-                    <span className="flex items-center gap-1">
-                      <UserIcon className="w-3 h-3" />
-                      {item.uploadedBy}
-                    </span>
-                    {canEdit && onDeleteEvidence && (
-                      <button
-                        type="button"
-                        onClick={() => onDeleteEvidence(item.id)}
-                        className="text-rose-600 hover:text-rose-800 p-1 rounded"
-                        title="Eliminar evidencia"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    )}
-                  </div>
+              <div key={item.id} className="w3-card w3-white w3-padding-small w3-margin-bottom">
+                <img
+                  src={item.url}
+                  alt={item.caption}
+                  className="w3-hover-opacity"
+                  style={{ width: '100%', height: '160px', objectFit: 'cover', cursor: 'pointer' }}
+                  onClick={() => setSelectedPhoto(item)}
+                />
+                <p className="w3-small" style={{ margin: '6px 0 2px 0', fontWeight: 'bold' }}>{item.caption}</p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span className="w3-tiny w3-text-grey">
+                    <i className="fa fa-user w3-margin-right"></i>{item.uploadedBy}
+                  </span>
+                  {canEdit && onDeleteEvidence && (
+                    <button
+                      type="button"
+                      onClick={() => onDeleteEvidence(item.id)}
+                      className="w3-button w3-hover-red w3-tiny"
+                      style={{ padding: '2px 6px' }}
+                      title="Eliminar evidencia"
+                    >
+                      <i className="fa fa-trash"></i>
+                    </button>
+                  )}
                 </div>
               </div>
             ))
@@ -85,51 +73,42 @@ export const EvidenceGallery: React.FC<EvidenceGalleryProps> = ({
         </div>
 
         {/* After Section */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-              Adecuación Hecha ("Después")
-            </span>
-            <span className="text-xs text-slate-400">{afterPhotos.length} foto(s)</span>
+        <div className="w3-col l6 m6 s12 w3-margin-bottom">
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+            <span className="w3-tag w3-green w3-small">ADECUACIÓN HECHA ("DESPUÉS")</span>
+            <span className="w3-tiny w3-text-grey">{afterPhotos.length} foto(s)</span>
           </div>
+
           {afterPhotos.length === 0 ? (
-            <div className="h-32 border border-dashed border-slate-200 rounded-xl flex items-center justify-center text-xs text-slate-400">
+            <div className="w3-panel w3-light-grey w3-border w3-padding-16 w3-center w3-tiny w3-text-grey">
               Sin foto posterior
             </div>
           ) : (
             afterPhotos.map((item) => (
-              <div
-                key={item.id}
-                className="group relative rounded-xl overflow-hidden border border-emerald-200/80 bg-white shadow-2xs hover:shadow-soft transition-all"
-              >
-                <div className="relative aspect-video bg-slate-100 overflow-hidden cursor-pointer" onClick={() => setSelectedPhoto(item)}>
-                  <img
-                    src={item.url}
-                    alt={item.caption}
-                    className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-slate-900/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
-                    <ZoomIn className="w-5 h-5 drop-shadow" />
-                  </div>
-                </div>
-                <div className="p-2.5 text-xs space-y-1">
-                  <p className="font-medium text-slate-800 line-clamp-2">{item.caption}</p>
-                  <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1">
-                    <span className="flex items-center gap-1">
-                      <UserIcon className="w-3 h-3" />
-                      {item.uploadedBy}
-                    </span>
-                    {canEdit && onDeleteEvidence && (
-                      <button
-                        type="button"
-                        onClick={() => onDeleteEvidence(item.id)}
-                        className="text-rose-600 hover:text-rose-800 p-1 rounded"
-                        title="Eliminar evidencia"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    )}
-                  </div>
+              <div key={item.id} className="w3-card w3-white w3-padding-small w3-margin-bottom">
+                <img
+                  src={item.url}
+                  alt={item.caption}
+                  className="w3-hover-opacity"
+                  style={{ width: '100%', height: '160px', objectFit: 'cover', cursor: 'pointer' }}
+                  onClick={() => setSelectedPhoto(item)}
+                />
+                <p className="w3-small" style={{ margin: '6px 0 2px 0', fontWeight: 'bold' }}>{item.caption}</p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span className="w3-tiny w3-text-grey">
+                    <i className="fa fa-user w3-margin-right"></i>{item.uploadedBy}
+                  </span>
+                  {canEdit && onDeleteEvidence && (
+                    <button
+                      type="button"
+                      onClick={() => onDeleteEvidence(item.id)}
+                      className="w3-button w3-hover-red w3-tiny"
+                      style={{ padding: '2px 6px' }}
+                      title="Eliminar evidencia"
+                    >
+                      <i className="fa fa-trash"></i>
+                    </button>
+                  )}
                 </div>
               </div>
             ))
@@ -143,20 +122,19 @@ export const EvidenceGallery: React.FC<EvidenceGalleryProps> = ({
           isOpen={!!selectedPhoto}
           onClose={() => setSelectedPhoto(null)}
           title={selectedPhoto.type === 'before' ? 'Evidencia Fotográfica: Antes' : 'Evidencia Fotográfica: Después'}
-          maxWidth="2xl"
+          maxWidth="lg"
         >
-          <div className="space-y-3">
+          <div>
             <img
               src={selectedPhoto.url}
               alt={selectedPhoto.caption}
-              className="w-full max-h-[60vh] object-contain rounded-xl bg-slate-900/5 border border-slate-200"
+              style={{ width: '100%', maxHeight: '60vh', objectFit: 'contain' }}
             />
-            <div className="p-3 bg-slate-50 rounded-xl space-y-1 text-xs text-slate-700">
-              <p className="font-semibold text-sm text-slate-900">{selectedPhoto.caption}</p>
-              <div className="flex items-center gap-4 text-slate-500 pt-1">
-                <span>Subida por: <strong>{selectedPhoto.uploadedBy}</strong></span>
-                <span>Fecha: <strong>{new Date(selectedPhoto.uploadedAt).toLocaleDateString('es-MX')}</strong></span>
-              </div>
+            <div className="w3-panel w3-light-grey w3-padding-small w3-margin-top">
+              <p style={{ margin: 0, fontWeight: 'bold' }}>{selectedPhoto.caption}</p>
+              <p className="w3-small w3-text-grey" style={{ margin: '4px 0 0 0' }}>
+                Subida por: <b>{selectedPhoto.uploadedBy}</b> • Fecha: <b>{new Date(selectedPhoto.uploadedAt).toLocaleDateString('es-MX')}</b>
+              </p>
             </div>
           </div>
         </Modal>

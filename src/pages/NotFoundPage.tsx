@@ -1,21 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/common/Button';
-import { Compass, Home } from 'lucide-react';
 
 export const NotFoundPage: React.FC = () => {
   return (
-    <div className="card-calm p-12 max-w-lg mx-auto text-center space-y-4 my-16">
-      <div className="w-16 h-16 rounded-2xl bg-calm-50 text-calm-700 flex items-center justify-center mx-auto">
-        <Compass className="w-8 h-8" />
-      </div>
-      <h1 className="text-2xl font-bold text-slate-800">Página no encontrada (404)</h1>
-      <p className="text-sm text-slate-600 leading-relaxed">
+    <div className="w3-container w3-white w3-card w3-padding-48 w3-center w3-margin-top" style={{ maxWidth: '600px', margin: '48px auto' }}>
+      <p>
+        <i className="fa fa-compass w3-xxxlarge w3-text-dark-grey"></i>
+      </p>
+      <h1 className="w3-xxlarge w3-wide">PÁGINA NO ENCONTRADA (404)</h1>
+      <p className="w3-text-grey" style={{ lineHeight: '1.8' }}>
         La ruta a la que intentas acceder no existe o fue trasladada a otra sección del sistema.
       </p>
-      <div className="pt-2">
+      <div style={{ marginTop: '24px' }}>
         <Link to="/">
-          <Button variant="primary" leftIcon={<Home className="w-4 h-4" />}>
+          <Button variant="primary" leftIcon={<i className="fa fa-home"></i>}>
             Volver al Tablero Principal
           </Button>
         </Link>

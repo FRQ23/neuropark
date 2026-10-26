@@ -2,7 +2,6 @@ import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { UserRole } from '../types';
-import { ShieldAlert } from 'lucide-react';
 import { Button } from '../components/common/Button';
 
 interface ProtectedRouteProps {
@@ -25,20 +24,19 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   if (requireAdmin && currentUser.role !== 'admin') {
     return (
-      <div className="card-calm p-8 max-w-lg mx-auto text-center space-y-4 my-12">
-        <div className="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto">
-          <ShieldAlert className="w-8 h-8" />
-        </div>
-        <h2 className="text-xl font-bold text-slate-800">Acceso restringido a Administradores</h2>
-        <p className="text-sm text-slate-600 leading-relaxed">
-          Esta sección requiere privilegios de Administrador para crear, editar o eliminar catálogos del
-          sistema. Tu usuario actual tiene rol de{' '}
-          <span className="font-semibold">{currentUser.role}</span>.
+      <div className="w3-container w3-white w3-card w3-padding-32 w3-center w3-margin-top" style={{ maxWidth: '600px', margin: '48px auto' }}>
+        <p>
+          <i className="fa fa-shield w3-xxxlarge w3-text-dark-grey" aria-hidden="true"></i>
         </p>
-        <p className="text-xs text-slate-400">
-          Tip para evaluador: Puedes cambiar a un rol de Administrador usando el selector en la barra superior.
+        <h3 className="w3-wide">ACCESO RESTRINGIDO A ADMINISTRADORES</h3>
+        <p className="w3-text-grey" style={{ lineHeight: '1.8' }}>
+          Esta sección requiere privilegios de Administrador para modificar catálogos del sistema.
+          Tu usuario actual tiene rol de <b>{currentUser.role}</b>.
         </p>
-        <div className="pt-2">
+        <p className="w3-small w3-text-grey">
+          Tip: Puedes cambiar tu rol a Administrador usando el selector en la barra superior.
+        </p>
+        <div style={{ marginTop: '24px' }}>
           <Button variant="secondary" onClick={() => window.history.back()}>
             Regresar a la pantalla anterior
           </Button>
@@ -49,15 +47,15 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   if (allowedRoles && !allowedRoles.includes(currentUser.role)) {
     return (
-      <div className="card-calm p-8 max-w-lg mx-auto text-center space-y-4 my-12">
-        <div className="w-14 h-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto">
-          <ShieldAlert className="w-8 h-8" />
-        </div>
-        <h2 className="text-xl font-bold text-slate-800">Permisos insuficientes</h2>
-        <p className="text-sm text-slate-600 leading-relaxed">
+      <div className="w3-container w3-white w3-card w3-padding-32 w3-center w3-margin-top" style={{ maxWidth: '600px', margin: '48px auto' }}>
+        <p>
+          <i className="fa fa-ban w3-xxxlarge w3-text-red" aria-hidden="true"></i>
+        </p>
+        <h3 className="w3-wide">PERMISOS INSUFICIENTES</h3>
+        <p className="w3-text-grey">
           No tienes el rol requerido para visualizar este módulo.
         </p>
-        <div className="pt-2">
+        <div style={{ marginTop: '24px' }}>
           <Button variant="secondary" onClick={() => window.history.back()}>
             Regresar
           </Button>

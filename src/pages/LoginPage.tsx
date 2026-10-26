@@ -4,7 +4,6 @@ import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { Button } from '../components/common/Button';
 import { Input } from '../components/common/Input';
-import { Trees, ShieldCheck, UserCheck, ArrowRight, Info } from 'lucide-react';
 import { Badge } from '../components/common/Badge';
 
 export const LoginPage: React.FC = () => {
@@ -36,92 +35,81 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-canvas-light flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        <div className="inline-flex w-16 h-16 rounded-2xl bg-calm-600 text-white items-center justify-center shadow-soft-lg mb-4">
-          <Trees className="w-9 h-9" />
-        </div>
-        <h1 className="text-2xl font-bold text-slate-800 tracking-tight">
-          NeuroParque B.C.
-        </h1>
-        <p className="mt-2 text-sm text-slate-600">
+    <div className="w3-container" style={{ maxWidth: '650px', margin: '48px auto' }}>
+      <div className="w3-center w3-margin-bottom">
+        <p>
+          <i className="fa fa-tree w3-xxxlarge"></i>
+        </p>
+        <h1 className="w3-xxlarge w3-wide">NEUROPARQUE B.C.</h1>
+        <p className="w3-text-grey" style={{ lineHeight: '1.6' }}>
           Sistema de gestión y seguimiento de adecuación de parques inclusivos para personas neurodivergentes
         </p>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-xl px-4">
-        <div className="card-calm p-6 sm:p-8 space-y-6">
-          <form onSubmit={handleLogin} className="space-y-4">
-            <Input
-              label="Correo electrónico"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@neuroparque.org"
-              required
-            />
+      <div className="w3-card w3-white w3-container w3-padding-32 w3-margin-bottom">
+        <form onSubmit={handleLogin}>
+          <Input
+            label="Correo electrónico"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="admin@neuroparque.org"
+            required
+          />
 
-            <Input
-              label="Contraseña de acceso"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              required
-            />
+          <Input
+            label="Contraseña de acceso"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
+            required
+          />
 
-            <Button type="submit" variant="primary" className="w-full" rightIcon={<ArrowRight className="w-4 h-4" />}>
-              Ingresar al Tablero
-            </Button>
-          </form>
+          <Button type="submit" variant="primary" className="w3-block w3-margin-top" rightIcon={<i className="fa fa-arrow-right"></i>}>
+            Ingresar al Tablero
+          </Button>
+        </form>
 
-          {/* Quick Login Profiles for Evaluator */}
-          <div className="pt-6 border-t border-slate-200">
-            <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">
-              <Info className="w-4 h-4 text-calm-600" />
-              <span>Acceso Rápido para Pruebas (Selecciona un Rol)</span>
-            </div>
+        {/* Quick Login Profiles for Evaluator */}
+        <div style={{ marginTop: '32px', paddingTop: '24px', borderTop: '1px solid #eee' }}>
+          <p className="w3-small font-bold w3-wide" style={{ margin: '0 0 8px 0' }}>
+            <i className="fa fa-info-circle w3-margin-right"></i>
+            ACCESO RÁPIDO PARA EVALUACIÓN (SELECCIONA UN ROL):
+          </p>
 
-            <p className="text-xs text-slate-500 mb-4">
-              Haz clic en cualquiera de los usuarios preconfigurados para iniciar sesión inmediatamente con sus permisos específicos:
-            </p>
+          <p className="w3-tiny w3-text-grey" style={{ margin: '0 0 16px 0' }}>
+            Haz clic en cualquiera de los usuarios preconfigurados para iniciar sesión inmediatamente con sus permisos específicos:
+          </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {users.map((user) => (
+          <div className="w3-row-padding" style={{ margin: '0 -8px' }}>
+            {users.map((user) => (
+              <div key={user.id} className="w3-col l6 m6 s12 w3-margin-bottom">
                 <button
-                  key={user.id}
                   type="button"
                   onClick={() => handleQuickLogin(user.id)}
-                  className="flex items-center gap-3 p-3 rounded-xl border border-slate-200 hover:border-calm-400 hover:bg-calm-50/60 transition-all text-left bg-white shadow-2xs group"
+                  className="w3-button w3-light-grey w3-border w3-block w3-left-align"
+                  style={{ padding: '10px' }}
                 >
-                  <img
-                    src={user.avatar}
-                    alt={user.name}
-                    className="w-10 h-10 rounded-full object-cover border border-slate-200 group-hover:border-calm-400"
-                  />
-                  <div className="min-w-0 flex-1">
-                    <p className="text-xs font-bold text-slate-800 truncate group-hover:text-calm-800">
-                      {user.name}
-                    </p>
-                    <div className="flex items-center gap-1.5 mt-1">
-                      <Badge role={user.role} size="sm" />
-                      {user.specialty && (
-                        <span className="text-[10px] text-slate-600 font-medium capitalize">
-                          {user.specialty}
-                        </span>
-                      )}
-                    </div>
+                  <b className="w3-small w3-block">{user.name}</b>
+                  <div style={{ marginTop: '4px' }}>
+                    <Badge role={user.role} size="sm" />
+                    {user.specialty && (
+                      <span style={{ marginLeft: '4px' }}>
+                        <Badge specialty={user.specialty} size="sm" />
+                      </span>
+                    )}
                   </div>
                 </button>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
+      </div>
 
-        <div className="mt-6 text-center text-xs text-slate-500">
-          <p>Proyecto de Maestría en Gestión de TIC — UABC</p>
-          <p>Caso de estudio: Parque Cooper, Ensenada, B.C.</p>
-        </div>
+      <div className="w3-center w3-tiny w3-text-grey">
+        <p>Proyecto de Maestría en Gestión de TIC — UABC</p>
+        <p>Caso de estudio: Parque Cooper, Ensenada, B.C.</p>
       </div>
     </div>
   );

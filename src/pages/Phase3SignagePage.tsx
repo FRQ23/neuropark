@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { requirementApi, parkApi, phaseApi } from '../services/api';
-import { Requirement, ParkRequirement, RequirementStatus, Park, Phase } from '../types';
+import { requirementApi, parkApi } from '../services/api';
+import { Requirement, ParkRequirement, RequirementStatus, Park } from '../types';
+import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
+import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { PhaseHeader } from '../components/phases/PhaseHeader';
 import { RequirementItem } from '../components/phases/RequirementItem';
 import { RequirementFormModal } from '../components/phases/RequirementFormModal';
-import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { Button } from '../components/common/Button';
-import { useAuth } from '../context/AuthContext';
-import { useToast } from '../context/ToastContext';
-import { Plus, Signpost, AlertOctagon, HeartHandshake, Info } from 'lucide-react';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
 
 export const Phase3SignagePage: React.FC = () => {
   const { parkId = 'park-ensenada-cooper' } = useParams<{ parkId: string }>();
-  const { isAdmin, currentUser } = useAuth();
+  const { currentUser, isAdmin } = useAuth();
   const { showSuccess, showError } = useToast();
 
   const [park, setPark] = useState<Park | null>(null);
-  const [phase, setPhase] = useState<Phase | null>(null);
   const [requirements, setRequirements] = useState<Requirement[]>([]);
   const [parkRequirements, setParkRequirements] = useState<ParkRequirement[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -30,19 +28,17 @@ export const Phase3SignagePage: React.FC = () => {
   const loadData = async () => {
     setIsLoading(true);
     try {
-      const [parkData, allPhases, allReqs, parkReqs] = await Promise.all([
+      const [parkData, allReqs, parkReqs] = await Promise.all([
         parkApi.getById(parkId),
-        phaseApi.getAll(),
         requirementApi.getByPhase('phase-3'),
         requirementApi.getParkRequirements(parkId),
       ]);
-
       setPark(parkData || null);
-      setPhase(allPhases.find((p) => p.code === 'phase-3') || null);
       setRequirements(allReqs);
       setParkRequirements(parkReqs);
     } catch (err) {
       console.error('Error loading Phase 3 data', err);
+      showError('Error', 'No se pudieron cargar los requisitos de señalética.');
     } finally {
       setIsLoading(false);
     }
@@ -52,72 +48,97 @@ export const Phase3SignagePage: React.FC = () => {
     loadData();
   }, [parkId]);
 
-  // Update status & dictamen
-  const handleUpdateStatus = async (parkReqId: string, status: RequirementStatus, notes?: string) => {
+  const handleUpdateStatus = async (
+    parkReqId: string,
+    newStatus: RequirementStatus,
+    notes?: string
+  ) => {
     try {
-      await requirementApi.updateParkRequirementStatus(parkReqId, status, notes, currentUser || undefined);
-      showSuccess('Dictamen registrado', 'Se guardó la validación del requerimiento de señalética.');
-      loadData();
+      const updated = await requirementApi.updateParkRequirementStatus(
+        parkReqId,
+        newStatus,
+        notes,
+        currentUser || undefined
+      );
+      setParkRequirements((prev) =>
+        prev.map((pr) => (pr.id === updated.id ? updated : pr))
+      );
+      showSuccess(
+        'Dictamen actualizado',
+        `El requisito de señalética ahora tiene estatus: ${newStatus.toUpperCase()}`
+      );
     } catch (err: any) {
-      showError('Error al actualizar', err.message);
+      showError('Error al dictaminar', err.message);
     }
   };
 
-  // Evidence handlers
   const handleAddEvidence = async (
     parkReqId: string,
     evidence: { type: 'before' | 'after'; url: string; caption: string; uploadedBy: string }
   ) => {
     try {
-      await requirementApi.addEvidence(parkReqId, evidence);
-      showSuccess('Evidencia fotográfica adjuntada', 'Se guardó la foto del letrero o pictograma.');
-      loadData();
+      const updated = await requirementApi.addEvidence(parkReqId, evidence);
+      setParkRequirements((prev) =>
+        prev.map((pr) => (pr.id === updated.id ? updated : pr))
+      );
+      showSuccess('Evidencia fotográfica añadida', 'La foto se guardó correctamente.');
     } catch (err: any) {
-      showError('Error al guardar evidencia', err.message);
+      showError('Error al subir evidencia', err.message);
     }
   };
 
   const handleDeleteEvidence = async (parkReqId: string, evidenceId: string) => {
     try {
-      await requirementApi.deleteEvidence(parkReqId, evidenceId);
-      showSuccess('Evidencia eliminada', 'Se retiró la fotografía.');
-      loadData();
+      const updated = await requirementApi.deleteEvidence(parkReqId, evidenceId);
+      setParkRequirements((prev) =>
+        prev.map((pr) => (pr.id === updated.id ? updated : pr))
+      );
+      showSuccess('Evidencia eliminada', 'La foto fue eliminada.');
     } catch (err: any) {
       showError('Error al eliminar evidencia', err.message);
     }
   };
 
-  // Requirement CRUD
-  const handleSaveRequirement = async (data: Partial<Requirement>) => {
+  const handleSaveRequirement = async (reqData: Partial<Requirement>) => {
     try {
       if (editingRequirement) {
-        await requirementApi.update(editingRequirement.id, data);
-        showSuccess('Requisito actualizado', 'Se actualizaron los datos.');
+        const updated = await requirementApi.update(editingRequirement.id, reqData);
+        setRequirements((prev) => prev.map((r) => (r.id === updated.id ? updated : r)));
+        showSuccess('Requisito modificado', 'Los cambios se guardaron.');
       } else {
-        await requirementApi.create(data as any);
-        showSuccess('Requisito creado', 'Se agregó el nuevo requerimiento de señalética.');
+        const created = await requirementApi.create({
+          ...reqData,
+          phaseCode: 'phase-3',
+          code: `F3-CUSTOM-${Date.now().toString().slice(-4)}`,
+        } as any);
+        setRequirements((prev) => [...prev, created]);
+        await requirementApi.updateParkRequirementStatus(
+          `temp-${created.id}`,
+          'pending'
+        );
+        showSuccess('Nuevo requisito registrado', created.title);
       }
       setIsFormModalOpen(false);
+      setEditingRequirement(null);
       loadData();
     } catch (err: any) {
-      showError('Error al guardar', err.message);
+      showError('Error al guardar requisito', err.message);
     }
   };
 
-  const handleDeleteRequirement = async (id: string) => {
-    if (window.confirm('¿Deseas eliminar este requerimiento de señalética?')) {
-      try {
-        await requirementApi.delete(id);
-        showSuccess('Requisito eliminado', 'Se retiró el requerimiento.');
-        loadData();
-      } catch (err: any) {
-        showError('Error al eliminar', err.message);
-      }
+  const handleDeleteRequirement = async (reqId: string) => {
+    if (!window.confirm('¿Seguro que deseas eliminar este requerimiento de señalética?')) return;
+    try {
+      await requirementApi.delete(reqId);
+      setRequirements((prev) => prev.filter((r) => r.id !== reqId));
+      showSuccess('Requisito eliminado', 'Se quitó del catálogo.');
+    } catch (err: any) {
+      showError('Error al eliminar', err.message);
     }
   };
 
   if (isLoading) {
-    return <LoadingSpinner message="Cargando señalética inclusiva y acuerdos con la comunidad..." />;
+    return <LoadingSpinner message="Cargando señalética y acuerdos de la Fase 3..." />;
   }
 
   const total = requirements.length;
@@ -129,12 +150,12 @@ export const Phase3SignagePage: React.FC = () => {
   ).length;
 
   return (
-    <div className="space-y-6">
+    <div>
       <Breadcrumbs
         items={[
           { label: 'Parques', path: '/parks' },
           { label: park?.name || 'Parque Cooper', path: `/parks/${parkId}` },
-          { label: 'Fase 3: Señalética y comunidad' },
+          { label: 'Fase 3: Señalética e inclusión' },
         ]}
       />
 
@@ -148,49 +169,47 @@ export const Phase3SignagePage: React.FC = () => {
       />
 
       {/* Emergency Signage Highlight Box from client transcript */}
-      <div className="card-calm p-5 border-l-4 border-l-amber-500 bg-amber-50/40 space-y-3">
-        <div className="flex items-start gap-3">
-          <div className="p-2 rounded-xl bg-amber-100 text-amber-900 flex-shrink-0">
-            <AlertOctagon className="w-5 h-5" />
-          </div>
-          <div className="space-y-1">
-            <h2 className="text-sm font-bold text-slate-800">
-              Módulo Clave: Señalética de Emergencia para Neurodivergencias
-            </h2>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Conforme al diálogo con el cliente, las personas neurodivergentes requieren señalización
-              distintiva que no cause alarma auditiva agresiva (sin sirenas estridentes) y que indique
-              rutas inmediatas hacia la <strong>Zona de Calma y Descompresión Sensorial</strong> ante una crisis de sobrecarga.
-            </p>
-          </div>
-        </div>
+      <div className="w3-panel w3-pale-yellow w3-leftbar w3-border-yellow w3-padding-16 w3-margin-bottom">
+        <p style={{ margin: '0 0 6px 0', fontWeight: 'bold' }}>
+          <i className="fa fa-exclamation-circle w3-large w3-margin-right"></i>
+          MÓDULO CLAVE: SEÑALÉTICA DE EMERGENCIA PARA NEURODIVERGENCIAS
+        </p>
+        <p className="w3-small" style={{ margin: 0, lineHeight: '1.6' }}>
+          Conforme al diálogo con el cliente, las personas neurodivergentes requieren señalización
+          distintiva que no cause alarma auditiva agresiva (sin sirenas estridentes) y que indique
+          rutas inmediatas hacia la <b>Zona de Calma y Descompresión Sensorial</b> ante una crisis de sobrecarga.
+        </p>
       </div>
 
       {/* Action Bar */}
-      <div className="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200 shadow-soft">
-        <div>
-          <h2 className="text-sm font-bold text-slate-800">Checklist de Señalética</h2>
-          <p className="text-xs text-slate-500">
-            Verifica el diseño con pictogramas y la instalación física de cada letrero en el parque
-          </p>
-        </div>
+      <div className="w3-container w3-white w3-card w3-padding-16 w3-margin-bottom">
+        <div className="w3-row">
+          <div className="w3-col l8 m8 s12">
+            <h3 className="w3-medium w3-wide" style={{ margin: 0 }}>CHECKLIST DE SEÑALÉTICA</h3>
+            <p className="w3-small w3-text-grey" style={{ margin: '2px 0 0 0' }}>
+              Verifica el diseño con pictogramas y la instalación física de cada letrero en el parque
+            </p>
+          </div>
 
-        {isAdmin && (
-          <Button
-            size="sm"
-            onClick={() => {
-              setEditingRequirement(null);
-              setIsFormModalOpen(true);
-            }}
-            leftIcon={<Plus className="w-4 h-4" />}
-          >
-            Nuevo Requerimiento de Señalética
-          </Button>
-        )}
+          {isAdmin && (
+            <div className="w3-col l4 m4 s12 w3-right-align">
+              <Button
+                size="sm"
+                onClick={() => {
+                  setEditingRequirement(null);
+                  setIsFormModalOpen(true);
+                }}
+                leftIcon={<i className="fa fa-plus"></i>}
+              >
+                Nuevo Requerimiento
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* List of Requirements */}
-      <div className="space-y-4">
+      <div>
         {requirements.map((req) => {
           const parkReq = parkRequirements.find((pr) => pr.requirementId === req.id) || {
             id: `temp-${req.id}`,

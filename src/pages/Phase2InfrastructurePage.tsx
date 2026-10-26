@@ -20,16 +20,6 @@ import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { Button } from '../components/common/Button';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
-import {
-  LayoutGrid,
-  List,
-  Plus,
-  Sliders,
-  Paintbrush,
-  Sparkles,
-  Info,
-  CheckCircle2,
-} from 'lucide-react';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
 
 export const Phase2InfrastructurePage: React.FC = () => {
@@ -83,7 +73,7 @@ export const Phase2InfrastructurePage: React.FC = () => {
     loadData();
   }, [parkId]);
 
-  // Physical change checkbox toggle: "¿El cambio se hizo en la realidad?"
+  // Physical change checkbox toggle
   const handleToggleCompleted = async (id: string, current: boolean) => {
     try {
       await infrastructureApi.updateMatrixItem(id, { isCompleted: !current });
@@ -121,7 +111,6 @@ export const Phase2InfrastructurePage: React.FC = () => {
     }
   };
 
-  // Save new Area
   const handleSaveArea = async (areaData: Omit<Area, 'id'>) => {
     try {
       await infrastructureApi.createArea(areaData);
@@ -132,7 +121,6 @@ export const Phase2InfrastructurePage: React.FC = () => {
     }
   };
 
-  // Save new Category
   const handleSaveCategory = async (catData: Omit<NeurodivergenceCategory, 'id'>) => {
     try {
       await infrastructureApi.createCategory(catData);
@@ -143,7 +131,6 @@ export const Phase2InfrastructurePage: React.FC = () => {
     }
   };
 
-  // Save new Infrastructure/Equipment/Color
   const handleSaveInfrastructure = async (infData: Omit<Infrastructure, 'id'>) => {
     try {
       await infrastructureApi.createInfrastructure(infData);
@@ -154,7 +141,6 @@ export const Phase2InfrastructurePage: React.FC = () => {
     }
   };
 
-  // Link Area + Category + Infrastructure
   const handleLinkInfrastructure = async (linkData: Omit<AreaCategoryInfrastructure, 'id'>) => {
     try {
       await infrastructureApi.linkInfrastructure(linkData);
@@ -165,7 +151,6 @@ export const Phase2InfrastructurePage: React.FC = () => {
     }
   };
 
-  // Delete matrix item
   const handleDeleteItem = async (id: string) => {
     if (window.confirm('¿Deseas desvincular este elemento de la matriz?')) {
       try {
@@ -187,7 +172,7 @@ export const Phase2InfrastructurePage: React.FC = () => {
   const validatedPhysical = matrixItems.filter((i) => i.isValidated).length;
 
   return (
-    <div className="space-y-6">
+    <div>
       <Breadcrumbs
         items={[
           { label: 'Parques', path: '/parks' },
@@ -206,93 +191,82 @@ export const Phase2InfrastructurePage: React.FC = () => {
       />
 
       {/* Info note */}
-      <div className="p-3.5 bg-calm-50 border border-calm-200 rounded-xl text-xs text-slate-700 flex items-start gap-2.5">
-        <Info className="w-4 h-4 text-calm-700 mt-0.5 flex-shrink-0" />
-        <p className="leading-relaxed">
-          <strong>Validación de campo:</strong> El cliente estipuló que toda adecuación física o
-          cambio de pintura debe ser validado con confirmación física (check "¿Cambio físico hecho?") y
-          con dictamen de especialistas antes de autorizar la apertura.
+      <div className="w3-panel w3-light-grey w3-border w3-padding-16 w3-small w3-margin-bottom">
+        <p style={{ margin: 0 }}>
+          <i className="fa fa-info-circle w3-margin-right w3-large"></i>
+          <b>Validación de campo:</b> El cliente estipuló que toda adecuación física o cambio de pintura
+          debe ser validado con confirmación física (check "¿Cambio físico hecho?") y con dictamen de especialistas antes de autorizar la apertura.
         </p>
       </div>
 
       {/* Controls & Catalog Toolbar */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-soft">
-        {/* View Mode Toggle */}
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-slate-500 uppercase mr-1">Vista:</span>
-          <div className="inline-flex p-1 rounded-xl bg-slate-100 border border-slate-200" role="group">
-            <button
-              type="button"
-              onClick={() => setViewMode('matrix')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors min-h-[36px] ${
-                viewMode === 'matrix'
-                  ? 'bg-white text-calm-800 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-              aria-pressed={viewMode === 'matrix'}
-            >
-              <LayoutGrid className="w-4 h-4" />
-              <span>Matriz Cruzada (Áreas x Categorías)</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setViewMode('list')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors min-h-[36px] ${
-                viewMode === 'list'
-                  ? 'bg-white text-calm-800 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-              aria-pressed={viewMode === 'list'}
-            >
-              <List className="w-4 h-4" />
-              <span>Lista Detallada con Filtros</span>
-            </button>
+      <div className="w3-container w3-white w3-card w3-padding-16 w3-margin-bottom">
+        <div className="w3-row">
+          {/* View Mode Toggle */}
+          <div className="w3-col l6 m12 s12" style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+            <span className="w3-small font-bold" style={{ marginRight: '8px' }}>VISTA:</span>
+            <div className="w3-bar w3-border">
+              <button
+                type="button"
+                onClick={() => setViewMode('matrix')}
+                className={`w3-bar-item w3-button w3-small ${viewMode === 'matrix' ? 'w3-black' : 'w3-white'}`}
+              >
+                <i className="fa fa-th w3-margin-right"></i>Matriz (Áreas x Categorías)
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode('list')}
+                className={`w3-bar-item w3-button w3-small ${viewMode === 'list' ? 'w3-black' : 'w3-white'}`}
+              >
+                <i className="fa fa-list w3-margin-right"></i>Lista con Filtros
+              </button>
+            </div>
           </div>
+
+          {/* Admin Catalogs Management Buttons */}
+          {isAdmin && (
+            <div className="w3-col l6 m12 s12 w3-right-align w3-margin-top-small" style={{ display: 'flex', justifyContent: 'flex-end', gap: '6px', flexWrap: 'wrap' }}>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => setIsAddAreaOpen(true)}
+                leftIcon={<i className="fa fa-plus"></i>}
+              >
+                Área
+              </Button>
+
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => setIsAddCategoryOpen(true)}
+                leftIcon={<i className="fa fa-plus"></i>}
+              >
+                Categoría
+              </Button>
+
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => setIsAddInfrastructureOpen(true)}
+                leftIcon={<i className="fa fa-paint-brush"></i>}
+              >
+                Equipo / Color
+              </Button>
+
+              <Button
+                size="sm"
+                variant="primary"
+                onClick={() => {
+                  setTargetCell({});
+                  setIsLinkModalOpen(true);
+                }}
+                leftIcon={<i className="fa fa-link"></i>}
+              >
+                Asignar a Matriz
+              </Button>
+            </div>
+          )}
         </div>
-
-        {/* Admin Catalogs Management Buttons */}
-        {isAdmin && (
-          <div className="flex items-center gap-2 flex-wrap">
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => setIsAddAreaOpen(true)}
-              leftIcon={<Plus className="w-3.5 h-3.5" />}
-            >
-              + Área
-            </Button>
-
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => setIsAddCategoryOpen(true)}
-              leftIcon={<Plus className="w-3.5 h-3.5" />}
-            >
-              + Categoría
-            </Button>
-
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => setIsAddInfrastructureOpen(true)}
-              leftIcon={<Paintbrush className="w-3.5 h-3.5" />}
-            >
-              + Equipo / Color
-            </Button>
-
-            <Button
-              size="sm"
-              variant="primary"
-              onClick={() => {
-                setTargetCell({});
-                setIsLinkModalOpen(true);
-              }}
-              leftIcon={<Plus className="w-3.5 h-3.5" />}
-            >
-              Asignar a Matriz
-            </Button>
-          </div>
-        )}
       </div>
 
       {/* Render Selected View */}
